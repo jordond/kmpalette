@@ -31,6 +31,9 @@ gradleEnterprise {
 
 rootProject.name = "kmpalette"
 
-include(":kmpalette")
+include(
+    ":kmpalette",
+    ":androidx-palette",
+)
 
 include(":demo:composeApp")

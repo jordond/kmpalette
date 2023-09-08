@@ -33,7 +33,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "kmpalette"
+            baseName = "androidx-palette"
         }
     }
 
@@ -51,7 +51,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.kmpalette"
+    namespace = "dev.jordond.kmpalette.palette"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
