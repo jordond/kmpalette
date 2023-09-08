@@ -30,4 +30,7 @@ gradleEnterprise {
 }
 
 rootProject.name = "kmpalette"
+
 include(":kmpalette")
+
+include(":demo:composeApp")
