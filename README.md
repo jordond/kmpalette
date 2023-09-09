@@ -4,7 +4,7 @@
 ![Maven Central](https://img.shields.io/maven-central/v/dev.jordond.kmpalette/kmpalette)
 [![Kotlin](https://img.shields.io/badge/kotlin-v1.9.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Build](https://github.com/jordond/kmpalette/actions/workflows/ci.yml/badge.svg)](https://github.com/jordond/kmpalette/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/jordond/MaterialKolor)](https://opensource.org/license/mit/)
+[![License](https://img.shields.io/github/license/jordond/kmPalette)](https://opensource.org/license/mit/)
 
 [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-v1.5.1-blue)](https://github.com/JetBrains/compose-multiplatform)
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
@@ -16,6 +16,13 @@ the [`androidx.palette`](https://developer.android.com/jetpack/androidx/releases
 library. And when/if that library ever goes multiplatform, this library will be archived.
 
 <img width="300px" src="art/demo.gif" />
+
+## TODO
+
+- add module `loader-resources` for loading images from resources
+- add module `loader-libres` for extension functions for Libres (resources)
+- add module `loader-network` for loading images from the network
+- add module `loader-disk` for loading images from disk
 
 ## Table of Contents
 
@@ -37,8 +44,6 @@ This library is written for Compose Multiplatform, and can be used on the follow
 - Android
 - iOS
 - JVM (Desktop)
-
-A JavaScript (Browser) version is available but untested.
 
 ## Inspiration
 
@@ -74,12 +79,22 @@ dependencies {
 
 ### Version Catalog
 
+In `libs.versions.toml`:
+
 ```toml
 [versions]
 kmpalette = "1.2.5"
 
 [libraries]
 kmpalette = { module = "dev.jordond.kmpalette:kmpalette", version.ref = "kmpalette" }
+```
+
+In `build.gradle.kts`:
+
+```kotlin
+dependencies {
+    implementation(libs.kmpalette)
+}
 ```
 
 ## Usage

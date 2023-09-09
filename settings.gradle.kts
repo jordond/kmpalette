@@ -34,6 +34,8 @@ rootProject.name = "kmpalette"
 include(
     ":kmpalette",
     ":androidx-palette",
+    ":loader",
+    ":loader-libres",
 )
 
 include(":demo:composeApp")

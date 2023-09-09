@@ -42,6 +42,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":androidx-palette"))
+                implementation(project(":loader-libres"))
                 implementation(compose.runtime)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)

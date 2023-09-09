@@ -22,18 +22,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DarkMode
-import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
 import com.materialkolor.PaletteStyle
+import dev.jordond.kmpalette.loader.libres.LibresImageBitmapLoader
 import dev.jordond.kmpalette.palette.graphics.Palette
 import dev.jordond.kmpalette.theme.AppTheme
 import io.github.skeptick.libres.compose.painterResource
@@ -89,11 +84,16 @@ internal fun App() {
             }
         }
 
-        val bitmap = image?.toImageBitmap()
+        val bitmap by remember(image) {
+            derivedStateOf {
+                if (image == null) null
+                else LibresImageBitmapLoader().load(image!!)
+            }
+        }
         val palette by remember(bitmap) {
             derivedStateOf {
                 if (bitmap == null) null
-                else Palette.from(bitmap).generate()
+                else Palette.from(bitmap!!).generate()
             }
         }
 
