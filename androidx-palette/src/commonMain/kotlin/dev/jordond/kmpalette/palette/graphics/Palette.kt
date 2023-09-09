@@ -275,7 +275,7 @@ class Palette internal constructor(
             && hsl[1] <= target.maximumSaturation
             && hsl[2] >= target.minimumLightness
             && hsl[2] <= target.maximumLightness
-            && usedColors[swatch.rgb]?.not() ?: false
+            && usedColors[swatch.rgb]?.not() ?: true
     }
 
     private fun generateScore(swatch: Swatch, target: Target): Float {
@@ -416,33 +416,30 @@ class Palette internal constructor(
      */
     class Builder {
 
-        private val mSwatches: List<Swatch>?
-        private val mBitmap: ImageBitmap?
-        private val mTargets: MutableList<Target> = mutableListOf()
-        private var mMaxColors = DEFAULT_CALCULATE_NUMBER_COLORS
-        private var mResizeArea = DEFAULT_RESIZE_BITMAP_AREA
-        private var mResizeMaxDimension = -1
-        private val mFilters: MutableList<Filter> = mutableListOf()
-        private var mRegion: Rect? = null
+        private val swatches: List<Swatch>?
+        private val imageBitmap: ImageBitmap?
+        private val targets: MutableList<Target> = mutableListOf()
+        private var maxColors = DEFAULT_CALCULATE_NUMBER_COLORS
+        private var resizeArea = DEFAULT_RESIZE_BITMAP_AREA
+        private var resizeMaxDimension = -1
+        private val filters: MutableList<Filter> = mutableListOf()
+        private var region: Rect? = null
 
         /**
          * Construct a new [Builder] using a source [ImageBitmap]
          */
         constructor(bitmap: ImageBitmap) {
-//            if (bitmap.isNull || bitmap.isClosed) {
-//                throw IllegalArgumentException("Bitmap is not valid")
-//            }
-            mFilters.add(DEFAULT_FILTER)
-            mBitmap = bitmap
-            mSwatches = null
+            filters.add(DEFAULT_FILTER)
+            imageBitmap = bitmap
+            swatches = null
 
             // Add the default targets
-            mTargets.add(Target.LIGHT_VIBRANT)
-            mTargets.add(Target.VIBRANT)
-            mTargets.add(Target.DARK_VIBRANT)
-            mTargets.add(Target.LIGHT_MUTED)
-            mTargets.add(Target.MUTED)
-            mTargets.add(Target.DARK_MUTED)
+            targets.add(Target.LIGHT_VIBRANT)
+            targets.add(Target.VIBRANT)
+            targets.add(Target.DARK_VIBRANT)
+            targets.add(Target.LIGHT_MUTED)
+            targets.add(Target.MUTED)
+            targets.add(Target.DARK_MUTED)
         }
 
         /**
@@ -453,9 +450,9 @@ class Palette internal constructor(
             if (swatches.isEmpty()) {
                 throw IllegalArgumentException("List of Swatches is not valid")
             }
-            mFilters.add(DEFAULT_FILTER)
-            mSwatches = swatches
-            mBitmap = null
+            filters.add(DEFAULT_FILTER)
+            this.swatches = swatches
+            imageBitmap = null
         }
 
         /**
@@ -468,24 +465,7 @@ class Palette internal constructor(
          * value should be increased to ~24.
          */
         fun maximumColorCount(colors: Int): Builder {
-            mMaxColors = colors
-            return this
-        }
-
-        /**
-         * Set the resize value when using a [ImageBitmap] as the source.
-         * If the bitmap's largest dimension is greater than the value specified, then the bitmap
-         * will be resized so that its largest dimension matches `maxDimension`. If the
-         * bitmap is smaller or equal, the original is used as-is.
-         *
-         * @param maxDimension the number of pixels that the max dimension should be scaled down to,
-         * or any value <= 0 to disable resizing.
-         */
-        @Deprecated("Using {@link #resizeBitmapArea(int)} is preferred since it can handle\n"
-            + " abnormal aspect ratios more gracefully.")
-        fun resizeBitmapSize(maxDimension: Int): Builder {
-            mResizeMaxDimension = maxDimension
-            mResizeArea = -1
+            maxColors = colors
             return this
         }
 
@@ -504,8 +484,8 @@ class Palette internal constructor(
          * or any value <= 0 to disable resizing.
          */
         fun resizeBitmapArea(area: Int): Builder {
-            mResizeArea = area
-            mResizeMaxDimension = -1
+            resizeArea = area
+            resizeMaxDimension = -1
             return this
         }
 
@@ -514,7 +494,7 @@ class Palette internal constructor(
          * [Palette].
          */
         fun clearFilters(): Builder {
-            mFilters.clear()
+            filters.clear()
             return this
         }
 
@@ -525,7 +505,7 @@ class Palette internal constructor(
          * @param filter filter to add.
          */
         fun addFilter(filter: Filter): Builder {
-            mFilters.add(filter)
+            filters.add(filter)
             return this
         }
 
@@ -540,15 +520,15 @@ class Palette internal constructor(
          * @param bottom The bottom of the rectangle used for the region.
          */
         fun setRegion(left: Int, top: Int, right: Int, bottom: Int): Builder {
-            val bitmap = mBitmap
+            val bitmap = imageBitmap
             if (bitmap != null) {
-                if (mRegion == null) {
-                    mRegion = Rect(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
+                if (region == null) {
+                    region = Rect(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
                 }
 
                 // Now just get the intersection with the region
                 val other = Rect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
-                if (!mRegion!!.overlaps(other)) {
+                if (!region!!.overlaps(other)) {
                     throw IllegalArgumentException("The given region must intersect with "
                         + "the Bitmap's dimensions.")
                 }
@@ -560,7 +540,7 @@ class Palette internal constructor(
          * Clear any previously region set via [.setRegion].
          */
         fun clearRegion(): Builder {
-            mRegion = null
+            region = null
             return this
         }
 
@@ -571,8 +551,8 @@ class Palette internal constructor(
          * You can retrieve the result via [Palette.getSwatchForTarget].
          */
         fun addTarget(target: Target): Builder {
-            if (!mTargets.contains(target)) {
-                mTargets.add(target)
+            if (!targets.contains(target)) {
+                targets.add(target)
             }
             return this
         }
@@ -582,7 +562,7 @@ class Palette internal constructor(
          * [Palette].
          */
         fun clearTargets(): Builder {
-            mTargets.clear()
+            targets.clear()
             return this
         }
 
@@ -591,17 +571,17 @@ class Palette internal constructor(
          */
         fun generate(): Palette {
             val swatches: List<Swatch>
-            if (mBitmap != null) {
+            if (imageBitmap != null) {
                 // We have a Bitmap so we need to use quantization to reduce the number of colors
 
                 // First we'll scale down the bitmap if needed
-                val bitmap: ImageBitmap = scaleBitmapDown(mBitmap)
-                val region: Rect? = mRegion
-                if (bitmap != mBitmap && region != null) {
+                val bitmap: ImageBitmap = scaleBitmapDown(imageBitmap)
+                val region: Rect? = region
+                if (bitmap != imageBitmap && region != null) {
                     // If we have a scaled bitmap and a selected region, we need to scale down the
                     // region to match the new scale
-                    val scale: Float = bitmap.width / mBitmap.width.toFloat()
-                    mRegion = region.copy(
+                    val scale: Float = bitmap.width / imageBitmap.width.toFloat()
+                    this.region = region.copy(
                         left = floor(region.left * scale),
                         top = floor(region.top * scale),
                         right = min(ceil(region.right * scale), bitmap.width.toFloat()),
@@ -612,25 +592,20 @@ class Palette internal constructor(
                 // Now generate a quantizer from the Bitmap
                 val quantizer = ColorCutQuantizer(
                     pixels = getPixelsFromBitmap(bitmap),
-                    maxColors = mMaxColors,
-                    filters = if (mFilters.isEmpty()) null else mFilters.toTypedArray(),
+                    maxColors = maxColors,
+                    filters = if (filters.isEmpty()) null else filters.toTypedArray(),
                 )
-
-//                // If created a new bitmap, recycle it
-//                if (bitmap != mBitmap) {
-//                    bitmap.close()
-//                }
                 swatches = quantizer.quantizedColors
-            } else if (mSwatches != null) {
+            } else if (this.swatches != null) {
                 // Else we're using the provided swatches
-                swatches = mSwatches
+                swatches = this.swatches
             } else {
                 // The constructors enforce either a bitmap or swatches are present.
                 throw AssertionError()
             }
 
             // Now create a Palette instance
-            val p = Palette(swatches, mTargets)
+            val p = Palette(swatches, targets)
             // And make it generate itself
             p.generate()
             return p
@@ -646,7 +621,7 @@ class Palette internal constructor(
                 startY = 0,
             )
 
-            val region = mRegion
+            val region = region
             return if (region == null) {
                 // If we don't have a region, return all of the pixels
                 pixels
@@ -675,15 +650,15 @@ class Palette internal constructor(
          */
         private fun scaleBitmapDown(bitmap: ImageBitmap): ImageBitmap {
             var scaleRatio = -1.0
-            if (mResizeArea > 0) {
+            if (resizeArea > 0) {
                 val bitmapArea: Int = bitmap.width * bitmap.height
-                if (bitmapArea > mResizeArea) {
-                    scaleRatio = sqrt(mResizeArea / bitmapArea.toDouble())
+                if (bitmapArea > resizeArea) {
+                    scaleRatio = sqrt(resizeArea / bitmapArea.toDouble())
                 }
-            } else if (mResizeMaxDimension > 0) {
+            } else if (resizeMaxDimension > 0) {
                 val maxDimension: Int = max(bitmap.width, bitmap.height)
-                if (maxDimension > mResizeMaxDimension) {
-                    scaleRatio = mResizeMaxDimension / maxDimension.toDouble()
+                if (maxDimension > resizeMaxDimension) {
+                    scaleRatio = resizeMaxDimension / maxDimension.toDouble()
                 }
             }
             return if (scaleRatio <= 0) {

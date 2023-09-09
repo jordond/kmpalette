@@ -6,10 +6,9 @@ internal class PriorityQueue<T>(
 
     private var array: Array<T?>? = null
     private var _size: Int = 0
-    val isEmpty: Boolean get() = _size == 0
 
     fun peek(): T? =
-        array?.takeUnless { isEmpty }?.get(0)
+        array?.takeUnless { isEmpty() }?.get(0)
 
     fun offer(item: T) {
         var arr: Array<T?>? = array
@@ -28,7 +27,7 @@ internal class PriorityQueue<T>(
 
     fun poll(): T? {
         val arr = array
-        if ((arr == null) || isEmpty) {
+        if ((arr == null) || isEmpty()) {
             return null
         }
 
@@ -51,7 +50,7 @@ internal class PriorityQueue<T>(
         get() = _size
 
     override fun isEmpty(): Boolean {
-        return array?.isEmpty() ?: true
+        return _size == 0
     }
 
     override fun containsAll(elements: Collection<T>): Boolean {

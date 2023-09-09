@@ -249,7 +249,6 @@ internal object ColorUtils {
      * (color >> 16) & 0xFF
      */
     fun red(color: Int): Int {
-        require(color in 0..255) { "The color is not in range 0..255" }
         return color shr 16 and 0xFF
     }
 
@@ -258,7 +257,6 @@ internal object ColorUtils {
      * (color >> 8) & 0xFF
      */
     fun green(color: Int): Int {
-        require(color in 0..255) { "The color is not in range 0..255" }
         return color shr 8 and 0xFF
     }
 
@@ -267,7 +265,6 @@ internal object ColorUtils {
      * color & 0xFF
      */
     fun blue(color: Int): Int {
-        require(color in 0..255) { "The color is not in range 0..255" }
         return color and 0xFF
     }
 

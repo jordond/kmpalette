@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.application)
+    alias(libs.plugins.libres)
 }
 
 @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -43,9 +44,12 @@ kotlin {
                 implementation(project(":androidx-palette"))
                 implementation(compose.runtime)
                 implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(libs.kotlinx.coroutines)
+                implementation(libs.libres)
+                implementation(libs.materialKolor)
             }
         }
 

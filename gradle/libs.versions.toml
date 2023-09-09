@@ -19,6 +19,8 @@ espresso-core = "3.5.1"
 binaryCompatibility = "0.13.2"
 dokka = "1.9.0"
 publish = "0.25.3"
+libres = "1.2.0-beta01"
+materialKolor = "1.2.5"
 
 [libraries]
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
@@ -33,6 +35,8 @@ kotlinx-immutableCollections = { group = "org.jetbrains.kotlinx", name = "kotlin
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+libres = { module = "io.github.skeptick.libres:libres-compose", version.ref = "libres" }
+materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -40,6 +44,7 @@ compose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" 
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+libres = { id = "io.github.skeptick.libres", version.ref = "libres" }
 dependencies = { id = "com.github.ben-manes.versions", version.ref = "versions" }
 binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
