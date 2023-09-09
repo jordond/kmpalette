@@ -15,10 +15,10 @@ kotlin {
 
     jvm("desktop")
 
-    js(IR) {
-        browser()
-        binaries.executable()
-    }
+//    js(IR) {
+//        browser()
+//        binaries.executable()
+//    }
 
     listOf(
         iosX64(),
@@ -40,6 +40,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
+                implementation(project(":androidx-palette"))
                 implementation(compose.runtime)
                 implementation(compose.material3)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -70,11 +71,11 @@ kotlin {
             }
         }
 
-        val jsMain by getting {
-            dependencies {
-                implementation(compose.html.core)
-            }
-        }
+//        val jsMain by getting {
+//            dependencies {
+//                implementation(compose.html.core)
+//            }
+//        }
 
         val iosMain by getting {
             dependencies {

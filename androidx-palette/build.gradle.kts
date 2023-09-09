@@ -5,12 +5,13 @@ import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.compose)
     alias(libs.plugins.dokka)
     alias(libs.plugins.publish)
 }
 
 kotlin {
-    explicitApi = ExplicitApiMode.Strict
+//    explicitApi = ExplicitApiMode.Strict
 
     targetHierarchy.default()
 
@@ -20,9 +21,9 @@ kotlin {
 
     jvm()
 
-    js(IR) {
-        browser()
-    }
+//    js(IR) {
+//        browser()
+//    }
 
     macosX64()
     macosArm64()
@@ -40,11 +41,22 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(compose.runtime)
+                implementation(compose.ui)
+                implementation(libs.kotlinx.immutableCollections)
+                implementation("androidx.annotation:annotation:1.7.0")
+                implementation("androidx.collection:collection:1.3.0-rc01")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+            }
+        }
+
+        val nativeMain by getting {
+            dependencies {
+                implementation("com.soywiz.korlibs.korim:korim:4.0.10")
             }
         }
     }
