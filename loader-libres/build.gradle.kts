@@ -52,6 +52,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.androidx.startup)
+                implementation(libs.androidx.core)
             }
         }
     }
