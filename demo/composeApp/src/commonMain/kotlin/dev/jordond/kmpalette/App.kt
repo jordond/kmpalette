@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +30,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -66,38 +66,30 @@ private val defaultColor = SelectedColor("default", Color(0xFF1976D2))
 
 @Composable
 internal fun App() {
-    val isDarkTheme = isSystemInDarkTheme()
-
     var selected: SelectedColor by remember { mutableStateOf(defaultColor) }
     var style by remember { mutableStateOf(PaletteStyle.TonalSpot) }
-    var darkTheme by remember { mutableStateOf(isDarkTheme) }
+
+    var selectedIndex by remember { mutableStateOf<Int?>(null) }
+    val bitmap by remember(selectedIndex) {
+        derivedStateOf {
+            if (selectedIndex == null) null
+            else images[selectedIndex!!].toImageBitmap()
+        }
+    }
+    var palette by remember {
+        mutableStateOf<Palette?>(null)
+    }
+
+    LaunchedEffect(bitmap) {
+        palette = bitmap?.generatePalette {
+            clearFilters()
+        }
+    }
 
     AppTheme(
         seedColor = selected.color,
         paletteStyle = style,
-        useDarkTheme = darkTheme,
     ) {
-        var selectedIndex by remember { mutableStateOf<Int?>(null) }
-        val image by remember(selectedIndex) {
-            derivedStateOf {
-                if (selectedIndex == null) null else images[selectedIndex!!]
-            }
-        }
-
-        val bitmap by remember(image) {
-            derivedStateOf {
-                image?.toImageBitmap()
-            }
-        }
-        val palette by remember(bitmap) {
-            derivedStateOf {
-                bitmap?.generatePalette {
-                    clearFilters()
-                    maximumColorCount(8)
-                }
-            }
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -135,7 +127,7 @@ internal fun App() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (image == null) {
+            if (selectedIndex == null) {
                 Text("Select an image to generate a palette")
             } else if (palette == null) {
                 Text("Palette generation failed")
@@ -168,12 +160,14 @@ internal fun App() {
                             .fillMaxWidth()
                             .weight(1f)
                     ) {
-                        PaletteStyle.entries.forEach { paletteStyle ->
-                            FilterChip(
-                                label = { Text(text = paletteStyle.name) },
-                                selected = style == paletteStyle,
-                                onClick = { style = paletteStyle },
-                            )
+                        if (selected != defaultColor) {
+                            PaletteStyle.entries.forEach { paletteStyle ->
+                                FilterChip(
+                                    label = { Text(text = paletteStyle.name) },
+                                    selected = style == paletteStyle,
+                                    onClick = { style = paletteStyle },
+                                )
+                            }
                         }
                     }
                 }
