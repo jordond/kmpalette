@@ -1,8 +1,9 @@
 @file:OptIn(ExperimentalForeignApi::class)
 
-package dev.jordond.kmpalette.loader.libres.internal
+package dev.jordond.kmpalette.loader.internal
 
 import androidx.compose.ui.unit.IntSize
+import dev.jordond.kmpalette.loader.internal.toCGRect
 import io.github.skeptick.libres.images.Image
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.MemScope

@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 
 plugins {
     alias(libs.plugins.multiplatform)
+    alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
     alias(libs.plugins.dokka)
     alias(libs.plugins.publish)
@@ -19,10 +20,6 @@ kotlin {
     }
 
     jvm()
-
-    js(IR) {
-        browser()
-    }
 
     macosX64()
     macosArm64()
@@ -40,8 +37,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(project(":androidx-palette"))
+                implementation(compose.ui)
+                implementation(libs.kotlinx.coroutines)
             }
         }
+
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))

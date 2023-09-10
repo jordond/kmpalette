@@ -1,4 +1,4 @@
-package dev.jordond.kmpalette.loader.libres
+package dev.jordond.kmpalette.loader.internal
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -65,7 +65,7 @@ class Palette internal constructor(
      * The dominant swatch is defined as the swatch with the greatest population (frequency)
      * within the palette.
      */
-    private val swatches: List<Swatch>,
+    public val swatches: List<Swatch>,
 
     /**
      * Returns all of the swatches which make up the palette.
@@ -338,8 +338,8 @@ class Palette internal constructor(
         private val blue: Int = ColorUtils.blue(rgb)
 
         private var generatedTextColors = false
-        private var mTitleTextColor = 0
-        private var mBodyTextColor = 0
+        private var _titleTextColor = 0
+        private var _bodyTextColor = 0
 
         /**
          * Return this swatch's HSL values.
@@ -355,20 +355,22 @@ class Palette internal constructor(
          * Returns an appropriate color to use for any 'title' text which is displayed over this
          * [Swatch]'s color. This color is guaranteed to have sufficient contrast.
          */
+        @get:ColorInt
         val titleTextColor: Int
             get() {
                 ensureTextColorsGenerated()
-                return mTitleTextColor
+                return _titleTextColor
             }
 
         /**
          * Returns an appropriate color to use for any 'body' text which is displayed over this
          * [Swatch]'s color. This color is guaranteed to have sufficient contrast.
          */
+        @get:ColorInt
         val bodyTextColor: Int
             get() {
                 ensureTextColorsGenerated()
-                return mBodyTextColor
+                return _bodyTextColor
             }
 
         private fun ensureTextColorsGenerated() {
@@ -378,34 +380,37 @@ class Palette internal constructor(
                     ColorUtils.WHITE, rgb, MIN_CONTRAST_BODY_TEXT)
                 val lightTitleAlpha: Int = ColorUtils.calculateMinimumAlpha(
                     ColorUtils.WHITE, rgb, MIN_CONTRAST_TITLE_TEXT)
+
                 if (lightBodyAlpha != -1 && lightTitleAlpha != -1) {
                     // If we found valid light values, use them and return
-                    mBodyTextColor = ColorUtils.setAlphaComponent(ColorUtils.WHITE, lightBodyAlpha)
-                    mTitleTextColor = ColorUtils.setAlphaComponent(ColorUtils.WHITE, lightTitleAlpha)
+                    _bodyTextColor = ColorUtils.setAlphaComponent(ColorUtils.WHITE, lightBodyAlpha)
+                    _titleTextColor = ColorUtils.setAlphaComponent(ColorUtils.WHITE, lightTitleAlpha)
                     generatedTextColors = true
                     return
                 }
+
                 val darkBodyAlpha: Int = ColorUtils.calculateMinimumAlpha(
                     ColorUtils.BLACK, rgb, MIN_CONTRAST_BODY_TEXT)
                 val darkTitleAlpha: Int = ColorUtils.calculateMinimumAlpha(
                     ColorUtils.BLACK, rgb, MIN_CONTRAST_TITLE_TEXT)
                 if (darkBodyAlpha != -1 && darkTitleAlpha != -1) {
                     // If we found valid dark values, use them and return
-                    mBodyTextColor = ColorUtils.setAlphaComponent(ColorUtils.BLACK, darkBodyAlpha)
-                    mTitleTextColor = ColorUtils.setAlphaComponent(ColorUtils.BLACK, darkTitleAlpha)
+                    _bodyTextColor = ColorUtils.setAlphaComponent(ColorUtils.BLACK, darkBodyAlpha)
+                    _titleTextColor = ColorUtils.setAlphaComponent(ColorUtils.BLACK, darkTitleAlpha)
                     generatedTextColors = true
                     return
                 }
 
                 // If we reach here then we can not find title and body values which use the same
                 // lightness, we need to use mismatched values
-                mBodyTextColor =
+                _bodyTextColor =
                     if (lightBodyAlpha != -1) ColorUtils.setAlphaComponent(ColorUtils.WHITE, lightBodyAlpha)
                     else ColorUtils.setAlphaComponent(ColorUtils.BLACK, darkBodyAlpha)
 
-                mTitleTextColor =
+                _titleTextColor =
                     if (lightTitleAlpha != -1) ColorUtils.setAlphaComponent(ColorUtils.WHITE, lightTitleAlpha)
                     else ColorUtils.setAlphaComponent(ColorUtils.BLACK, darkTitleAlpha)
+
                 generatedTextColors = true
             }
         }

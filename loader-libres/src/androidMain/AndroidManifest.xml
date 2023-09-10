@@ -12,7 +12,7 @@
             tools:node="merge"
             >
             <meta-data
-                android:name="dev.jordond.kmpalette.loader.libres.ContextProviderInitializer"
+                android:name="dev.jordond.kmpalette.loader.internal.ContextProviderInitializer"
                 android:value="androidx.startup"
                 />
         </provider>

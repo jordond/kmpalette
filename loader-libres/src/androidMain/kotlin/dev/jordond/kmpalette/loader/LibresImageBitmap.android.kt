@@ -1,13 +1,14 @@
-package dev.jordond.kmpalette.loader.libres
+package dev.jordond.kmpalette.loader
 
 import android.content.res.Resources
 import android.content.res.Resources.Theme
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.drawable.toBitmap
+import dev.jordond.kmpalette.loader.internal.ContextProvider
 import io.github.skeptick.libres.images.Image
 
-internal actual fun Image.toImageBitmap(): ImageBitmap {
+public actual fun Image.toImageBitmap(): ImageBitmap {
     val context = ContextProvider.getInstance().context
 
     return loadImageBitmapResource(context.resources, context.theme)

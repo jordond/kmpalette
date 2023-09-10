@@ -42,7 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
 import com.materialkolor.PaletteStyle
-import dev.jordond.kmpalette.loader.libres.LibresImageBitmapLoader
+import dev.jordond.kmpalette.loader.toImageBitmap
 import dev.jordond.kmpalette.palette.graphics.Palette
 import dev.jordond.kmpalette.theme.AppTheme
 import io.github.skeptick.libres.compose.painterResource
@@ -86,14 +86,15 @@ internal fun App() {
 
         val bitmap by remember(image) {
             derivedStateOf {
-                if (image == null) null
-                else LibresImageBitmapLoader().load(image!!)
+                image?.toImageBitmap()
             }
         }
         val palette by remember(bitmap) {
             derivedStateOf {
-                if (bitmap == null) null
-                else Palette.from(bitmap!!).generate()
+                bitmap?.generatePalette {
+                    clearFilters()
+                    maximumColorCount(8)
+                }
             }
         }
 
@@ -105,18 +106,6 @@ internal fun App() {
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-//            Box(
-//                modifier = Modifier.align(Alignment.End)
-//            ) {
-//                IconButton(
-//                    onClick = { darkTheme = !darkTheme },
-//                    modifier = Modifier.align(Alignment.TopEnd),
-//                ) {
-//                    val icon = if (darkTheme) Icons.Filled.LightMode else Icons.Filled.DarkMode
-//                    Icon(icon, contentDescription = null)
-//                }
-//            }
-
             Spacer(modifier = Modifier.height(16.dp))
             FlowRow(
                 modifier = Modifier.fillMaxWidth().wrapContentWidth(),
@@ -164,7 +153,7 @@ internal fun App() {
                             .weight(1f)
                             .background(MaterialTheme.colorScheme.secondaryContainer),
                     ) {
-                        SwatchRow(palette, "Dominant", selected, onClick) { it.dominantSwatch }
+                        SwatchRow(palette, "Dominant", selected, onClick) { it.dominantSwatch() }
                         SwatchRow(palette, "Vibrant", selected, onClick) { it.vibrantSwatch }
                         SwatchRow(palette, "Light Vibrant", selected, onClick) { it.lightVibrantSwatch }
                         SwatchRow(palette, "Dark Vibrant", selected, onClick) { it.darkVibrantSwatch }

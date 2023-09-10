@@ -19,10 +19,15 @@ library. And when/if that library ever goes multiplatform, this library will be 
 
 ## TODO
 
-- add module `loader-resources` for loading images from resources
-- add module `loader-libres` for extension functions for Libres (resources)
+- ~add module `loader-bytearray` for loading images from a bytearray~
+- ~add module `loader-libres` for extension functions for Libres (resources)~
 - add module `loader-network` for loading images from the network
 - add module `loader-disk` for loading images from disk
+- add module `compose-resources` to load images from experimental Compose Resources
+- Add compose extensions to root `kmpalette` module
+  - Convert ImageBitmap to Palette
+  - Implement a LRU cache for bitmaps so we don't waste energy decoding the same image multiple times
+  - TODO
 
 ## Table of Contents
 

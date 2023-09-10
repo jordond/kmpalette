@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalForeignApi::class)
 
-package dev.jordond.kmpalette.loader.libres.internal
+package dev.jordond.kmpalette.loader.internal
 
 import androidx.compose.ui.unit.IntSize
 import io.github.skeptick.libres.images.Image
