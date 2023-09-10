@@ -37,7 +37,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":kmpalette"))
                 implementation(compose.ui)
+                implementation(libs.kotlinx.coroutines)
             }
         }
         val commonTest by getting {

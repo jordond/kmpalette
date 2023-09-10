@@ -30,7 +30,6 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,10 +41,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
 import com.materialkolor.PaletteStyle
-import dev.jordond.kmpalette.loader.toImageBitmap
+import dev.jordond.kmpalette.loader.rememberGeneratePalette
 import dev.jordond.kmpalette.palette.graphics.Palette
 import dev.jordond.kmpalette.theme.AppTheme
 import io.github.skeptick.libres.compose.painterResource
+import io.github.skeptick.libres.images.Image
 
 private val images = listOf(
     Res.image.bg_basic_1,
@@ -67,24 +67,16 @@ private val defaultColor = SelectedColor("default", Color(0xFF1976D2))
 @Composable
 internal fun App() {
     var selected: SelectedColor by remember { mutableStateOf(defaultColor) }
-    var style by remember { mutableStateOf(PaletteStyle.TonalSpot) }
+    var style: PaletteStyle by remember { mutableStateOf(PaletteStyle.TonalSpot) }
 
     var selectedIndex by remember { mutableStateOf<Int?>(null) }
-    val bitmap by remember(selectedIndex) {
+    val selectedImage: Image? by remember(selectedIndex) {
         derivedStateOf {
             if (selectedIndex == null) null
-            else images[selectedIndex!!].toImageBitmap()
+            else images[selectedIndex!!]
         }
     }
-    var palette by remember {
-        mutableStateOf<Palette?>(null)
-    }
-
-    LaunchedEffect(bitmap) {
-        palette = bitmap?.generatePalette {
-            clearFilters()
-        }
-    }
+    val palette = selectedImage.rememberGeneratePalette()
 
     AppTheme(
         seedColor = selected.color,
@@ -127,11 +119,9 @@ internal fun App() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (selectedIndex == null) {
+            if (selectedImage == null) {
                 Text("Select an image to generate a palette")
-            } else if (palette == null) {
-                Text("Palette generation failed")
-            } else {
+            } else if (palette != null) {
                 val onClick = { newColor: SelectedColor ->
                     selected = if (newColor == selected) defaultColor else newColor
                 }
