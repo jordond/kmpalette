@@ -35,6 +35,7 @@ include(
     ":kmpalette",
     ":androidx-palette",
     ":loader",
+    ":loader-bytearray",
     ":loader-libres",
 )
 
