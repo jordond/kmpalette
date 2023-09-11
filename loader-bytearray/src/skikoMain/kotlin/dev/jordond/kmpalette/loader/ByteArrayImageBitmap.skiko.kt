@@ -1,4 +1,4 @@
-package dev.jordond.kmpalette.loader.bytearray
+package dev.jordond.kmpalette.loader
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap

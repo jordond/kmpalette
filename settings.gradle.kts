@@ -36,6 +36,7 @@ include(
     ":androidx-palette",
     ":loader",
     ":loader-bytearray",
+    ":loader-resources",
     ":loader-libres",
 )
 

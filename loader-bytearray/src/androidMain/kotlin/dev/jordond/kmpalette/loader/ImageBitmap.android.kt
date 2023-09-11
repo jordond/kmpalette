@@ -1,4 +1,4 @@
-package dev.jordond.kmpalette.loader.bytearray
+package dev.jordond.kmpalette.loader
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

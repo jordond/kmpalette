@@ -41,7 +41,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
 import com.materialkolor.PaletteStyle
-import dev.jordond.kmpalette.loader.rememberGeneratePalette
 import dev.jordond.kmpalette.palette.graphics.Palette
 import dev.jordond.kmpalette.theme.AppTheme
 import io.github.skeptick.libres.compose.painterResource
