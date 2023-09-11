@@ -1,9 +1,9 @@
-package dev.jordond.kmpalette.dominant
+package dev.jordond.kmpalette
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
+import dev.jordond.kmpalette.dominant.DominantColorState.Companion.DEFAULT_CACHE_SIZE
 import dev.jordond.kmpalette.loader.ImageBitmapLoader
 import dev.jordond.kmpalette.loader.ResourcesLoader
 import dev.jordond.kmpalette.palette.graphics.Palette
@@ -14,39 +14,23 @@ import kotlin.coroutines.CoroutineContext
 
 @Composable
 @ExperimentalResourceApi
-public fun rememberResourcesDominantColorState(
-    defaultColor: Color,
-    defaultOnColor: Color,
-    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
+public fun rememberLibresPaletteState(
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
-    isColorValid: (Color) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): ResourceDominantColorState = remember {
-    ResourceDominantColorState(
-        defaultColor = defaultColor,
-        defaultOnColor = defaultOnColor,
-        cacheSize = cacheSize,
-        coroutineContext = coroutineContext,
-        isColorValid = isColorValid,
-        builder = builder,
-    )
+): ResourcesPaletteState = remember {
+    ResourcesPaletteState(cacheSize, coroutineContext, builder)
 }
 
 @Stable
 @ExperimentalResourceApi
-public class ResourceDominantColorState(
-    defaultColor: Color,
-    defaultOnColor: Color,
+public class ResourcesPaletteState(
     cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
-    isColorValid: (Color) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-) : DominantColorState<Resource>(
-    defaultColor = defaultColor,
-    defaultOnColor = defaultOnColor,
+) : PaletteState<Resource>(
     cacheSize = cacheSize,
     coroutineContext = coroutineContext,
-    isColorValid = isColorValid,
     builder = builder,
 ) {
 

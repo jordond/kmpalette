@@ -30,6 +30,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,6 +69,7 @@ internal fun App() {
     var selected: SelectedColor by remember { mutableStateOf(defaultColor) }
     var style: PaletteStyle by remember { mutableStateOf(PaletteStyle.TonalSpot) }
 
+    val paletteState = rememberLibresPaletteState()
     var selectedIndex by remember { mutableStateOf<Int?>(null) }
     val selectedImage: Image? by remember(selectedIndex) {
         derivedStateOf {
@@ -75,7 +77,10 @@ internal fun App() {
             else images[selectedIndex!!]
         }
     }
-    val paletteResult = selectedImage?.rememberGeneratePalette()
+
+    LaunchedEffect(selectedImage) {
+        selectedImage?.let { paletteState.generate(it) }
+    }
 
     AppTheme(
         seedColor = selected.color,
@@ -118,53 +123,52 @@ internal fun App() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (selectedImage == null) {
+            if (paletteState.state == null) {
                 Text("Select an image to generate a palette")
-            } else if (paletteResult != null) {
-                if (paletteResult is PaletteResult.Error) {
-                    Text("Error generating palette: ${paletteResult.cause.message}")
-                } else if (paletteResult is PaletteResult.Success) {
-                    val palette = paletteResult.palette
-                    val onClick = { newColor: SelectedColor ->
-                        selected = if (newColor == selected) defaultColor else newColor
+            } else if (paletteState.state is PaletteResult.Error) {
+                Text("Error generating palette: ${(paletteState.state as PaletteResult.Error).cause}")
+            } else if (paletteState.palette != null) {
+                val palette = paletteState.palette
+                val onClick = { newColor: SelectedColor ->
+                    selected = if (newColor == selected) defaultColor else newColor
+                }
+
+                Row {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .padding(2.dp)
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .background(MaterialTheme.colorScheme.secondaryContainer),
+                    ) {
+                        SwatchRow(palette, "Dominant", selected, onClick) { it.dominantSwatch }
+                        SwatchRow(palette, "Vibrant", selected, onClick) { it.vibrantSwatch }
+                        SwatchRow(palette, "Light Vibrant", selected, onClick) { it.lightVibrantSwatch }
+                        SwatchRow(palette, "Dark Vibrant", selected, onClick) { it.darkVibrantSwatch }
+                        SwatchRow(palette, "Muted", selected, onClick) { it.mutedSwatch }
+                        SwatchRow(palette, "Light Muted", selected, onClick) { it.lightMutedSwatch }
+                        SwatchRow(palette, "Dark Muted", selected, onClick) { it.darkMutedSwatch }
                     }
 
-                    Row {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .padding(2.dp)
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .background(MaterialTheme.colorScheme.secondaryContainer),
-                        ) {
-                            SwatchRow(palette, "Dominant", selected, onClick) { it.dominantSwatch() }
-                            SwatchRow(palette, "Vibrant", selected, onClick) { it.vibrantSwatch }
-                            SwatchRow(palette, "Light Vibrant", selected, onClick) { it.lightVibrantSwatch }
-                            SwatchRow(palette, "Dark Vibrant", selected, onClick) { it.darkVibrantSwatch }
-                            SwatchRow(palette, "Muted", selected, onClick) { it.mutedSwatch }
-                            SwatchRow(palette, "Light Muted", selected, onClick) { it.lightMutedSwatch }
-                            SwatchRow(palette, "Dark Muted", selected, onClick) { it.darkMutedSwatch }
-                        }
-
-                        FlowRow(
-                            modifier = Modifier
-                                .padding(2.dp)
-                                .fillMaxWidth()
-                                .weight(1f)
-                        ) {
-                            if (selected != defaultColor) {
-                                PaletteStyle.entries.forEach { paletteStyle ->
-                                    FilterChip(
-                                        label = { Text(text = paletteStyle.name) },
-                                        selected = style == paletteStyle,
-                                        onClick = { style = paletteStyle },
-                                    )
-                                }
+                    FlowRow(
+                        modifier = Modifier
+                            .padding(2.dp)
+                            .fillMaxWidth()
+                            .weight(1f)
+                    ) {
+                        if (selected != defaultColor) {
+                            PaletteStyle.entries.forEach { paletteStyle ->
+                                FilterChip(
+                                    label = { Text(text = paletteStyle.name) },
+                                    selected = style == paletteStyle,
+                                    onClick = { style = paletteStyle },
+                                )
                             }
                         }
                     }
                 }
+
                 Spacer(modifier = Modifier.height(12.dp))
 
                 if (selected != defaultColor) {

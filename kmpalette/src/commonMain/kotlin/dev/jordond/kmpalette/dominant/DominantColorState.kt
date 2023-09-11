@@ -18,21 +18,26 @@ import kotlin.coroutines.CoroutineContext
 @Immutable
 private data class DominantColors(
     val color: Color,
+    val onColor: Color,
 )
 
 /**
- * A class which stores and caches the result of any calculated dominant colors
- * from images.
+ * A class which stores and caches the result of any calculated dominant colors.
  *
+ * @param[T] The type of the input to calculate the dominant color from.
  * @param[defaultColor] The default color, which will be used if [calculateDominantColor] fails to
  * calculate a dominant color
  * @param[cacheSize] The size of the [LruCache] used to store recent results. Pass `0` to
  * disable the cache.
+ * @param[coroutineContext] The [CoroutineContext] used to launch the coroutine.
  * @param[isColorValid] A lambda which allows filtering of the calculated image colors.
+ * @param[builder] A lambda which allows customization of the [Palette.Builder] used to generate
+ * the [Palette] from the input [T]
  */
 @Stable
 public abstract class DominantColorState<T : Any>(
     private val defaultColor: Color,
+    private val defaultOnColor: Color,
     cacheSize: Int = DEFAULT_CACHE_SIZE,
     private val coroutineContext: CoroutineContext = Dispatchers.Default,
     private val isColorValid: (Color) -> Boolean = { true },
@@ -42,6 +47,9 @@ public abstract class DominantColorState<T : Any>(
     protected abstract val loader: ImageBitmapLoader<T>
 
     public var color: Color by mutableStateOf(defaultColor)
+        private set
+
+    public var onColor: Color by mutableStateOf(defaultColor)
         private set
 
     public var palette: PaletteResult? by mutableStateOf(null)
@@ -57,6 +65,7 @@ public abstract class DominantColorState<T : Any>(
         palette = PaletteResult.Loading
         val result = calculateDominantColor(input, loader)
         color = result?.color ?: defaultColor
+        onColor = result?.onColor ?: defaultOnColor
     }
 
     private suspend fun calculateDominantColor(input: T, loader: ImageBitmapLoader<T>): DominantColors? {
@@ -69,7 +78,10 @@ public abstract class DominantColorState<T : Any>(
             .sortedByDescending { swatch -> swatch.population }
             .firstOrNull { swatch -> isColorValid(Color(swatch.rgb)) }
             ?.let { swatch ->
-                DominantColors(color = Color(swatch.rgb))
+                DominantColors(
+                    color = Color(swatch.rgb),
+                    onColor = Color(swatch.bodyTextColor).copy(alpha = 1f),
+                )
             }
             ?.also { result -> cache?.put(input, result) }
     }

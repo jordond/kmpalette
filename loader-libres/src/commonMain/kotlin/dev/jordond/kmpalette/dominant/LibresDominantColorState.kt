@@ -12,24 +12,40 @@ import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
 @Composable
-public fun rememberDominantColorState(
+public fun rememberLibresDominantColorState(
     defaultColor: Color,
+    defaultOnColor: Color,
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isColorValid: (Color) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
 ): LibresDominantColorState = remember {
-    LibresDominantColorState(defaultColor, cacheSize, coroutineContext, isColorValid, builder)
+    LibresDominantColorState(
+        defaultColor = defaultColor,
+        defaultOnColor = defaultOnColor,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        isColorValid = isColorValid,
+        builder = builder,
+    )
 }
 
 @Stable
 public class LibresDominantColorState(
     defaultColor: Color,
+    defaultOnColor: Color,
     cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isColorValid: (Color) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-) : DominantColorState<Image>(defaultColor, cacheSize, coroutineContext, isColorValid, builder) {
+) : DominantColorState<Image>(
+    defaultColor = defaultColor,
+    defaultOnColor = defaultOnColor,
+    cacheSize = cacheSize,
+    coroutineContext = coroutineContext,
+    isColorValid = isColorValid,
+    builder = builder,
+) {
 
     override val loader: ImageBitmapLoader<Image> = LibresLoader
 }
