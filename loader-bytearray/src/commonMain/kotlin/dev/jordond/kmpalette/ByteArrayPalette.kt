@@ -12,7 +12,7 @@ import kotlin.coroutines.CoroutineContext
 public fun ByteArray.rememberGeneratePalette(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     block: Palette.Builder.() -> Unit = {},
-): Palette? {
+): PaletteResult {
     val bitmap: ImageBitmap = remember(this) { toImageBitmap() }
     return bitmap.rememberGeneratePalette(coroutineContext, block)
 }

@@ -23,9 +23,9 @@ library. And when/if that library ever goes multiplatform, this library will be 
 - ~add module `loader-libres` for extension functions for Libres (resources)~
 - add module `loader-network` for loading images from the network
 - add module `loader-disk` for loading images from disk
-- add module `compose-resources` to load images from experimental Compose Resources
+- ~add module `compose-resources` to load images from experimental Compose Resources~
 - Add compose extensions to root `kmpalette` module
-  - Convert ImageBitmap to Palette
+  - ~Convert ImageBitmap to Palette~
   - Implement a LRU cache for bitmaps so we don't waste energy decoding the same image multiple times
   - TODO
 

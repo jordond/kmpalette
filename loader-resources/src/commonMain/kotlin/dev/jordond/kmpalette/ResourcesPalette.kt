@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import dev.jordond.kmpalette.loader.toImageBitmap
 import dev.jordond.kmpalette.palette.graphics.Palette
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Resource
@@ -19,11 +20,22 @@ import kotlin.coroutines.CoroutineContext
 public fun Resource.rememberGeneratePalette(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     block: Palette.Builder.() -> Unit = {},
-): Palette? {
+): PaletteResult {
+    var result: PaletteResult by remember(this) { mutableStateOf(PaletteResult.Loading) }
     var bitmap: ImageBitmap? by remember(this) { mutableStateOf(null) }
+
     LaunchedEffect(this) {
-        bitmap = toImageBitmap()
+        try {
+            bitmap = toImageBitmap()
+        } catch (cause: Throwable) {
+            if (cause is CancellationException) throw cause
+            result = PaletteResult.Error(cause)
+        }
     }
 
-    return bitmap?.rememberGeneratePalette(coroutineContext, block)
+    bitmap?.let { imageBitmap ->
+        result = imageBitmap.rememberGeneratePalette(coroutineContext, block)
+    }
+
+    return result
 }
