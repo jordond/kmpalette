@@ -27,7 +27,9 @@ library. And when/if that library ever goes multiplatform, this library will be 
 - Add compose extensions to root `kmpalette` module
   - ~Convert ImageBitmap to Palette~
   - Implement a LRU cache for bitmaps so we don't waste energy decoding the same image multiple times
-  - TODO
+  - ~Mimic the [jetcaster example](https://github.com/android/compose-samples/blob/main/Jetcaster/app/src/main/java/com/example/jetcaster/util/DynamicTheming.kt)~
+    - ~Have a `DominantColorState` which can calculate the dominate color~
+    - ~Have custom options for generating the palette~
 
 ## Table of Contents
 

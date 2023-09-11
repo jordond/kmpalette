@@ -39,6 +39,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":kmpalette"))
+                implementation(project(":loader"))
                 api(project(":loader-bytearray"))
 
                 implementation(compose.ui)

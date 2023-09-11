@@ -38,8 +38,12 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":androidx-palette"))
+                api(project(":loader"))
                 implementation(compose.ui)
+                implementation(compose.material3)
+                implementation(compose.runtime)
                 implementation(libs.kotlinx.coroutines)
+                implementation(libs.androidx.collection)
             }
         }
 

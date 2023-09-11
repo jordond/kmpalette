@@ -38,6 +38,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":kmpalette"))
+                implementation(project(":loader"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.libres)

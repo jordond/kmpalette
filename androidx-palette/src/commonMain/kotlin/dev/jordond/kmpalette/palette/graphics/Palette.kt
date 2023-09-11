@@ -300,19 +300,7 @@ class Palette internal constructor(
     }
 
     private fun findDominantSwatch(): Swatch? {
-        var maxPop = Int.MIN_VALUE
-        var maxSwatch: Swatch? = null
-        var i = 0
-        val count = swatches.size
-        while (i < count) {
-            val swatch = swatches[i]
-            if (swatch.population > maxPop) {
-                maxSwatch = swatch
-                maxPop = swatch.population
-            }
-            i++
-        }
-        return maxSwatch
+        return swatches.maxByOrNull { it.population }
     }
 
     /**

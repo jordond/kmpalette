@@ -43,9 +43,8 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.ui)
-                implementation(libs.kotlinx.immutableCollections)
-                implementation("androidx.annotation:annotation:1.7.0")
-                implementation("androidx.collection:collection:1.3.0-rc01")
+                implementation(libs.androidx.annotation)
+                implementation(libs.androidx.collection)
             }
         }
         val commonTest by getting {
@@ -56,7 +55,7 @@ kotlin {
 
         val nativeMain by getting {
             dependencies {
-                implementation("com.soywiz.korlibs.korim:korim:4.0.10")
+                implementation(libs.korim)
             }
         }
     }

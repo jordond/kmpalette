@@ -4,5 +4,5 @@ import androidx.compose.ui.graphics.ImageBitmap
 
 public interface ImageBitmapLoader<T> {
 
-    public fun load(input: T): ImageBitmap
+    public suspend fun load(input: T): ImageBitmap
 }
