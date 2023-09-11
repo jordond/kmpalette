@@ -5,7 +5,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import dev.jordond.kmpalette.dominant.DominantColorState.Companion.DEFAULT_CACHE_SIZE
 import dev.jordond.kmpalette.loader.ImageBitmapLoader
-import dev.jordond.kmpalette.loader.ResourcesLoader
+import dev.jordond.kmpalette.loader.ResourceLoader
 import dev.jordond.kmpalette.palette.graphics.Palette
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -18,13 +18,13 @@ public fun rememberLibresPaletteState(
     cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
-): ResourcesPaletteState = remember {
-    ResourcesPaletteState(cacheSize, coroutineContext, builder)
+): ResourcePaletteState = remember {
+    ResourcePaletteState(cacheSize, coroutineContext, builder)
 }
 
 @Stable
 @ExperimentalResourceApi
-public class ResourcesPaletteState(
+public class ResourcePaletteState(
     cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
@@ -34,5 +34,5 @@ public class ResourcesPaletteState(
     builder = builder,
 ) {
 
-    override val loader: ImageBitmapLoader<Resource> = ResourcesLoader
+    override val loader: ImageBitmapLoader<Resource> = ResourceLoader
 }

@@ -42,7 +42,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":kmpalette"))
-                implementation(project(":loader-libres"))
+                implementation(project(":extensions-libres"))
                 implementation(compose.runtime)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)

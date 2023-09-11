@@ -35,9 +35,9 @@ include(
     ":kmpalette",
     ":androidx-palette",
     ":loader",
-    ":loader-bytearray",
-    ":loader-resources",
-    ":loader-libres",
+    ":extensions-bytearray",
+    ":extensions-resources",
+    ":extensions-libres",
 )
 
 include(":demo:composeApp")

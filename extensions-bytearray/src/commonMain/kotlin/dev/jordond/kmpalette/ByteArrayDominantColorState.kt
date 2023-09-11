@@ -1,9 +1,10 @@
-package dev.jordond.kmpalette.dominant
+package dev.jordond.kmpalette
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import dev.jordond.kmpalette.dominant.DominantColorState
 import dev.jordond.kmpalette.dominant.DominantColorState.Companion.DEFAULT_CACHE_SIZE
 import dev.jordond.kmpalette.loader.ByteArrayLoader
 import dev.jordond.kmpalette.loader.ImageBitmapLoader

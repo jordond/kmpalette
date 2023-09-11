@@ -1,5 +1,6 @@
-@file:Suppress("UNUSED_VARIABLE", "OPT_IN_USAGE")
+@file:Suppress("OPT_IN_USAGE")
 
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 
 plugins {
@@ -30,7 +31,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "loader-bytearray"
+            baseName = "loader-resources"
         }
     }
 
@@ -39,8 +40,13 @@ kotlin {
             dependencies {
                 implementation(project(":kmpalette"))
                 implementation(project(":loader"))
+                api(project(":extensions-bytearray"))
+
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
+
+                @OptIn(ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
             }
         }
         val commonTest by getting {
@@ -48,23 +54,11 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-
-        val skikoMain by creating {
-            dependsOn(commonMain)
-        }
-
-        val nativeMain by getting {
-            dependsOn(skikoMain)
-        }
-
-        val jvmMain by getting {
-            dependsOn(skikoMain)
-        }
     }
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.loader.bytearray"
+    namespace = "dev.jordond.kmpalette.loader.resources"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

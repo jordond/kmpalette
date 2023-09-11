@@ -19,14 +19,14 @@ library. And when/if that library ever goes multiplatform, this library will be 
 
 ## TODO
 
-- ~add module `loader-bytearray` for loading images from a bytearray~
+- ~add module `extensions-bytearray` for loading images from a bytearray~
 - ~add module `loader-libres` for extension functions for Libres (resources)~
 - add module `loader-network` for loading images from the network
 - add module `loader-disk` for loading images from disk
 - ~add module `compose-resources` to load images from experimental Compose Resources~
-- Add compose extensions to root `kmpalette` module
+- ~Add compose extensions to root `kmpalette` module~
   - ~Convert ImageBitmap to Palette~
-  - Implement a LRU cache for bitmaps so we don't waste energy decoding the same image multiple times
+  - ~Implement a LRU cache for bitmaps so we don't waste energy decoding the same image multiple times~
   - ~Mimic the [jetcaster example](https://github.com/android/compose-samples/blob/main/Jetcaster/app/src/main/java/com/example/jetcaster/util/DynamicTheming.kt)~
     - ~Have a `DominantColorState` which can calculate the dominate color~
     - ~Have custom options for generating the palette~

@@ -1,11 +1,12 @@
-package dev.jordond.kmpalette.dominant
+package dev.jordond.kmpalette
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import dev.jordond.kmpalette.dominant.DominantColorState
 import dev.jordond.kmpalette.loader.ImageBitmapLoader
-import dev.jordond.kmpalette.loader.ResourcesLoader
+import dev.jordond.kmpalette.loader.ResourceLoader
 import dev.jordond.kmpalette.palette.graphics.Palette
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -50,5 +51,5 @@ public class ResourceDominantColorState(
     builder = builder,
 ) {
 
-    override val loader: ImageBitmapLoader<Resource> = ResourcesLoader
+    override val loader: ImageBitmapLoader<Resource> = ResourceLoader
 }

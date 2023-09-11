@@ -5,7 +5,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Resource
 
 @ExperimentalResourceApi
-public object ResourcesLoader : ImageBitmapLoader<Resource> {
+public object ResourceLoader : ImageBitmapLoader<Resource> {
 
     override suspend fun load(input: Resource): ImageBitmap {
         return input.readBytes().toImageBitmap()
