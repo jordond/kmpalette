@@ -9,6 +9,7 @@
 - install
   the [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
 - add `local.properties` file to the project root and set a path to Android SDK there
+- run `./gradlew podInstall` in the project root
 
 ## Running
 
