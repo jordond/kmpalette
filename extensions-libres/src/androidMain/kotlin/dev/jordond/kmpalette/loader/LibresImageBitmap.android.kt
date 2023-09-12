@@ -8,7 +8,7 @@ import androidx.core.graphics.drawable.toBitmap
 import dev.jordond.kmpalette.loader.internal.ContextProvider
 import io.github.skeptick.libres.images.Image
 
-public actual suspend fun Image.toImageBitmap(): ImageBitmap {
+internal actual suspend fun Image.toImageBitmap(): ImageBitmap {
     val context = ContextProvider.getInstance().context
 
     return loadImageBitmapResource(context.resources, context.theme)

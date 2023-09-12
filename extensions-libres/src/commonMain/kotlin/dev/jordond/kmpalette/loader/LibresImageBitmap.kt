@@ -8,4 +8,4 @@ import io.github.skeptick.libres.images.Image
  *
  * **Warning:** This could potentially take a long time depending on the size.
  */
-public expect suspend fun Image.toImageBitmap(): ImageBitmap
+internal expect suspend fun Image.toImageBitmap(): ImageBitmap

@@ -21,5 +21,5 @@ internal suspend fun Url.toImageBitmap(
         url(this@toImageBitmap)
     }
 
-    return response.readBytes().toImageBitmap()
+    return ByteArrayLoader.load(response.readBytes())
 }

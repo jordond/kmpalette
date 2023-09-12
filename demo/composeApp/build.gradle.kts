@@ -16,11 +16,6 @@ kotlin {
 
     jvm("desktop")
 
-//    js(IR) {
-//        browser()
-//        binaries.executable()
-//    }
-
     listOf(
         iosX64(),
         iosArm64(),
@@ -76,17 +71,10 @@ kotlin {
             }
         }
 
-//        val jsMain by getting {
-//            dependencies {
-//                implementation(compose.html.core)
-//            }
-//        }
-
         val iosMain by getting {
             dependencies {
             }
         }
-
     }
 }
 

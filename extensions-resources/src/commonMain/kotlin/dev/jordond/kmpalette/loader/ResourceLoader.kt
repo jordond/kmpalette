@@ -8,6 +8,6 @@ import org.jetbrains.compose.resources.Resource
 public data object ResourceLoader : ImageBitmapLoader<Resource> {
 
     override suspend fun load(input: Resource): ImageBitmap {
-        return input.readBytes().toImageBitmap()
+        return ByteArrayLoader.load(input.readBytes())
     }
 }
