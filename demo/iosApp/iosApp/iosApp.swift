@@ -13,7 +13,7 @@ struct iosApp: App {
 
 struct ContentView: View {
     var body: some View {
-        ComposeView().ignoresSafeArea(.keyboard)
+        ComposeView().ignoresSafeArea(.all)
     }
 }
 
