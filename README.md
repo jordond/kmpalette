@@ -67,7 +67,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation("dev.jordond.kmpalette:kmpalette:1.2.5")
+                implementation("dev.jordond.kmpalette:kmpalette-core:1.2.5")
             }
         }
     }
@@ -80,7 +80,7 @@ For an Android only project, add the dependency to app level `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation("dev.jordond.kmpalette:kmpalette:1.2.5")
+    implementation("dev.jordond.kmpalette:kmpalette-core:1.2.5")
 }
 ```
 
@@ -93,7 +93,7 @@ In `libs.versions.toml`:
 kmpalette = "1.2.5"
 
 [libraries]
-kmpalette = { module = "dev.jordond.kmpalette:kmpalette", version.ref = "kmpalette" }
+kmpalette = { module = "dev.jordond.kmpalette:kmpalette-core", version.ref = "kmpalette" }
 ```
 
 In `build.gradle.kts`:

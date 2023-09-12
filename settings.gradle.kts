@@ -32,7 +32,7 @@ gradleEnterprise {
 rootProject.name = "kmpalette"
 
 include(
-    ":kmpalette",
+    ":kmpalette-core",
     ":androidx-palette",
     ":loader",
     ":extensions-bytearray",

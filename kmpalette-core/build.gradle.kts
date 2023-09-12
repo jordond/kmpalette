@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_VARIABLE", "OPT_IN_USAGE")
+@file:Suppress("OPT_IN_USAGE")
 
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 
@@ -30,7 +30,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "kmpalette"
+            baseName = "kmpalette-core"
         }
     }
 

@@ -37,7 +37,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":kmpalette"))
+                implementation(project(":kmpalette-core"))
                 implementation(project(":loader"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
