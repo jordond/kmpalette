@@ -2,6 +2,7 @@ package dev.jordond.kmpalette.palette.internal
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asComposeImageBitmap
+import androidx.compose.ui.graphics.toPixelMap
 import korlibs.image.bitmap.NativeImage
 import korlibs.image.bitmap.resized
 import korlibs.math.geom.Anchor
@@ -11,13 +12,7 @@ import org.jetbrains.skia.ImageInfo
 import org.jetbrains.skia.Bitmap as SkiaBitmap
 
 internal actual fun ImageBitmap.scale(width: Int, height: Int): ImageBitmap {
-    val pixels = IntArray(width * height)
-    readPixels(
-        buffer = pixels,
-        startX = 0,
-        startY = 0,
-    )
-
+    val pixels: IntArray = this.toPixelMap().buffer
     val scaled = NativeImage(width, height, premultiplied = false)
     scaled.writePixelsUnsafe(x = 0, y = 0, width, height, pixels, offset = 0)
     scaled.resized(width, height, ScaleMode.COVER, Anchor.CENTER, native = true)
