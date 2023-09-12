@@ -5,6 +5,6 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import dev.jordond.kmpalette.loader.internal.toSkiaImage
 import io.github.skeptick.libres.images.Image
 
-public actual fun Image.toImageBitmap(): ImageBitmap {
+public actual suspend fun Image.toImageBitmap(): ImageBitmap {
     return toSkiaImage().toComposeImageBitmap()
 }

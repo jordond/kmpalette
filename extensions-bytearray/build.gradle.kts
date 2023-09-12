@@ -64,7 +64,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.loader.bytearray"
+    namespace = "dev.jordond.kmpalette.extensions.bytearray"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

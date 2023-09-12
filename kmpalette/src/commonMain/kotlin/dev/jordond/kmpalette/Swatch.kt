@@ -20,9 +20,9 @@ public sealed interface SwatchTarget {
  *
  * @see Palette.getSwatchForTarget
  */
-public inline operator fun Palette.get(target: Target): Palette.Swatch? = getSwatchForTarget(target)
+public operator fun Palette.get(target: Target): Palette.Swatch? = getSwatchForTarget(target)
 
-public inline operator fun Palette.get(target: SwatchTarget): Palette.Swatch? = getSwatch(target)
+public operator fun Palette.get(target: SwatchTarget): Palette.Swatch? = getSwatch(target)
 
 public fun Palette.getSwatch(target: SwatchTarget): Palette.Swatch? {
     return when (target) {

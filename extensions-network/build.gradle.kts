@@ -1,6 +1,5 @@
-@file:Suppress("OPT_IN_USAGE")
+@file:Suppress("UNUSED_VARIABLE", "OPT_IN_USAGE")
 
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 
 plugins {
@@ -31,7 +30,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "loader-resources"
+            baseName = "extensions-network"
         }
     }
 
@@ -40,25 +39,30 @@ kotlin {
             dependencies {
                 implementation(project(":kmpalette"))
                 implementation(project(":loader"))
-                api(project(":extensions-bytearray"))
-
+                implementation(project(":extensions-bytearray"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
-
-                @OptIn(ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
+                implementation(libs.ktor.client)
             }
         }
+
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+            }
+        }
+
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.androidx.startup)
+                implementation(libs.androidx.core)
             }
         }
     }
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.extensions.resources"
+    namespace = "dev.jordond.kmpalette.network"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

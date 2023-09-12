@@ -30,7 +30,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "loader-libres"
+            baseName = "extensions-libres"
         }
     }
 
@@ -61,7 +61,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.loader.libres"
+    namespace = "dev.jordond.kmpalette.extensions.libres"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

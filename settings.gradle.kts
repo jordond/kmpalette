@@ -38,6 +38,7 @@ include(
     ":extensions-bytearray",
     ":extensions-resources",
     ":extensions-libres",
+    ":extensions-network",
 )
 
 include(":demo:composeApp")
