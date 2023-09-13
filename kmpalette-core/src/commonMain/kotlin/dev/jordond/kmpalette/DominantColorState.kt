@@ -1,14 +1,14 @@
-package dev.jordond.kmpalette.dominant
+package dev.jordond.kmpalette
 
 import androidx.collection.LruCache
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import dev.jordond.kmpalette.PaletteResult
-import dev.jordond.kmpalette.generatePalette
 import dev.jordond.kmpalette.loader.ImageBitmapLoader
 import dev.jordond.kmpalette.palette.graphics.Palette
 import kotlinx.coroutines.CancellationException
@@ -20,6 +20,29 @@ private data class DominantColors(
     val color: Color,
     val onColor: Color,
 )
+
+@Composable
+public fun <T : Any> rememberDominantColorState(
+    loader: ImageBitmapLoader<T>,
+    defaultColor: Color,
+    defaultOnColor: Color,
+    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
+    coroutineContext: CoroutineContext = Dispatchers.Default,
+    isColorValid: (Color) -> Boolean = { true },
+    builder: Palette.Builder.() -> Unit = {},
+): DominantColorState<T> = remember(loader) {
+    object : DominantColorState<T>(
+        defaultColor = defaultColor,
+        defaultOnColor = defaultOnColor,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        isColorValid = isColorValid,
+        builder = builder,
+    ) {
+        override val loader: ImageBitmapLoader<T> = loader
+    }
+}
+
 
 /**
  * A class which stores and caches the result of any calculated dominant colors.

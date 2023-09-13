@@ -1,10 +1,7 @@
 package dev.jordond.kmpalette
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
-import dev.jordond.kmpalette.dominant.DominantColorState.Companion.DEFAULT_CACHE_SIZE
-import dev.jordond.kmpalette.loader.ImageBitmapLoader
+import dev.jordond.kmpalette.DominantColorState.Companion.DEFAULT_CACHE_SIZE
 import dev.jordond.kmpalette.loader.NetworkLoader
 import dev.jordond.kmpalette.palette.graphics.Palette
 import io.ktor.client.HttpClient
@@ -20,22 +17,9 @@ public fun rememberNetworkPaletteState(
     httpRequestBuilder: HttpRequestBuilder = HttpRequestBuilder(),
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
-): NetworkPaletteState = remember {
-    NetworkPaletteState(cacheSize, httpClient, httpRequestBuilder, coroutineContext, builder)
-}
-
-@Stable
-public class NetworkPaletteState(
-    cacheSize: Int = DEFAULT_CACHE_SIZE,
-    httpClient: HttpClient = HttpClient(),
-    httpRequestBuilder: HttpRequestBuilder = HttpRequestBuilder(),
-    coroutineContext: CoroutineContext = Dispatchers.Default,
-    builder: Palette.Builder.() -> Unit = {},
-) : PaletteState<Url>(
+): PaletteState<Url> = rememberPaletteState(
+    loader = NetworkLoader(httpClient, httpRequestBuilder),
     cacheSize = cacheSize,
     coroutineContext = coroutineContext,
     builder = builder,
-) {
-
-    override val loader: ImageBitmapLoader<Url> = NetworkLoader(httpClient, httpRequestBuilder)
-}
+)

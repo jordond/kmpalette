@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
 import com.materialkolor.PaletteStyle
+import dev.jordond.kmpalette.loader.LibresLoader
 import dev.jordond.kmpalette.palette.graphics.Palette
 import dev.jordond.kmpalette.theme.AppTheme
 import io.github.skeptick.libres.compose.painterResource
@@ -69,7 +70,7 @@ internal fun App() {
     var selected: SelectedColor by remember { mutableStateOf(defaultColor) }
     var style: PaletteStyle by remember { mutableStateOf(PaletteStyle.TonalSpot) }
 
-    val paletteState = rememberLibresPaletteState()
+    val paletteState = rememberPaletteState(loader = LibresLoader)
     var selectedIndex by remember { mutableStateOf<Int?>(null) }
     val selectedImage: Image? by remember(selectedIndex) {
         derivedStateOf {
