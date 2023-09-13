@@ -6,5 +6,5 @@ import org.jetbrains.compose.resources.Resource
 
 @ExperimentalResourceApi
 internal suspend fun Resource.toImageBitmap(): ImageBitmap {
-    return readBytes().toImageBitmap()
+    return ByteArrayLoader.load(readBytes())
 }

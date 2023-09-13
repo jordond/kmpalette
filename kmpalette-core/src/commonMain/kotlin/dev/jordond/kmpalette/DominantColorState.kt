@@ -75,9 +75,8 @@ public abstract class DominantColorState<T : Any>(
     public var onColor: Color by mutableStateOf(defaultColor)
         private set
 
-    public var palette: PaletteResult? by mutableStateOf(null)
+    public var result: PaletteResult? by mutableStateOf(null)
         private set
-
 
     private val cache = when {
         cacheSize > 0 -> LruCache<T, DominantColors>(cacheSize)
@@ -85,7 +84,8 @@ public abstract class DominantColorState<T : Any>(
     }
 
     public suspend fun updateFrom(input: T) {
-        palette = PaletteResult.Loading
+        this.result = PaletteResult.Loading
+
         val result = calculateDominantColor(input, loader)
         color = result?.color ?: defaultColor
         onColor = result?.onColor ?: defaultOnColor
@@ -118,17 +118,17 @@ public abstract class DominantColorState<T : Any>(
             loader.load(input)
         } catch (cause: Throwable) {
             if (cause is CancellationException) throw cause
-            palette = PaletteResult.Error(cause)
+            result = PaletteResult.Error(cause)
             return emptyList()
         }
 
         return try {
             val palette = bitmap.generatePalette(coroutineContext, block)
-            this.palette = PaletteResult.Success(palette)
+            this.result = PaletteResult.Success(palette)
             palette.swatches
         } catch (cause: Throwable) {
             if (cause is CancellationException) throw cause
-            palette = PaletteResult.Error(cause)
+            result = PaletteResult.Error(cause)
             return emptyList()
         }
     }

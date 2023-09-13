@@ -1,0 +1,22 @@
+public final class dev/jordond/kmpalette/ImagePaletteKt {
+	public static final fun rememberGeneratePalette (Ljava/lang/String;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteResult;
+}
+
+public final class dev/jordond/kmpalette/LibresDominantColorStateKt {
+	public static final fun rememberLibresDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/DominantColorState;
+}
+
+public final class dev/jordond/kmpalette/LibresPaletteStateKt {
+	public static final fun rememberLibresPaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteState;
+}
+
+public final class dev/jordond/kmpalette/loader/LibresLoader : dev/jordond/kmpalette/loader/ImageBitmapLoader {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/jordond/kmpalette/loader/LibresLoader;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public synthetic fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun load (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+

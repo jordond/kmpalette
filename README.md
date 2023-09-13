@@ -21,7 +21,7 @@ library. And when/if that library ever goes multiplatform, this library will be 
 
 - ~add module `extensions-bytearray` for loading images from a bytearray~
 - ~add module `loader-libres` for extension functions for Libres (resources)~
-- add module `loader-network` for loading images from the network
+- ~add module `loader-network` for loading images from the network~
 - add module `loader-disk` for loading images from disk
 - ~add module `compose-resources` to load images from experimental Compose Resources~
 - ~Add compose extensions to root `kmpalette` module~
@@ -30,6 +30,14 @@ library. And when/if that library ever goes multiplatform, this library will be 
   - ~Mimic the [jetcaster example](https://github.com/android/compose-samples/blob/main/Jetcaster/app/src/main/java/com/example/jetcaster/util/DynamicTheming.kt)~
     - ~Have a `DominantColorState` which can calculate the dominate color~
     - ~Have custom options for generating the palette~
+- Documentation
+- ~Binary compatibility~
+- Update readme on publish (github action)
+- tessssts
+- Logo
+- demo
+  - Artwork
+  - Screen for loading from network and camera
 
 ## Table of Contents
 
