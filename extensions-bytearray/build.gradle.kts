@@ -38,7 +38,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":kmpalette-core"))
-                implementation(project(":loader"))
+                implementation(project(":kmpalette-bitmap-loader"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
             }

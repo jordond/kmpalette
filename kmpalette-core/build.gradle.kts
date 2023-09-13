@@ -38,7 +38,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":androidx-palette"))
-                api(project(":loader"))
+                api(project(":kmpalette-bitmap-loader"))
                 implementation(compose.ui)
                 implementation(compose.material3)
                 implementation(compose.runtime)
