@@ -34,6 +34,7 @@ library. And when/if that library ever goes multiplatform, this library will be 
 - ~Binary compatibility~
 - Update readme on publish (github action)
 - tessssts
+- add linter (spotless/detekt)
 - Logo
 - demo
   - Artwork

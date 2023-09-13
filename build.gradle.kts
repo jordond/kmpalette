@@ -6,9 +6,11 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.libres) apply false
+    alias(libs.plugins.poko) apply false
     alias(libs.plugins.dokka)
     alias(libs.plugins.dependencies)
     alias(libs.plugins.binaryCompatibility)
+    alias(libs.plugins.kover)
 }
 
 apiValidation {
@@ -17,4 +19,8 @@ apiValidation {
             "composeApp",
         ),
     )
+}
+
+dependencies {
+    kover(project(":androidx-palette"))
 }

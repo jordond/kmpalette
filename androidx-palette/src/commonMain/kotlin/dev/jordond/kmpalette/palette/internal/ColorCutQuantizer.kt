@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.jordond.kmpalette.palette.graphics
+package dev.jordond.kmpalette.palette.internal
 
+import dev.jordond.kmpalette.palette.graphics.Palette
 import dev.jordond.kmpalette.palette.utils.ColorUtils
 import dev.jordond.kmpalette.palette.utils.PriorityQueue
 import kotlin.math.min
@@ -33,23 +34,25 @@ import kotlin.math.round
  * This means that the color space is divided into distinct colors, rather than representative
  * colors.
  *
- * @param pixels histogram representing an image's pixel data
- * @param maxColors The maximum number of colors that should be in the result palette.
- * @param filters Set of filters to use in the quantization stage
+ * @param[pixels] histogram representing an image's pixel data.
+ * @param[maxColors] The maximum number of colors that should be in the result palette.
+ * @param[filters] Set of filters to use in the quantization stage.
  */
 internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Array<Palette.Filter>?) {
 
     val colors: IntArray
     val histogram: IntArray
-    private var _quantizedColors: MutableList<Palette.Swatch> = mutableListOf()
-    val filters: Array<Palette.Filter>?
-    private val tempHsl: FloatArray = FloatArray(3)
-    val quantizedColors: List<Palette.Swatch>
-        /**
-         * @return the list of quantized colors
-         */
-        get() = _quantizedColors
 
+    private val filters: Array<Palette.Filter>?
+    private val tempHsl: FloatArray = FloatArray(3)
+
+    private var _quantizedColors: MutableList<Palette.Swatch> = mutableListOf()
+
+    /**
+     * @return the list of quantized colors
+     */
+    val quantizedColors: List<Palette.Swatch>
+        get() = _quantizedColors
 
     init {
         this.filters = filters
@@ -152,37 +155,36 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
 
     /**
      * Represents a tightly fitting box around a color space.
+     *
+     * lower and upper index are inclusive.
      */
     private inner class Vbox(
-// lower and upper index are inclusive
-        private val mLowerIndex: Int, private var mUpperIndex: Int,
+        private val lowerIndex: Int,
+        private var upperIndex: Int,
     ) {
 
         // Population of colors within this box
-        private var mPopulation: Int = 0
-        private var mMinRed: Int = 0
-        private var mMaxRed: Int = 0
-        private var mMinGreen: Int = 0
-        private var mMaxGreen: Int = 0
-        private var mMinBlue: Int = 0
-        private var mMaxBlue: Int = 0
+        private var population: Int = 0
+        private var minRed: Int = 0
+        private var maxRed: Int = 0
+        private var minGreen: Int = 0
+        private var maxGreen: Int = 0
+        private var minBlue: Int = 0
+        private var maxBlue: Int = 0
 
         init {
             fitBox()
         }
 
         val volume: Int
-            get() = ((mMaxRed - mMinRed + 1) * (mMaxGreen - mMinGreen + 1) *
-                (mMaxBlue - mMinBlue + 1))
+            get() = ((maxRed - minRed + 1) * (maxGreen - minGreen + 1) * (maxBlue - minBlue + 1))
 
         fun canSplit(): Boolean {
             return colorCount > 1
         }
 
         val colorCount: Int
-            get() {
-                return 1 + mUpperIndex - mLowerIndex
-            }
+            get() = 1 + upperIndex - lowerIndex
 
         /**
          * Recomputes the boundaries of this box to tightly fit the colors within the box.
@@ -205,7 +207,7 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
             maxGreen = maxBlue
             maxRed = maxGreen
             var count = 0
-            for (i in mLowerIndex..mUpperIndex) {
+            for (i in lowerIndex..upperIndex) {
                 val color: Int = colors[i]
                 count += hist[color]
                 val r: Int = quantizedRed(color)
@@ -230,13 +232,13 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
                     minBlue = b
                 }
             }
-            mMinRed = minRed
-            mMaxRed = maxRed
-            mMinGreen = minGreen
-            mMaxGreen = maxGreen
-            mMinBlue = minBlue
-            mMaxBlue = maxBlue
-            mPopulation = count
+            this.minRed = minRed
+            this.maxRed = maxRed
+            this.minGreen = minGreen
+            this.maxGreen = maxGreen
+            this.minBlue = minBlue
+            this.maxBlue = maxBlue
+            this.population = count
         }
 
         /**
@@ -251,22 +253,22 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
 
             // find median along the longest dimension
             val splitPoint: Int = findSplitPoint()
-            val newBox = Vbox(splitPoint + 1, mUpperIndex)
+            val newBox = Vbox(splitPoint + 1, upperIndex)
 
             // Now change this box's upperIndex and recompute the color boundaries
-            mUpperIndex = splitPoint
+            upperIndex = splitPoint
             fitBox()
             return newBox
         }
 
+        /**
+         * @return the dimension which this box is largest in
+         */
         val longestColorDimension: Int
-            /**
-             * @return the dimension which this box is largest in
-             */
             get() {
-                val redLength: Int = mMaxRed - mMinRed
-                val greenLength: Int = mMaxGreen - mMinGreen
-                val blueLength: Int = mMaxBlue - mMinBlue
+                val redLength: Int = maxRed - minRed
+                val greenLength: Int = maxGreen - minGreen
+                val blueLength: Int = maxBlue - minBlue
                 return when {
                     redLength >= greenLength && redLength >= blueLength -> COMPONENT_RED
                     greenLength >= redLength && greenLength >= blueLength -> COMPONENT_GREEN
@@ -291,32 +293,32 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
             // We need to sort the colors in this box based on the longest color dimension.
             // As we can't use a Comparator to define the sort logic, we modify each color so that
             // its most significant is the desired dimension
-            modifySignificantOctet(colors, longestDimension, mLowerIndex, mUpperIndex)
+            modifySignificantOctet(colors, longestDimension, lowerIndex, upperIndex)
 
             // Now sort... Arrays.sort uses a exclusive toIndex so we need to add 1
-            colors.sort(mLowerIndex, mUpperIndex + 1)
+            colors.sort(lowerIndex, upperIndex + 1)
 
             // Now revert all of the colors so that they are packed as RGB again
-            modifySignificantOctet(colors, longestDimension, mLowerIndex, mUpperIndex)
-            val midPoint: Int = mPopulation / 2
-            var i: Int = mLowerIndex
+            modifySignificantOctet(colors, longestDimension, lowerIndex, upperIndex)
+            val midPoint: Int = population / 2
+            var i: Int = lowerIndex
             var count = 0
-            while (i <= mUpperIndex) {
+            while (i <= upperIndex) {
                 count += hist[colors[i]]
                 if (count >= midPoint) {
                     // we never want to split on the upperIndex, as this will result in the same
                     // box
-                    return min(mUpperIndex - 1, i)
+                    return min(upperIndex - 1, i)
                 }
                 i++
             }
-            return mLowerIndex
+            return lowerIndex
         }
 
+        /**
+         * @return the average color of this box.
+         */
         val averageColor: Palette.Swatch
-            /**
-             * @return the average color of this box.
-             */
             get() {
                 val colors: IntArray = colors
                 val hist: IntArray = histogram
@@ -324,7 +326,7 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
                 var greenSum = 0
                 var blueSum = 0
                 var totalPopulation = 0
-                for (i in mLowerIndex..mUpperIndex) {
+                for (i in lowerIndex..upperIndex) {
                     val color: Int = colors[i]
                     val colorPopulation: Int = hist[color]
                     totalPopulation += colorPopulation

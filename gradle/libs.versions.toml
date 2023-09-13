@@ -26,6 +26,8 @@ publish = "0.25.3"
 libres = "1.2.0-beta01"
 materialKolor = "1.2.5"
 kermit = "2.0.0-RC5"
+kover = "0.7.3"
+poko = "0.15.0"
 
 [libraries]
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
@@ -60,6 +62,8 @@ dependencies = { id = "com.github.ben-manes.versions", version.ref = "versions" 
 binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
 
 [bundles]
 androidx = ["androidx-core", "androidx-lifecycle", "androidx-appcompat"]

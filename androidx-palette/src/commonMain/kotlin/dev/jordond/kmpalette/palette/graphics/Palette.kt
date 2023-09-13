@@ -20,7 +20,9 @@ import androidx.collection.SimpleArrayMap
 import androidx.collection.SparseArrayCompat
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.ImageBitmap
+import dev.drewhamilton.poko.Poko
 import dev.jordond.kmpalette.palette.graphics.Palette.Builder
+import dev.jordond.kmpalette.palette.internal.ColorCutQuantizer
 import dev.jordond.kmpalette.palette.internal.scale
 import dev.jordond.kmpalette.palette.utils.ColorUtils
 import kotlin.math.abs
@@ -57,7 +59,7 @@ import kotlin.math.sqrt
  * ```
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class Palette internal constructor(
+public class Palette internal constructor(
     /**
      * Returns the dominant swatch from the palette.
      *
@@ -76,14 +78,14 @@ class Palette internal constructor(
     private val selectedSwatches: SimpleArrayMap<Target, Swatch?> = SimpleArrayMap()
     private val usedColors: SparseArrayCompat<Boolean> = SparseArrayCompat()
 
-    val dominantSwatch: Swatch? = findDominantSwatch()
+    public val dominantSwatch: Swatch? = findDominantSwatch()
 
     /**
      * Returns the most vibrant swatch in the palette. Might be null.
      *
      * @see Target.VIBRANT
      */
-    val vibrantSwatch: Swatch?
+    public val vibrantSwatch: Swatch?
         get() = getSwatchForTarget(Target.VIBRANT)
 
     /**
@@ -91,7 +93,7 @@ class Palette internal constructor(
      *
      * @see Target.LIGHT_VIBRANT
      */
-    val lightVibrantSwatch: Swatch?
+    public val lightVibrantSwatch: Swatch?
         get() = getSwatchForTarget(Target.LIGHT_VIBRANT)
 
     /**
@@ -99,7 +101,7 @@ class Palette internal constructor(
      *
      * @see Target.DARK_VIBRANT
      */
-    val darkVibrantSwatch: Swatch?
+    public val darkVibrantSwatch: Swatch?
         get() = getSwatchForTarget(Target.DARK_VIBRANT)
 
     /**
@@ -107,7 +109,7 @@ class Palette internal constructor(
      *
      * @see Target.MUTED
      */
-    val mutedSwatch: Swatch?
+    public val mutedSwatch: Swatch?
         get() = getSwatchForTarget(Target.MUTED)
 
     /**
@@ -115,7 +117,7 @@ class Palette internal constructor(
      *
      * @see Target.LIGHT_MUTED
      */
-    val lightMutedSwatch: Swatch?
+    public val lightMutedSwatch: Swatch?
         get() = getSwatchForTarget(Target.LIGHT_MUTED)
 
     /**
@@ -123,7 +125,7 @@ class Palette internal constructor(
      *
      * @see Target.DARK_MUTED
      */
-    val darkMutedSwatch: Swatch?
+    public val darkMutedSwatch: Swatch?
         get() = getSwatchForTarget(Target.DARK_MUTED)
 
     /**
@@ -133,7 +135,7 @@ class Palette internal constructor(
      * @see .getVibrantSwatch
      */
     @ColorInt
-    fun getVibrantColor(@ColorInt defaultColor: Int): Int {
+    public fun getVibrantColor(@ColorInt defaultColor: Int): Int {
         return getColorForTarget(Target.VIBRANT, defaultColor)
     }
 
@@ -144,7 +146,7 @@ class Palette internal constructor(
      * @see .getLightVibrantSwatch
      */
     @ColorInt
-    fun getLightVibrantColor(@ColorInt defaultColor: Int): Int {
+    public fun getLightVibrantColor(@ColorInt defaultColor: Int): Int {
         return getColorForTarget(Target.LIGHT_VIBRANT, defaultColor)
     }
 
@@ -155,7 +157,7 @@ class Palette internal constructor(
      * @see .getDarkVibrantSwatch
      */
     @ColorInt
-    fun getDarkVibrantColor(@ColorInt defaultColor: Int): Int {
+    public fun getDarkVibrantColor(@ColorInt defaultColor: Int): Int {
         return getColorForTarget(Target.DARK_VIBRANT, defaultColor)
     }
 
@@ -166,7 +168,7 @@ class Palette internal constructor(
      * @see .getMutedSwatch
      */
     @ColorInt
-    fun getMutedColor(@ColorInt defaultColor: Int): Int {
+    public fun getMutedColor(@ColorInt defaultColor: Int): Int {
         return getColorForTarget(Target.MUTED, defaultColor)
     }
 
@@ -177,7 +179,7 @@ class Palette internal constructor(
      * @see .getLightMutedSwatch
      */
     @ColorInt
-    fun getLightMutedColor(@ColorInt defaultColor: Int): Int {
+    public fun getLightMutedColor(@ColorInt defaultColor: Int): Int {
         return getColorForTarget(Target.LIGHT_MUTED, defaultColor)
     }
 
@@ -188,7 +190,7 @@ class Palette internal constructor(
      * @see .getDarkMutedSwatch
      */
     @ColorInt
-    fun getDarkMutedColor(@ColorInt defaultColor: Int): Int {
+    public fun getDarkMutedColor(@ColorInt defaultColor: Int): Int {
         return getColorForTarget(Target.DARK_MUTED, defaultColor)
     }
 
@@ -196,7 +198,7 @@ class Palette internal constructor(
      * Returns the selected swatch for the given target from the palette, or `null` if one
      * could not be found.
      */
-    fun getSwatchForTarget(target: Target): Swatch? {
+    public fun getSwatchForTarget(target: Target): Swatch? {
         return selectedSwatches[target]
     }
 
@@ -206,7 +208,7 @@ class Palette internal constructor(
      * @param defaultColor value to return if the swatch isn't available
      */
     @ColorInt
-    fun getColorForTarget(target: Target, @ColorInt defaultColor: Int): Int {
+    public fun getColorForTarget(target: Target, @ColorInt defaultColor: Int): Int {
         val swatch = getSwatchForTarget(target)
         return swatch?.rgb ?: defaultColor
     }
@@ -218,11 +220,11 @@ class Palette internal constructor(
      * @see .getDominantSwatch
      */
     @ColorInt
-    fun getDominantColor(@ColorInt defaultColor: Int): Int {
+    public fun getDominantColor(@ColorInt defaultColor: Int): Int {
         return dominantSwatch?.rgb ?: defaultColor
     }
 
-    fun generate() {
+    public fun generate() {
         // TODO(b/141959297): Suppressed during upgrade to AGP 3.6.
         // We need to make sure that the scored targets are generated first. This is so that
         // inherited targets have something to inherit from
@@ -307,18 +309,19 @@ class Palette internal constructor(
      * Represents a color swatch generated from an image's palette. The RGB color can be retrieved
      * by calling [.getRgb].
      */
-    data class Swatch(
+    @Poko
+    public class Swatch(
         /**
          * Color Int
          *
          * @return this swatch's RGB color value
          */
-        val rgb: Int,
+        public val rgb: Int,
 
         /**
          * @return the number of pixels represented by this swatch
          */
-        val population: Int,
+        public val population: Int,
     ) {
 
         private val red: Int = ColorUtils.red(rgb)
@@ -335,8 +338,8 @@ class Palette internal constructor(
          * hsv[1] is Saturation [0...1]
          * hsv[2] is Lightness [0...1]
          */
-        var hsl: FloatArray = FloatArray(3)
-            .apply { ColorUtils.RGBToHSL(red, green, blue, this) }
+        public var hsl: FloatArray = FloatArray(3)
+            .apply { ColorUtils.convertRGBToHSL(red, green, blue, this) }
             private set
 
         /**
@@ -344,7 +347,7 @@ class Palette internal constructor(
          * [Swatch]'s color. This color is guaranteed to have sufficient contrast.
          */
         @get:ColorInt
-        val titleTextColor: Int
+        public val titleTextColor: Int
             get() {
                 ensureTextColorsGenerated()
                 return _titleTextColor
@@ -355,7 +358,7 @@ class Palette internal constructor(
          * [Swatch]'s color. This color is guaranteed to have sufficient contrast.
          */
         @get:ColorInt
-        val bodyTextColor: Int
+        public val bodyTextColor: Int
             get() {
                 ensureTextColorsGenerated()
                 return _bodyTextColor
@@ -371,8 +374,8 @@ class Palette internal constructor(
 
                 if (lightBodyAlpha != -1 && lightTitleAlpha != -1) {
                     // If we found valid light values, use them and return
-                    _bodyTextColor = ColorUtils.setAlphaComponent(ColorUtils.WHITE, lightBodyAlpha)
-                    _titleTextColor = ColorUtils.setAlphaComponent(ColorUtils.WHITE, lightTitleAlpha)
+                    _bodyTextColor = ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha)
+                    _titleTextColor = ColorUtils.setAlpha(ColorUtils.WHITE, lightTitleAlpha)
                     generatedTextColors = true
                     return
                 }
@@ -383,8 +386,8 @@ class Palette internal constructor(
                     ColorUtils.BLACK, rgb, MIN_CONTRAST_TITLE_TEXT)
                 if (darkBodyAlpha != -1 && darkTitleAlpha != -1) {
                     // If we found valid dark values, use them and return
-                    _bodyTextColor = ColorUtils.setAlphaComponent(ColorUtils.BLACK, darkBodyAlpha)
-                    _titleTextColor = ColorUtils.setAlphaComponent(ColorUtils.BLACK, darkTitleAlpha)
+                    _bodyTextColor = ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
+                    _titleTextColor = ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha)
                     generatedTextColors = true
                     return
                 }
@@ -392,12 +395,12 @@ class Palette internal constructor(
                 // If we reach here then we can not find title and body values which use the same
                 // lightness, we need to use mismatched values
                 _bodyTextColor =
-                    if (lightBodyAlpha != -1) ColorUtils.setAlphaComponent(ColorUtils.WHITE, lightBodyAlpha)
-                    else ColorUtils.setAlphaComponent(ColorUtils.BLACK, darkBodyAlpha)
+                    if (lightBodyAlpha != -1) ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha)
+                    else ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
 
                 _titleTextColor =
-                    if (lightTitleAlpha != -1) ColorUtils.setAlphaComponent(ColorUtils.WHITE, lightTitleAlpha)
-                    else ColorUtils.setAlphaComponent(ColorUtils.BLACK, darkTitleAlpha)
+                    if (lightTitleAlpha != -1) ColorUtils.setAlpha(ColorUtils.WHITE, lightTitleAlpha)
+                    else ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha)
 
                 generatedTextColors = true
             }
@@ -407,7 +410,7 @@ class Palette internal constructor(
     /**
      * Builder class for generating [Palette] instances.
      */
-    class Builder {
+    public class Builder {
 
         private val swatches: List<Swatch>?
         private val imageBitmap: ImageBitmap?
@@ -421,7 +424,7 @@ class Palette internal constructor(
         /**
          * Construct a new [Builder] using a source [ImageBitmap]
          */
-        constructor(bitmap: ImageBitmap) {
+        public constructor(bitmap: ImageBitmap) {
             filters.add(DEFAULT_FILTER)
             imageBitmap = bitmap
             swatches = null
@@ -439,7 +442,7 @@ class Palette internal constructor(
          * Construct a new [Builder] using a list of [Swatch] instances.
          * Typically only used for testing.
          */
-        constructor(swatches: List<Swatch>) {
+        public constructor(swatches: List<Swatch>) {
             if (swatches.isEmpty()) {
                 throw IllegalArgumentException("List of Swatches is not valid")
             }
@@ -457,7 +460,7 @@ class Palette internal constructor(
          * the range 10-16. For images which are largely made up of people's faces then this
          * value should be increased to ~24.
          */
-        fun maximumColorCount(colors: Int): Builder {
+        public fun maximumColorCount(colors: Int): Builder {
             maxColors = colors
             return this
         }
@@ -476,7 +479,7 @@ class Palette internal constructor(
          * @param area the number of pixels that the intermediary scaled down Bitmap should cover,
          * or any value <= 0 to disable resizing.
          */
-        fun resizeBitmapArea(area: Int): Builder {
+        public fun resizeBitmapArea(area: Int): Builder {
             resizeArea = area
             resizeMaxDimension = -1
             return this
@@ -486,7 +489,7 @@ class Palette internal constructor(
          * Clear all added filters. This includes any default filters added automatically by
          * [Palette].
          */
-        fun clearFilters(): Builder {
+        public fun clearFilters(): Builder {
             filters.clear()
             return this
         }
@@ -497,7 +500,7 @@ class Palette internal constructor(
          *
          * @param filter filter to add.
          */
-        fun addFilter(filter: Filter): Builder {
+        public fun addFilter(filter: Filter): Builder {
             filters.add(filter)
             return this
         }
@@ -512,7 +515,7 @@ class Palette internal constructor(
          * @param right The right side of the rectangle used for the region.
          * @param bottom The bottom of the rectangle used for the region.
          */
-        fun setRegion(left: Int, top: Int, right: Int, bottom: Int): Builder {
+        public fun setRegion(left: Int, top: Int, right: Int, bottom: Int): Builder {
             val bitmap = imageBitmap
             if (bitmap != null) {
                 if (region == null) {
@@ -532,7 +535,7 @@ class Palette internal constructor(
         /**
          * Clear any previously region set via [.setRegion].
          */
-        fun clearRegion(): Builder {
+        public fun clearRegion(): Builder {
             region = null
             return this
         }
@@ -543,7 +546,7 @@ class Palette internal constructor(
          *
          * You can retrieve the result via [Palette.getSwatchForTarget].
          */
-        fun addTarget(target: Target): Builder {
+        public fun addTarget(target: Target): Builder {
             if (!targets.contains(target)) {
                 targets.add(target)
             }
@@ -554,7 +557,7 @@ class Palette internal constructor(
          * Clear all added targets. This includes any default targets added automatically by
          * [Palette].
          */
-        fun clearTargets(): Builder {
+        public fun clearTargets(): Builder {
             targets.clear()
             return this
         }
@@ -562,7 +565,7 @@ class Palette internal constructor(
         /**
          * Generate and return the [Palette] synchronously.
          */
-        fun generate(): Palette {
+        public fun generate(): Palette {
             val swatches: List<Swatch>
             if (imageBitmap != null) {
                 // We have a Bitmap so we need to use quantization to reduce the number of colors
@@ -670,7 +673,7 @@ class Palette internal constructor(
      * A Filter provides a mechanism for exercising fine-grained control over which colors
      * are valid within a resulting [Palette].
      */
-    interface Filter {
+    public fun interface Filter {
 
         /**
          * Hook to allow clients to be able filter colors from resulting palette.
@@ -682,20 +685,20 @@ class Palette internal constructor(
          *
          * @see Builder.addFilter
          */
-        fun isAllowed(rgb: Int, hsl: FloatArray): Boolean
+        public fun isAllowed(rgb: Int, hsl: FloatArray): Boolean
     }
 
-    companion object {
+    public companion object {
 
-        const val DEFAULT_RESIZE_BITMAP_AREA = 112 * 112
-        const val DEFAULT_CALCULATE_NUMBER_COLORS = 16
-        const val MIN_CONTRAST_TITLE_TEXT = 3.0f
-        const val MIN_CONTRAST_BODY_TEXT = 4.5f
+        public const val DEFAULT_RESIZE_BITMAP_AREA: Int = 112 * 112
+        public const val DEFAULT_CALCULATE_NUMBER_COLORS: Int = 16
+        public const val MIN_CONTRAST_TITLE_TEXT: Float = 3.0f
+        public const val MIN_CONTRAST_BODY_TEXT: Float = 4.5f
 
         /**
          * Start generating a [Palette] with the returned [Builder] instance.
          */
-        fun from(bitmap: ImageBitmap): Builder {
+        public fun from(bitmap: ImageBitmap): Builder {
             return Builder(bitmap)
         }
 
@@ -704,14 +707,14 @@ class Palette internal constructor(
          * This is useful for testing, or if you want to resurrect a [Palette] instance from a
          * list of swatches. Will return null if the `swatches` is null.
          */
-        fun from(swatches: List<Swatch>): Palette {
+        public fun from(swatches: List<Swatch>): Palette {
             return Builder(swatches).generate()
         }
 
         /**
          * The default filter.
          */
-        val DEFAULT_FILTER: Filter = object : Filter {
+        public val DEFAULT_FILTER: Filter = object : Filter {
             private val BLACK_MAX_LIGHTNESS = 0.05f
             private val WHITE_MIN_LIGHTNESS = 0.95f
             override fun isAllowed(rgb: Int, hsl: FloatArray): Boolean {
