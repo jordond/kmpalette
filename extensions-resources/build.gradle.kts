@@ -39,7 +39,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":kmpalette-core"))
-                implementation(project(":kmpalette-bitmap-loader"))
+                api(project(":kmpalette-bitmap-loader"))
                 api(project(":extensions-bytearray"))
 
                 implementation(compose.ui)

@@ -45,9 +45,11 @@ kotlin {
                 implementation(libs.androidx.collection)
             }
         }
+
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(libs.kotlinx.coroutines.test)
             }
         }
 

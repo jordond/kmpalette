@@ -163,15 +163,12 @@ internal object ColorUtils {
     }
 
     private fun calculateContrast(@ColorInt foreground: Int, @ColorInt background: Int): Double {
-        var modifiedForeground = foreground
-        if (alpha(background) != 255) {
-            throw IllegalArgumentException("background can not be translucent: #"
-                + background.toHexString())
-        }
-        if (alpha(modifiedForeground) < 255) {
+        val modifiedForeground = if (alpha(foreground) >= 255) foreground
+        else {
             // If the foreground is translucent, composite the foreground over the background
-            modifiedForeground = compositeColors(modifiedForeground, background)
+            compositeColors(foreground, background)
         }
+
         val luminance1: Double = calculateLuminance(modifiedForeground) + 0.05
         val luminance2: Double = calculateLuminance(background) + 0.05
 
@@ -203,17 +200,16 @@ internal object ColorUtils {
         var numIterations = 0
         var minAlpha = 0
         var maxAlpha = 255
-        while (numIterations <= MIN_ALPHA_SEARCH_MAX_ITERATIONS &&
-            maxAlpha - minAlpha > MIN_ALPHA_SEARCH_PRECISION
+        while (
+            numIterations <= MIN_ALPHA_SEARCH_MAX_ITERATIONS
+            && maxAlpha - minAlpha > MIN_ALPHA_SEARCH_PRECISION
         ) {
             val testAlpha = (minAlpha + maxAlpha) / 2
             testForeground = setAlpha(foreground, testAlpha)
             testRatio = calculateContrast(testForeground, background)
-            if (testRatio < minContrastRatio) {
-                minAlpha = testAlpha
-            } else {
-                maxAlpha = testAlpha
-            }
+            if (testRatio < minContrastRatio) minAlpha = testAlpha
+            else maxAlpha = testAlpha
+
             numIterations++
         }
 

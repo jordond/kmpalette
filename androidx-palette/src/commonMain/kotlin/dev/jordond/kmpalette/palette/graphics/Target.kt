@@ -42,6 +42,7 @@ public class Target {
         setDefaultWeights()
     }
 
+    @Suppress("unused")
     internal constructor(from: Target) {
         from.saturationTargets.copyInto(saturationTargets)
         from.lightnessTargets.copyInto(lightnessTargets)

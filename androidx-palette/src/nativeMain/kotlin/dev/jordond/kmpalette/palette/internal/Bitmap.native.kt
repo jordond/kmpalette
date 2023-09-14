@@ -21,7 +21,7 @@ internal actual fun ImageBitmap.scale(width: Int, height: Int): ImageBitmap {
     return imageBitmapFromArgb(scaledPixels, width, height)
 }
 
-fun imageBitmapFromArgb(rawArgbImageData: IntArray, width: Int, height: Int): ImageBitmap {
+private fun imageBitmapFromArgb(rawArgbImageData: IntArray, width: Int, height: Int): ImageBitmap {
     val bytesPerPixel = 4
     val pixels = ByteArray(width * height * bytesPerPixel)
 
