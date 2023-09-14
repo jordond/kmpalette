@@ -7,6 +7,5 @@ import androidx.compose.ui.graphics.asImageBitmap
 
 internal actual fun ImageBitmap.scale(width: Int, height: Int): ImageBitmap {
     val bitmap = asAndroidBitmap()
-    Bitmap.createScaledBitmap(bitmap, width, height, false)
-    return bitmap.asImageBitmap()
+    return Bitmap.createScaledBitmap(bitmap, width, height, false).asImageBitmap()
 }

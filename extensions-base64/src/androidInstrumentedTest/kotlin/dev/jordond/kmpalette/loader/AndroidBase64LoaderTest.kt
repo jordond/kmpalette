@@ -1,13 +1,11 @@
 package dev.jordond.kmpalette.loader
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.junit.runner.RunWith
-import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-@OptIn(ExperimentalEncodingApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class AndroidBase64LoaderTest {
 
     @Test

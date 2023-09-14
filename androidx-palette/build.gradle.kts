@@ -56,6 +56,18 @@ kotlin {
                 implementation(libs.korim)
             }
         }
+
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(project(":extensions-base64"))
+                implementation(kotlin("test"))
+                implementation(compose.ui)
+                implementation(libs.bundles.test.android)
+                implementation(libs.androidx.core)
+                implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.coroutines.test)
+            }
+        }
     }
 }
 
@@ -65,6 +77,13 @@ android {
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    sourceSets["main"].apply {
+        res.srcDirs("src/androidInstrumentedTest/res")
+//        res.srcDirs("src/androidTest/res")
     }
 
     kotlin {

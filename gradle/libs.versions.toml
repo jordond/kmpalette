@@ -4,11 +4,9 @@ sdk-compile = "34"
 sdk-min = "24"
 agp = "8.1.1"
 kotlin = "1.9.10"
-kotlin-coroutines = "1.7.3"
 ktor = "2.3.4"
 versions = "0.48.0"
 compose-multiplatform = "1.5.1"
-androidx-core-ktx = "1.12.0"
 androidx-appcompat = "1.6.1"
 androidx-lifecycle = "2.6.2"
 androidx-activityCompose = "1.7.2"
@@ -33,6 +31,12 @@ voyager = "1.0.0-rc05"
 kover = "0.7.3"
 poko = "0.15.0"
 calf-filePicker = "0.1.1"
+
+# These are pinned for Android instrumented tests
+#noinspection GradleDependency
+kotlin-coroutines = "1.6.4"
+#noinspection GradleDependency
+androidx-core-ktx = "1.10.0"
 
 [libraries]
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
