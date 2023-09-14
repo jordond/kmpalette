@@ -16,6 +16,7 @@ public final class dev/jordond/kmpalette/DominantColorState$Companion {
 }
 
 public final class dev/jordond/kmpalette/DominantColorStateKt {
+	public static final fun rememberDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/DominantColorState;
 	public static final fun rememberDominantColorState-K2djEUw (Ldev/jordond/kmpalette/loader/ImageBitmapLoader;JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/DominantColorState;
 }
 
@@ -85,6 +86,7 @@ public final class dev/jordond/kmpalette/PaletteState$Companion {
 }
 
 public final class dev/jordond/kmpalette/PaletteStateKt {
+	public static final fun rememberPaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteState;
 	public static final fun rememberPaletteState (Ldev/jordond/kmpalette/loader/ImageBitmapLoader;ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteState;
 }
 

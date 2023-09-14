@@ -42,10 +42,27 @@ kotlin {
                 implementation(libs.kotlinx.coroutines)
             }
         }
+
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines.test)
+            }
+        }
+
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(compose.ui)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.bundles.test.android)
+            }
+        }
+
+        val jvmTest by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
             }
         }
     }
@@ -57,6 +74,8 @@ android {
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     kotlin {
