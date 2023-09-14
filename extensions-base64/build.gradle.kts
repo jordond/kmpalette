@@ -46,6 +46,7 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
+                implementation(project(":test-utils"))
                 implementation(kotlin("test"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines.test)
@@ -54,6 +55,7 @@ kotlin {
 
         val androidInstrumentedTest by getting {
             dependencies {
+                implementation(project(":test-utils"))
                 implementation(kotlin("test"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines.test)

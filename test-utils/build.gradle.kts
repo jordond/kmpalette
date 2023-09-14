@@ -4,8 +4,7 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.dokka)
-    alias(libs.plugins.publish)
+    alias(libs.plugins.libres)
 }
 
 kotlin {
@@ -28,7 +27,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "extensions-bytearray"
+            baseName = "test-utils"
         }
     }
 
@@ -36,14 +35,15 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":kmpalette-core"))
-                api(project(":kmpalette-bitmap-loader"))
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
             }
         }
+
         val commonTest by getting {
             dependencies {
-                implementation(project(":test-utils"))
                 implementation(kotlin("test"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines.test)
@@ -52,24 +52,11 @@ kotlin {
 
         val androidInstrumentedTest by getting {
             dependencies {
-                implementation(project(":test-utils"))
                 implementation(kotlin("test"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.bundles.test.android)
             }
-        }
-
-        val skikoMain by creating {
-            dependsOn(commonMain)
-        }
-
-        val nativeMain by getting {
-            dependsOn(skikoMain)
-        }
-
-        val jvmMain by getting {
-            dependsOn(skikoMain)
         }
 
         val jvmTest by getting {
@@ -81,11 +68,18 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.extensions.bytearray"
+    namespace = "dev.jordond.kmpalette.test"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    sourceSets["main"].apply {
+        res.srcDirs("src/androidMain/resources")
+        resources.srcDirs("src/commonMain/resources")
     }
 
     kotlin {

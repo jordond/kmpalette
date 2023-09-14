@@ -43,6 +43,7 @@ include(
     ":extensions-resources",
     ":extensions-libres",
     ":extensions-network",
+    ":test-utils",
 )
 
 include(":demo:composeApp")
