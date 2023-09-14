@@ -9,6 +9,7 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
     repositories {
         google()
         mavenCentral()
@@ -37,6 +38,7 @@ include(
     ":kmpalette-core",
     ":androidx-palette",
     ":kmpalette-bitmap-loader",
+    ":extensions-base64",
     ":extensions-bytearray",
     ":extensions-resources",
     ":extensions-libres",

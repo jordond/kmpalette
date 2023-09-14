@@ -28,7 +28,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "extensions-libres"
+            baseName = "extensions-base64"
         }
     }
 
@@ -37,29 +37,21 @@ kotlin {
             dependencies {
                 implementation(project(":kmpalette-core"))
                 api(project(":kmpalette-bitmap-loader"))
+                api(project(":extensions-bytearray"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
-                implementation(libs.libres)
             }
         }
-
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-            }
-        }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.androidx.startup)
-                implementation(libs.androidx.core)
             }
         }
     }
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.extensions.libres"
+    namespace = "dev.jordond.kmpalette.base64"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

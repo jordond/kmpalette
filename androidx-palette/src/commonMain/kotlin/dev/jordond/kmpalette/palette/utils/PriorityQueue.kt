@@ -1,7 +1,7 @@
 package dev.jordond.kmpalette.palette.utils
 
 internal class PriorityQueue<T>(
-    private val comparator: Comparator<in T>
+    private val comparator: Comparator<in T>,
 ) : Collection<T> {
 
     private var array: Array<T?>? = null
@@ -84,6 +84,7 @@ internal class PriorityQueue<T>(
         }
 
     private companion object {
+
         private const val INITIAL_CAPACITY = 8
 
         @Suppress("UNCHECKED_CAST")

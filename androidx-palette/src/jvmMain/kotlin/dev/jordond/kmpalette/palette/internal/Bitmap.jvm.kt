@@ -3,11 +3,7 @@ package dev.jordond.kmpalette.palette.internal
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import androidx.compose.ui.graphics.toPixelMap
-import org.jetbrains.skia.Bitmap
-import org.jetbrains.skiko.toImage
 import java.awt.Graphics2D
-import java.awt.Image
 import java.awt.RenderingHints
 import java.awt.RenderingHints.KEY_RENDERING
 import java.awt.RenderingHints.VALUE_RENDER_QUALITY
