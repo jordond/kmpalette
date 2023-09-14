@@ -48,6 +48,7 @@ kotlin {
                 implementation(project(":kmpalette-core"))
                 implementation(project(":extensions-libres"))
                 implementation(project(":extensions-resources"))
+                implementation(project(":extensions-base64"))
                 implementation(compose.runtime)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)

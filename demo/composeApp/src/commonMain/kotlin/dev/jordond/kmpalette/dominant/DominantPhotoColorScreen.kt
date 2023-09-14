@@ -1,4 +1,4 @@
-package dev.jordond.kmpalette
+package dev.jordond.kmpalette.dominant
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,6 +39,9 @@ import com.mohamedrejeb.calf.picker.FilePickerFileType
 import com.mohamedrejeb.calf.picker.FilePickerSelectionMode
 import com.mohamedrejeb.calf.picker.rememberFilePickerLauncher
 import com.mohamedrejeb.calf.picker.toImageBitmap
+import dev.jordond.kmpalette.DominantColorState
+import dev.jordond.kmpalette.PaletteResult
+import dev.jordond.kmpalette.rememberDominantColorState
 import dev.jordond.kmpalette.theme.AppTheme
 import dev.jordond.kmpalette.util.ColorBox
 import dev.jordond.kmpalette.util.colorSchemePairs
@@ -47,9 +50,7 @@ class DominantPhotoColorScreen : Screen {
 
     @Composable
     override fun Content() {
-        var style: PaletteStyle by remember { mutableStateOf(PaletteStyle.TonalSpot) }
-
-        val dominateColorState = rememberDominantColorState() {
+        val dominantColorState = rememberDominantColorState() {
             clearFilters()
         }
         var selectedPhoto: ImageBitmap? by remember { mutableStateOf(null) }
@@ -64,66 +65,21 @@ class DominantPhotoColorScreen : Screen {
 
         LaunchedEffect(selectedPhoto) {
             if (selectedPhoto != null) {
-                dominateColorState.updateFrom(selectedPhoto!!)
+                dominantColorState.updateFrom(selectedPhoto!!)
             }
         }
 
-        AppTheme(
-            seedColor = dominateColorState.color,
-            paletteStyle = style,
+        DominantDemoContent(
+            dominantColorState = dominantColorState,
+            imageBitmap = selectedPhoto,
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
-                    .padding(8.dp)
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth(),
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Button(onClick = { pickerLauncher.launch() }) {
-                        Text("Choose a photo")
-                    }
-                }
-
-                if (selectedPhoto != null) {
-                    Image(
-                        bitmap = selectedPhoto!!,
-                        contentDescription = null,
-                        modifier = Modifier.heightIn(max = 200.dp)
-                    )
-                }
-
-                when (dominateColorState.result) {
-                    is PaletteResult.Error -> {
-                        val error = (dominateColorState.result as PaletteResult.Error).cause
-                        Text("Something went wrong: $error")
-                    }
-                    is PaletteResult.Loading -> {
-                        CircularProgressIndicator()
-                        Text("Loading...")
-                    }
-                    is PaletteResult.Success -> {
-                        SuccessView(dominantColorState = dominateColorState)
-                        FlowRow(
-                            modifier = Modifier
-                                .padding(2.dp)
-                                .fillMaxWidth()
-                        ) {
-                            PaletteStyle.entries.forEach { paletteStyle ->
-                                FilterChip(
-                                    label = { Text(text = paletteStyle.name) },
-                                    selected = style == paletteStyle,
-                                    onClick = { style = paletteStyle },
-                                )
-                            }
-                        }
-                    }
-                    null -> {}
+                Button(onClick = { pickerLauncher.launch() }) {
+                    Text("Choose a photo")
                 }
             }
         }
@@ -131,8 +87,69 @@ class DominantPhotoColorScreen : Screen {
 }
 
 @Composable
+internal fun <T : Any> DominantDemoContent(
+    dominantColorState: DominantColorState<T>,
+    imageBitmap: ImageBitmap?,
+    content: @Composable () -> Unit,
+) {
+    var style: PaletteStyle by remember { mutableStateOf(PaletteStyle.TonalSpot) }
+
+    AppTheme(
+        seedColor = dominantColorState.color,
+        paletteStyle = style,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeDrawing)
+                .padding(8.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            content()
+
+            if (imageBitmap != null) {
+                Image(
+                    bitmap = imageBitmap,
+                    contentDescription = null,
+                    modifier = Modifier.heightIn(max = 200.dp)
+                )
+            }
+
+            when (dominantColorState.result) {
+                is PaletteResult.Error -> {
+                    val error = (dominantColorState.result as PaletteResult.Error).cause
+                    Text("Something went wrong: $error")
+                }
+                is PaletteResult.Loading -> {
+                    CircularProgressIndicator()
+                    Text("Loading...")
+                }
+                is PaletteResult.Success -> {
+                    SuccessView(dominantColorState = dominantColorState)
+                    FlowRow(
+                        modifier = Modifier
+                            .padding(2.dp)
+                            .fillMaxWidth()
+                    ) {
+                        PaletteStyle.entries.forEach { paletteStyle ->
+                            FilterChip(
+                                label = { Text(text = paletteStyle.name) },
+                                selected = style == paletteStyle,
+                                onClick = { style = paletteStyle },
+                            )
+                        }
+                    }
+                }
+                null -> {}
+            }
+        }
+    }
+}
+
+@Composable
 private fun SuccessView(
-    dominantColorState: DominantColorState<ImageBitmap>,
+    dominantColorState: DominantColorState<*>,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

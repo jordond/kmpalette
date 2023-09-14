@@ -44,8 +44,8 @@ public fun rememberDominantColorState(
 @Composable
 public fun <T : Any> rememberDominantColorState(
     loader: ImageBitmapLoader<T>,
-    defaultColor: Color,
-    defaultOnColor: Color,
+    defaultColor: Color = MaterialTheme.colorScheme.primary,
+    defaultOnColor: Color = MaterialTheme.colorScheme.onPrimary,
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isColorValid: (Color) -> Boolean = { true },

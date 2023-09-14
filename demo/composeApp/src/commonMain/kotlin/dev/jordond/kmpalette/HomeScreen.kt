@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.jordond.kmpalette.dominant.Base64DemoScreen
+import dev.jordond.kmpalette.dominant.DominantPhotoColorScreen
 import dev.jordond.kmpalette.palette.LibresPaletteScreen
 import dev.jordond.kmpalette.palette.ResourcesPaletteScreen
 import dev.jordond.kmpalette.theme.AppTheme
@@ -36,6 +38,9 @@ class HomeScreen : Screen {
                 }
                 Button(onClick = { navigator.push(DominantPhotoColorScreen()) }) {
                     Text("Dominant Color - Photo Picker")
+                }
+                Button(onClick = { navigator.push(Base64DemoScreen()) }) {
+                    Text("Dominant Color - Base64")
                 }
             }
         }
