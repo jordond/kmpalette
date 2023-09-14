@@ -44,6 +44,7 @@ kotlin {
             dependencies {
                 implementation(project(":kmpalette-core"))
                 implementation(project(":extensions-libres"))
+                implementation(project(":extensions-resources"))
                 implementation(compose.runtime)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
@@ -52,6 +53,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.libres)
                 implementation(libs.materialKolor)
+                implementation(libs.voyager.navigator)
             }
         }
 
@@ -96,6 +98,7 @@ android {
         versionCode = 1
         versionName = "1.0.0"
     }
+
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
         res.srcDirs("src/androidMain/resources")
