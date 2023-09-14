@@ -45,14 +45,13 @@ import androidx.compose.ui.unit.dp
 import com.materialkolor.PaletteStyle
 import dev.jordond.kmpalette.PaletteResult
 import dev.jordond.kmpalette.PaletteState
+import dev.jordond.kmpalette.SelectedColor
+import dev.jordond.kmpalette.defaultColor
 import dev.jordond.kmpalette.palette.graphics.Palette
 import dev.jordond.kmpalette.theme.AppTheme
+import dev.jordond.kmpalette.util.ColorBox
 import dev.jordond.kmpalette.util.colorSchemePairs
 import dev.jordond.kmpalette.util.conditional
-
-private data class SelectedColor(val name: String, val color: Color)
-
-private val defaultColor = SelectedColor("default", Color(0xFF1976D2))
 
 @Composable
 fun <T : Any> PaletteScreen(
@@ -225,24 +224,5 @@ private fun SwatchRow(
                 Text("N/A")
             }
         }
-    }
-}
-
-@Composable
-private fun ColorBox(
-    text: String,
-    color: Color,
-    modifier: Modifier = Modifier,
-) {
-    val textColor = if (color.luminance() < 0.5f) Color.White else Color.Black
-    Box(
-        modifier = modifier
-            .background(color)
-    ) {
-        Text(
-            text = text,
-            color = animateColorAsState(targetValue = textColor).value,
-            modifier = Modifier.padding(8.dp),
-        )
     }
 }

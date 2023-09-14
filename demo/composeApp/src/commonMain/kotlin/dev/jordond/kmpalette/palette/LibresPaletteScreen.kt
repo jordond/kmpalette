@@ -30,5 +30,4 @@ class LibresPaletteScreen : Screen {
             painterResource = { _, image -> image.painterResource() }
         )
     }
-
 }

@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -34,6 +33,9 @@ class HomeScreen : Screen {
                 }
                 Button(onClick = { navigator.push(ResourcesPaletteScreen()) }) {
                     Text("Palette - Resources")
+                }
+                Button(onClick = { navigator.push(DominantPhotoColorScreen()) }) {
+                    Text("Dominant Color - Photo Picker")
                 }
             }
         }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.ImageBitmap
 import dev.jordond.kmpalette.loader.ImageBitmapLoader
 import dev.jordond.kmpalette.palette.graphics.Palette
 import kotlinx.coroutines.CancellationException
@@ -14,7 +15,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
 @Composable
-public fun <T: Any> rememberPaletteState(
+public fun rememberPaletteState(
+    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
+    coroutineContext: CoroutineContext = Dispatchers.Default,
+    builder: Palette.Builder.() -> Unit = {},
+): PaletteState<ImageBitmap> = rememberPaletteState(
+    loader = ImageBitmapLoader,
+    cacheSize = cacheSize,
+    coroutineContext = coroutineContext,
+    builder = builder,
+)
+
+@Composable
+public fun <T : Any> rememberPaletteState(
     loader: ImageBitmapLoader<T>,
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,

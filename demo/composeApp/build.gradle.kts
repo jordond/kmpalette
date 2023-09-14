@@ -37,6 +37,9 @@ kotlin {
         all {
             languageSettings {
                 optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+                optIn("androidx.compose.foundation.layout.ExperimentalLayoutApi")
+                optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+                optIn("kotlin.ExperimentalStdlibApi")
             }
         }
 
@@ -54,6 +57,8 @@ kotlin {
                 implementation(libs.libres)
                 implementation(libs.materialKolor)
                 implementation(libs.voyager.navigator)
+                implementation(libs.kermit)
+                implementation(libs.calf.filePicker)
             }
         }
 

@@ -2,18 +2,17 @@ package dev.jordond.kmpalette
 
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import androidx.fragment.app.FragmentActivity
 
 class AndroidApp : Application() {
     companion object {
+
         lateinit var INSTANCE: AndroidApp
     }
 
@@ -23,7 +22,8 @@ class AndroidApp : Application() {
     }
 }
 
-class AppActivity : ComponentActivity() {
+class AppActivity : FragmentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val systemBarColor = Color.parseColor("#80000000")

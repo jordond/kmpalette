@@ -26,8 +26,10 @@ publish = "0.25.3"
 libres = "1.2.0-beta01"
 materialKolor = "1.2.5"
 kermit = "2.0.0-RC5"
+voyager = "1.0.0-rc05"
 kover = "0.7.3"
 poko = "0.15.0"
+calf-filePicker = "0.1.1"
 
 [libraries]
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
@@ -43,12 +45,15 @@ kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 korim = { module = "com.soywiz.korlibs.korim:korim", version.ref = "korim" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 ktor-client = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 libres = { module = "io.github.skeptick.libres:libres-compose", version.ref = "libres" }
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+calf-filePicker = { module = "com.mohamedrejeb.calf:calf-file-picker", version.ref = "calf-filePicker" }
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

@@ -1,6 +1,7 @@
 package dev.jordond.kmpalette
 
 import androidx.collection.LruCache
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -9,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import dev.jordond.kmpalette.loader.ImageBitmapLoader
 import dev.jordond.kmpalette.palette.graphics.Palette
 import kotlinx.coroutines.CancellationException
@@ -22,6 +24,24 @@ private data class DominantColors(
 )
 
 @Composable
+public fun rememberDominantColorState(
+    defaultColor: Color = MaterialTheme.colorScheme.primary,
+    defaultOnColor: Color = MaterialTheme.colorScheme.onPrimary,
+    cacheSize: Int = 0,
+    coroutineContext: CoroutineContext = Dispatchers.Default,
+    isColorValid: (Color) -> Boolean = { true },
+    builder: Palette.Builder.() -> Unit = {},
+): DominantColorState<ImageBitmap> = rememberDominantColorState(
+    loader = ImageBitmapLoader,
+    defaultColor = defaultColor,
+    defaultOnColor = defaultOnColor,
+    cacheSize = cacheSize,
+    coroutineContext = coroutineContext,
+    isColorValid = isColorValid,
+    builder = builder,
+)
+
+@Composable
 public fun <T : Any> rememberDominantColorState(
     loader: ImageBitmapLoader<T>,
     defaultColor: Color,
@@ -30,7 +50,7 @@ public fun <T : Any> rememberDominantColorState(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isColorValid: (Color) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): DominantColorState<T> = remember(loader) {
+): DominantColorState<T> = remember(loader, defaultColor, defaultOnColor) {
     object : DominantColorState<T>(
         defaultColor = defaultColor,
         defaultOnColor = defaultOnColor,
@@ -84,18 +104,21 @@ public abstract class DominantColorState<T : Any>(
     }
 
     public suspend fun updateFrom(input: T) {
-        this.result = PaletteResult.Loading
-
         val result = calculateDominantColor(input, loader)
         color = result?.color ?: defaultColor
         onColor = result?.onColor ?: defaultOnColor
     }
 
-    private suspend fun calculateDominantColor(input: T, loader: ImageBitmapLoader<T>): DominantColors? {
+    private suspend fun calculateDominantColor(
+        input: T,
+        loader: ImageBitmapLoader<T>,
+    ): DominantColors? {
         val cached = cache?.get(input)
         if (cached != null) {
             return cached
         }
+
+        this.result = PaletteResult.Loading
 
         return calculateSwatchesInImage(input, loader, builder)
             .sortedByDescending { swatch -> swatch.population }
@@ -142,10 +165,6 @@ public abstract class DominantColorState<T : Any>(
 
     public companion object {
 
-        public const val DEFAULT_CACHE_SIZE: Int = 12
+        public const val DEFAULT_CACHE_SIZE: Int = 5
     }
-}
-
-internal fun List<Palette.Swatch>.dominant(): Palette.Swatch? {
-    return maxByOrNull { it.population }
 }
