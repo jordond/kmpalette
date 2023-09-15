@@ -2,8 +2,16 @@ package dev.jordond.kmpalette
 
 import androidx.compose.ui.graphics.Color
 import dev.jordond.kmpalette.palette.graphics.Palette
+import dev.jordond.kmpalette.palette.graphics.Palette.Swatch
 import dev.jordond.kmpalette.palette.graphics.Target
+import dev.jordond.kmpalette.palette.graphics.Target.Builder
 
+/**
+ * A class which allows custom selection of colors in a [Palette]'s generation. Instances
+ * can be created via the [Builder] class.
+ *
+ * Mapped to [Target] in `androidx-palette`.
+ */
 public sealed interface SwatchTarget {
 
     public data object Vibrant : SwatchTarget
@@ -19,12 +27,30 @@ public sealed interface SwatchTarget {
  * could not be found.
  *
  * @see Palette.getSwatchForTarget
+ * @param[target] The target selection.
+ * @return The selected swatch for the given target from the palette, or `null`.
  */
-public operator fun Palette.get(target: Target): Palette.Swatch? = getSwatchForTarget(target)
+public operator fun Palette.get(target: Target): Swatch? = getSwatchForTarget(target)
 
-public operator fun Palette.get(target: SwatchTarget): Palette.Swatch? = getSwatch(target)
+/**
+ * Returns the selected swatch for the given target from the palette, or `null` if one
+ * could not be found.
+ *
+ * @see Palette.get
+ * @param[target] The target selection.
+ * @return The selected swatch for the given target from the palette, or `null`.
+ */
+public operator fun Palette.get(target: SwatchTarget): Swatch? = getSwatch(target)
 
-public fun Palette.getSwatch(target: SwatchTarget): Palette.Swatch? {
+/**
+ * Returns the selected swatch for the given target from the palette, or `null` if one
+ * could not be found.
+ *
+ * @see Palette.get
+ * @param[target] The target selection.
+ * @return The selected swatch for the given target from the palette, or `null`.
+ */
+public fun Palette.getSwatch(target: SwatchTarget): Swatch? {
     return when (target) {
         SwatchTarget.Vibrant -> vibrantSwatch
         SwatchTarget.VibrantDark -> darkVibrantSwatch
@@ -35,10 +61,24 @@ public fun Palette.getSwatch(target: SwatchTarget): Palette.Swatch? {
     }
 }
 
-public fun Palette.Swatch.titleTextColor(): Color {
+/**
+ * Returns an appropriate color to use for any 'title' text which is displayed over this
+ * [Swatch]'s color. This color is guaranteed to have sufficient contrast.
+ *
+ * @see Swatch.titleTextColor
+ * @return A [Color] to be used for text over the [Swatch]'s color.
+ */
+public fun Swatch.titleTextColor(): Color {
     return Color(titleTextColor)
 }
 
-public fun Palette.Swatch.bodyTextColor(): Color {
+/**
+ * Returns an appropriate color to use for any 'body' text which is displayed over this
+ * [Swatch]'s color. This color is guaranteed to have sufficient contrast.
+ *
+ * @see Swatch.bodyTextColor
+ * @return A [Color] to be used for text over the [Swatch]'s color.
+ */
+public fun Swatch.bodyTextColor(): Color {
     return Color(bodyTextColor)
 }

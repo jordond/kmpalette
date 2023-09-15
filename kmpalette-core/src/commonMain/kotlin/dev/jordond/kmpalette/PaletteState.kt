@@ -1,5 +1,6 @@
 package dev.jordond.kmpalette
 
+import androidx.annotation.CheckResult
 import androidx.collection.LruCache
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -14,7 +15,18 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * Creates a [PaletteState] that will be remembered across compilation and can be used to
+ * generate a [Palette] from an [ImageBitmap].
+ *
+ * @param[cacheSize] The maximum number of [Palette]s to cache. If 0, no caching will be done.
+ * @param[coroutineContext] The [CoroutineContext] to use for generating [Palette]s.
+ * @param[builder] A lambda that will be applied to the [Palette.Builder] to customize the
+ * generation of the [Palette].
+ * @return A [PaletteState] that will be remembered across composition.
+ */
 @Composable
+@CheckResult
 public fun rememberPaletteState(
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
@@ -26,7 +38,20 @@ public fun rememberPaletteState(
     builder = builder,
 )
 
+/**
+ * Creates a [PaletteState] that will be remembered across compilation and can be used to
+ * generate a [Palette] from an [ImageBitmap] using [loader].
+ *
+ * @param[T] The type of the input to load with [loader].
+ * @param[loader] The [ImageBitmapLoader] to use for loading [T]s.
+ * @param[cacheSize] The maximum number of [Palette]s to cache. If 0, no caching will be done.
+ * @param[coroutineContext] The [CoroutineContext] to use for generating [Palette]s.
+ * @param[builder] A lambda that will be applied to the [Palette.Builder] to customize the
+ * generation of the [Palette].
+ * @return A [PaletteState] that will be remembered across composition.
+ */
 @Composable
+@CheckResult
 public fun <T : Any> rememberPaletteState(
     loader: ImageBitmapLoader<T>,
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
@@ -38,6 +63,15 @@ public fun <T : Any> rememberPaletteState(
     }
 }
 
+/**
+ * A state object that generates a [Palette] from an [ImageBitmap] using [loader].
+ *
+ * @param[T] The type of the input to load with [loader].
+ * @param[cacheSize] The maximum number of [Palette]s to cache. If 0, no caching will be done.
+ * @param[coroutineContext] The [CoroutineContext] to use for generating [Palette]s.
+ * @param[builder] A lambda that will be applied to the [Palette.Builder] to customize the
+ * generation of the [Palette].
+ */
 @Stable
 public abstract class PaletteState<T : Any>(
     cacheSize: Int = DEFAULT_CACHE_SIZE,
@@ -47,9 +81,15 @@ public abstract class PaletteState<T : Any>(
 
     protected abstract val loader: ImageBitmapLoader<T>
 
+    /**
+     * The last [PaletteResult] of the [Palette] generation.
+     */
     public var state: PaletteResult? by mutableStateOf(null)
         private set
 
+    /**
+     * The last [Palette] that was generated.
+     */
     public val palette: Palette?
         get() = when (val state = state) {
             is PaletteResult.Success -> state.palette
@@ -61,6 +101,13 @@ public abstract class PaletteState<T : Any>(
         else -> null
     }
 
+    /**
+     * Generates a [Palette] from [input] using [loader].
+     *
+     * If [input] is already cached, the cached [Palette] will be returned.
+     *
+     * @param[input] The input to load with [loader].
+     */
     public suspend fun generate(input: T) {
         val cached = cache?.get(input)
         if (cached != null) {

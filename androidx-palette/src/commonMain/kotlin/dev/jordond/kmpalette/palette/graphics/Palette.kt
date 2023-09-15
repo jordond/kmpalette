@@ -307,15 +307,14 @@ public class Palette internal constructor(
 
     /**
      * Represents a color swatch generated from an image's palette. The RGB color can be retrieved
-     * by calling [.getRgb].
+     * by calling [rgb].
      */
     @Poko
     public class Swatch(
         /**
-         * Color Int
-         *
          * @return this swatch's RGB color value
          */
+        @get:ColorInt
         public val rgb: Int,
 
         /**

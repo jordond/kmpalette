@@ -17,12 +17,32 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * A class which stores and caches the result of any calculated dominant colors.
+ *
+ * @property[color] The dominant color.
+ * @property[onColor] The color to use _on_ [color].
+ */
 @Immutable
 private data class DominantColors(
     val color: Color,
     val onColor: Color,
 )
 
+/**
+ * Create a [DominantColorState] which will be remembered across compositions. Then can be used
+ * to generate a dominant color from an [ImageBitmap].
+ *
+ * @param[defaultColor] The default color, which will be used if [Palette.generate] fails.
+ * @param[defaultOnColor] The default color to use _on_ [defaultColor].
+ * @param[cacheSize] The size of the [LruCache] used to store recent results. Pass `0` to disable.
+ * @param[coroutineContext] The [CoroutineContext] used to launch the coroutine.
+ * @param[isColorValid] A lambda which allows filtering of the calculated image colors.
+ * @param[builder] A lambda which allows customization of the [Palette.Builder] used to generate
+ * the [Palette].
+ * @return A [DominantColorState] which can be used to generate a dominant color
+ * from a [ImageBitmap].
+ */
 @Composable
 public fun rememberDominantColorState(
     defaultColor: Color = MaterialTheme.colorScheme.primary,
@@ -41,6 +61,21 @@ public fun rememberDominantColorState(
     builder = builder,
 )
 
+/**
+ * Create a [DominantColorState] which will be remembered across compositions. Then can be used
+ * to generate a dominant color from an [ImageBitmap].
+ *
+ * @param[loader] The [ImageBitmapLoader] to use to load the [ImageBitmap].
+ * @param[defaultColor] The default color, which will be used if [Palette.generate] fails.
+ * @param[defaultOnColor] The default color to use _on_ [defaultColor].
+ * @param[cacheSize] The size of the [LruCache] used to store recent results. Pass `0` to disable.
+ * @param[coroutineContext] The [CoroutineContext] used to launch the coroutine.
+ * @param[isColorValid] A lambda which allows filtering of the calculated image colors.
+ * @param[builder] A lambda which allows customization of the [Palette.Builder] used to generate
+ * the [Palette].
+ * @return A [DominantColorState] which can be used to generate a dominant color
+ * from a [ImageBitmap].
+ */
 @Composable
 public fun <T : Any> rememberDominantColorState(
     loader: ImageBitmapLoader<T>,
@@ -67,6 +102,8 @@ public fun <T : Any> rememberDominantColorState(
 /**
  * A class which stores and caches the result of any calculated dominant colors.
  *
+ * Access the current dominant color via [color].
+ *
  * @param[T] The type of the input to calculate the dominant color from.
  * @param[defaultColor] The default color, which will be used if [calculateDominantColor] fails to
  * calculate a dominant color
@@ -89,12 +126,21 @@ public abstract class DominantColorState<T : Any>(
 
     protected abstract val loader: ImageBitmapLoader<T>
 
+    /**
+     * The dominant color.
+     */
     public var color: Color by mutableStateOf(defaultColor)
         private set
 
+    /**
+     * The color to use _on_ [color].
+     */
     public var onColor: Color by mutableStateOf(defaultColor)
         private set
 
+    /**
+     * The result of the last [Palette] generation.
+     */
     public var result: PaletteResult? by mutableStateOf(null)
         private set
 
@@ -103,6 +149,11 @@ public abstract class DominantColorState<T : Any>(
         else -> null
     }
 
+    /**
+     * Update the dominant color from the given [input].
+     *
+     * @param[input] The input to calculate the dominant color from.
+     */
     public suspend fun updateFrom(input: T) {
         val result = calculateDominantColor(input, loader)
         color = result?.color ?: defaultColor

@@ -1,41 +1,33 @@
 package dev.jordond.kmpalette
 
+import androidx.annotation.CheckResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import dev.jordond.kmpalette.loader.toImageBitmap
 import dev.jordond.kmpalette.palette.graphics.Palette
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Resource
 import kotlin.coroutines.CoroutineContext
 
+@ExperimentalResourceApi
+private val loader: (Resource) -> suspend () -> ImageBitmap = { { it.toImageBitmap() } }
+
+/**
+ * Generate and remember a [PaletteResult] from a [Resource].
+ *
+ * @param[coroutineContext] The [CoroutineContext] to use for generating the [PaletteResult].
+ * @param[block] A block to configure the [Palette.Builder].
+ * @return A [PaletteResult] that will be remembered across compositions.
+ */
 @Composable
+@CheckResult
 @ExperimentalResourceApi
 public fun Resource.rememberGeneratePalette(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     block: Palette.Builder.() -> Unit = {},
 ): PaletteResult {
-    var result: PaletteResult by remember(this) { mutableStateOf(PaletteResult.Loading) }
-    var bitmap: ImageBitmap? by remember(this) { mutableStateOf(null) }
-
-    LaunchedEffect(this) {
-        try {
-            bitmap = toImageBitmap()
-        } catch (cause: Throwable) {
-            if (cause is CancellationException) throw cause
-            result = PaletteResult.Error(cause)
-        }
-    }
-
-    bitmap?.let { imageBitmap ->
-        result = imageBitmap.rememberGeneratePalette(coroutineContext, block)
-    }
-
-    return result
+    val loader = remember(this) { loader(this) }
+    return rememberGeneratePalette(loader, coroutineContext, block)
 }

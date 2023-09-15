@@ -43,6 +43,7 @@ kotlin {
 
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
+                implementation(libs.androidx.annotation)
 
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
