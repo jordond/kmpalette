@@ -62,6 +62,24 @@ public fun Palette.getSwatch(target: SwatchTarget): Swatch? {
 }
 
 /**
+ * Returns a color value in the RGB color space which represents the color of this [Swatch]
+ *
+ * @see Swatch.rgb
+ */
+public val Swatch.color: Color
+    get() = Color(rgb)
+
+/**
+ * Returns an appropriate color to use for any 'title' text which is displayed over this
+ * [Swatch]'s color. This color is guaranteed to have sufficient contrast.
+ *
+ * @see Swatch.titleTextColor
+ * @return A [Color] to be used for text over the [Swatch]'s color.
+ */
+public val Swatch.onColor: Color
+    get() = Color(titleTextColor)
+
+/**
  * Returns an appropriate color to use for any 'title' text which is displayed over this
  * [Swatch]'s color. This color is guaranteed to have sufficient contrast.
  *

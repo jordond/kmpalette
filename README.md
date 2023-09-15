@@ -37,8 +37,12 @@ library. And when/if that library ever goes multiplatform, this library will be 
 - [Setup](#setup)
     - [Version Catalog](#version-catalog)
 - [Usage](#usage)
+    - [Dominant Color](#dominant-color)
+    - [Generate a color Palette](#generate-a-color-palette)
     - [Sources](#sources)
 - [Demo](#demo)
+- [Feature Requests](#feature-requests)
+- [Contributing](#contributing)
 - [License](#license)
     - [Changes from original source](#changes-from-original-source)
 
@@ -106,7 +110,99 @@ kotlin {
 
 ## Usage
 
+In order to use this library you first must have a `ImageBitmap` object. You can get this from using
+one of the [sources](#sources) or by using a library that creates one for you.
+
+Since this library is a port of
+the [`androidx.palette`](https://developer.android.com/jetpack/androidx/releases/palette) library,
+the usage is very similar. However this library provides some helpful extension functions and
+composables.
+
+Look in `kmpalette-core` for the main library, including extensions for the `Palette` and `Swatch`
+objects.
+
+Included are two helpful `@Composeable`-ready State objects:
+
+- `DominantColorState` - A state object that holds a generated dominant `Color` object.
+- `PaletteState` - A state object that holds a generated `Palette` object.
+
+They can be used like so:
+
+### Dominant Color
+
+You can generate a dominant color from an `ImageBitmap` using the `rememberDominantColorState`
+composeable. This will also provide a `onColor` for you to use as a text color.
+
+```kotlin
+@Composable
+fun SomeComposable(bitmap: ImageBitmap) {
+    val dominantColorState = rememberDominantColorState()
+    LaunchedEffect(bitmap) {
+        dominantColorState.updateFrom(bitmap)
+    }
+
+    Box(
+        modifier = Modifier
+            .width(200.dp)
+            .height(100.dp)
+            .background(dominantColorState.color)
+    ) {
+        Text("Some Text", color = dominantColorState.onColor)
+    }
+}
+```
+
+Since the generation of the dominant color is an asynchronous operation that can fail, you can track
+the results of the operation using the `DominantColorState.result` object.
+
+For more examples of getting a dominant color see
+the [demo app](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant)
+
+### Generate a color Palette
+
+If you want a whole color palette instead of just a dominate color, you can use
+the `rememberPaletteState` composeable. This will provide a `Palette` object which contains a few
+different color `Swatch`s, each have their own color and _onColor_.
+
+```kotlin
+fun SomeComposable(bitmap: ImageBitmap) {
+    val paletteState = rememberPaletteState()
+    LaunchedEffect(bitmap) {
+        paletteState.generate(bitmap)
+    }
+
+    Box(
+        modifier = Modifier
+            .width(200.dp)
+            .height(100.dp)
+            .background(paletteState.vibrantSwatch?.color ?: Color.White)
+    ) {
+        Text(
+            "Some Text",
+            color = paletteState.vibrantSwatch?.onColor ?: Color.Black,
+        )
+    }
+}
+```
+
+Since the generation of the dominant color is an asynchronous operation that can fail, you can track
+the results of the operation using the `DominantColorState.result` object.
+
+For more examples of generating a Palette see
+the [demo app](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette)
+
 ### Sources
+
+In order to generate a color palette, you must first have an `ImageBitmap` object. This library
+provides some extensions artifacts for some popular sources.
+
+| Artifact               | Library                                                                                                                | Loader            | Input Class | Desktop | Android | iOS | Demo                                                                                                                      |
+|------------------------|------------------------------------------------------------------------------------------------------------------------|-------------------|-------------|:-------:|:-------:|:---:|---------------------------------------------------------------------------------------------------------------------------|
+| `extensions-base64`    | N/A                                                                                                                    | `Base64Loader`    | `String`    |    ✅    |    ✅    |  ✅  | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant/Base64DemoScreen.kt)            |
+| `extensions-bytearray` | N/A                                                                                                                    | `ByteArrayLoader` | `ByteArray` |    ✅    |    ✅    |  ✅  | N/A                                                                                                                       |
+| `extensions-libres`    | [libres](https://github.com/Skeptick/libres)                                                                           | `LibresLoader`    | `Image`     |    ✅    |    ✅    |  ✅  | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette/LibresPaletteScreen.kt)       |
+| `extensions-network`   | [ktor](https://github.com/ktorio/ktor)                                                                                 | `NetworkLoader`   | `Url`       |    ✅    |    ✅    |  ✅  | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant/NetworkDemoScreen.kt)          |
+| `extensions-resources` | [Compose Multiplatform Resources](https://github.com/JetBrains/compose-multiplatform/tree/master/components/resources) | `ResourceLoader`  | `Resource`  |    ✅    |    ✅    |  ✅  | [`ResourcesPaletteScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette/ResourcesPaletteScreen.kt) |
 
 ## Demo
 
@@ -114,6 +210,16 @@ A demo app is available in the `demo` directory. It is a Compose Multiplatform a
 Android, iOS and Desktop.
 
 See the [README](demo/README.md) for more information.
+
+## Feature Requests
+
+If you have a feature request, please open an issue. If you would like to implement a feature
+request refer to the [Contributing](#contributing) section.
+
+## Contributing
+
+Contributions are always welcome!. If you'd like to contribute, please feel free to create a PR or
+open an issue.
 
 ## License
 
