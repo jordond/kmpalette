@@ -15,18 +15,16 @@ A multiplatform library for generating color palettes. This is a port of
 the [`androidx.palette`](https://developer.android.com/jetpack/androidx/releases/palette)
 library. And when/if that library ever goes multiplatform, this library will be archived.
 
-<img width="300px" src="art/demo.gif" />
+<img width="300px" src="art/ios-demo.gif" />
 
 ## TODO
 
-- base64 support
 - Documentation
 - Update readme on publish (github action)
 - add linter (spotless/detekt)
 - Logo
 - demo
-  - Artwork
-  - Screen for loading from network and camera
+    - Screen for loading from network and camera
 
 ## Table of Contents
 

@@ -8,8 +8,6 @@ plugins {
 }
 
 kotlin {
-    explicitApi()
-
     targetHierarchy.default()
 
     androidTarget {

@@ -1,6 +1,6 @@
 # Material Kolor Demo
 
-<img width="700px" src="../art/demo.png" />
+<img width="700px" src="../art/demo.png"  alt="demo"/>
 
 ## Before running!
 
