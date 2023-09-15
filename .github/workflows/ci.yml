@@ -49,19 +49,24 @@ jobs:
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Check
+      - name: Lint
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: check --scan
+          arguments: lint --scan
+
+      - name: Binary Compatibility Validation
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: apiCheck --scan
 
   build:
     strategy:
       matrix:
         config: [
-          { target: "android", os: "ubuntu-latest", tasks: ":demo:composeApp:assembleRelease", continueOnError: false },
-          { target: "osx-desktop", os: "macos-latest", tasks: ":demo:composeApp:packageDistributionForCurrentOS", continueOnError: false },
-          { target: "windows-desktop", os: "windows-latest", tasks: ":demo:composeApp:packageDistributionForCurrentOS", continueOnError: true },
-          { target: "linux-desktop", os: "ubuntu-latest", tasks: ":demo:composeApp:packageDistributionForCurrentOS", continueOnError: false }
+          { target: "default", os: "ubuntu-latest", tasks: "test", continueOnError: false },
+          { target: "instrumented", os: "macos-latest", tasks: "connectedAndroidTest", continueOnError: false },
+          { target: "osx", os: "macos-latest", tasks: "test", continueOnError: false },
+          { target: "package", os: "ubuntu-latest", tasks: ":demo:composeApp:packageDistributionForCurrentOS", continueOnError: false }
         ]
     runs-on: ${{ matrix.config.os }}
     name: Build ${{ matrix.config.target }}
@@ -97,7 +102,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-konan-
 
-      - name: Build ${{ matrix.config.target }} targets
+      - name: Run ${{ matrix.config.target }} tests
         continue-on-error: ${{ matrix.config.continueOnError }}
         uses: gradle/gradle-build-action@v2
         with:
