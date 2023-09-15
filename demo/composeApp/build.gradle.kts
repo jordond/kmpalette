@@ -49,6 +49,7 @@ kotlin {
                 implementation(project(":extensions-libres"))
                 implementation(project(":extensions-resources"))
                 implementation(project(":extensions-base64"))
+                implementation(project(":extensions-network"))
                 implementation(compose.runtime)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
@@ -60,6 +61,7 @@ kotlin {
                 implementation(libs.voyager.navigator)
                 implementation(libs.kermit)
                 implementation(libs.calf.filePicker)
+                implementation("io.ktor:ktor-client-core:2.3.4")
             }
         }
 
@@ -75,6 +77,7 @@ kotlin {
                 implementation(libs.androidx.activityCompose)
                 implementation(libs.compose.uitooling)
                 implementation(libs.kotlinx.coroutines.android)
+                implementation(libs.ktor.android)
             }
         }
 
@@ -82,11 +85,13 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.common)
                 implementation(compose.desktop.currentOs)
+                implementation(libs.ktor.okhttp)
             }
         }
 
         val iosMain by getting {
             dependencies {
+                implementation(libs.ktor.darwin)
             }
         }
     }

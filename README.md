@@ -29,9 +29,6 @@ library. And when/if that library ever goes multiplatform, this library will be 
 - Documentation
 - Update readme on publish (github action)
 - add linter (spotless/detekt)
-- Logo
-- demo
-    - Screen for loading from network and camera
 
 ## Table of Contents
 

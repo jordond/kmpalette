@@ -14,6 +14,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.jordond.kmpalette.dominant.Base64DemoScreen
 import dev.jordond.kmpalette.dominant.DominantPhotoColorScreen
+import dev.jordond.kmpalette.dominant.NetworkDemoScreen
 import dev.jordond.kmpalette.palette.LibresPaletteScreen
 import dev.jordond.kmpalette.palette.ResourcesPaletteScreen
 import dev.jordond.kmpalette.theme.AppTheme
@@ -41,6 +42,9 @@ class HomeScreen : Screen {
                 }
                 Button(onClick = { navigator.push(Base64DemoScreen()) }) {
                     Text("Dominant Color - Base64")
+                }
+                Button(onClick = { navigator.push(NetworkDemoScreen()) }) {
+                    Text("Dominant Color - Network")
                 }
             }
         }
