@@ -16,8 +16,8 @@
 package dev.jordond.kmpalette.palette.internal
 
 import dev.jordond.kmpalette.palette.graphics.Palette
-import dev.jordond.kmpalette.palette.utils.ColorUtils
-import dev.jordond.kmpalette.palette.utils.PriorityQueue
+import dev.jordond.kmpalette.palette.internal.utils.ColorUtils
+import dev.jordond.kmpalette.palette.internal.utils.PriorityQueue
 import kotlin.math.min
 import kotlin.math.round
 

@@ -1,4 +1,4 @@
-package dev.jordond.kmpalette.palette.utils
+package dev.jordond.kmpalette.palette.internal.utils
 
 import kotlin.math.pow
 

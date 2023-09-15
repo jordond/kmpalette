@@ -24,7 +24,7 @@ import dev.drewhamilton.poko.Poko
 import dev.jordond.kmpalette.palette.graphics.Palette.Builder
 import dev.jordond.kmpalette.palette.internal.ColorCutQuantizer
 import dev.jordond.kmpalette.palette.internal.scale
-import dev.jordond.kmpalette.palette.utils.ColorUtils
+import dev.jordond.kmpalette.palette.internal.utils.ColorUtils
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor

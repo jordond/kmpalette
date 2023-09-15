@@ -112,7 +112,7 @@ jobs:
       matrix:
         api-level: [ 24, 29, 31 ]
     runs-on: macos-latest
-    name: Test API ${{ matrix.config.api-level }}
+    name: Test API ${{ matrix.api-level }}
     needs: verify
     steps:
       - name: Checkout
@@ -142,6 +142,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
+          arch: x86_64
           force-avd-creation: false
           disable-animations: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
@@ -151,6 +152,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
+          arch: x86_64
           disable-animations: true
           force-avd-creation: false
           ram-size: 4096M

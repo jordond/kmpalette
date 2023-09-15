@@ -1,4 +1,4 @@
-package dev.jordond.kmpalette.palette.utils
+package dev.jordond.kmpalette.palette.internal.utils
 
 internal class PriorityQueue<T>(
     private val comparator: Comparator<in T>,
