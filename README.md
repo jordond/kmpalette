@@ -11,7 +11,14 @@
 ![badge-ios](http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat)
 ![badge-desktop](http://img.shields.io/badge/platform-desktop-DB413D.svg?style=flat)
 
-A multiplatform library for generating color palettes. This is a port of
+A Compose Multiplatform library for generating color palettes from images, including the dominant
+color. You can use this library in combination
+with [MaterialKolor](https://github.com/jordond/materialkolor) to generate dynamic Material
+themes based on images.
+
+Supports loading images from several sources, see [sources](#sources).
+
+**Note:** This is a port of
 the [`androidx.palette`](https://developer.android.com/jetpack/androidx/releases/palette)
 library. And when/if that library ever goes multiplatform, this library will be archived.
 
@@ -31,10 +38,9 @@ library. And when/if that library ever goes multiplatform, this library will be 
 - [Platforms](#platforms)
 - [Inspiration](#inspiration)
 - [Setup](#setup)
-    - [Multiplatform](#multiplatform)
-    - [Single Platform](#single-platform)
     - [Version Catalog](#version-catalog)
 - [Usage](#usage)
+    - [Sources](#sources)
 - [Demo](#demo)
 - [License](#license)
     - [Changes from original source](#changes-from-original-source)
@@ -44,40 +50,22 @@ library. And when/if that library ever goes multiplatform, this library will be 
 This library is written for Compose Multiplatform, and can be used on the following platforms:
 
 - Android
-- iOS
+- iOS / MacOS
 - JVM (Desktop)
 
 ## Inspiration
 
+I created this library because I wanted to use the
+[`androidx.palette`](https://developer.android.com/jetpack/androidx/releases/palette) library in a
+Compose Multiplatform app. But that library is not multiplatform, so I decided to port it.
+
+I also created this library to use in tandem with my dynamic theme generating
+library [MaterialKolor](https://github.com/jordond/materialkolor).
+
 ## Setup
 
-You can add this library to your project using Gradle.
-
-### Multiplatform
-
-To add to a multiplatform project, add the dependency to the common source-set:
-
-```kotlin
-kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                implementation("dev.jordond.kmpalette:kmpalette-core:1.2.5")
-            }
-        }
-    }
-}
-```
-
-### Single Platform
-
-For an Android only project, add the dependency to app level `build.gradle.kts`:
-
-```kotlin
-dependencies {
-    implementation("dev.jordond.kmpalette:kmpalette-core:1.2.5")
-}
-```
+You can add this library to your project using Gradle. There are several optional extension
+libraries, see [sources](#sources).
 
 ### Version Catalog
 
@@ -88,35 +76,53 @@ In `libs.versions.toml`:
 kmpalette = "1.2.5"
 
 [libraries]
-kmpalette = { module = "dev.jordond.kmpalette:kmpalette-core", version.ref = "kmpalette" }
+kmpalette-core = { module = "dev.jordond.kmpalette:kmpalette-core", version.ref = "kmpalette" }
+# Optional source libraries
+kmpalette-extensions-base64 = { module = "dev.jordond.kmpalette:extensions-base64", version.ref = "kmpalette" }
+kmpalette-extensions-bytearray = { module = "dev.jordond.kmpalette:extensions-bytearray", version.ref = "kmpalette" }
+kmpalette-extensions-libres = { module = "dev.jordond.kmpalette:extensions-libres", version.ref = "kmpalette" }
+kmpalette-extensions-network = { module = "dev.jordond.kmpalette:extensions-network", version.ref = "kmpalette" }
+kmpalette-extensions-resources = { module = "dev.jordond.kmpalette:extensions-resources", version.ref = "kmpalette" }
 ```
 
-In `build.gradle.kts`:
+To add to a multiplatform project, add the dependency to the common source-set:
 
 ```kotlin
-dependencies {
-    implementation(libs.kmpalette)
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                // Core library
+                implementation(libs.kmpalette.core)
+
+                // Optional extensions based on your image source
+                implementation(libs.kmpalette.extensions.base64)
+                implementation(libs.kmpalette.extensions.bytearray)
+                implementation(libs.kmpalette.extensions.libres)
+                implementation(libs.kmpalette.extensions.network)
+                implementation(libs.kmpalette.extensions.resources)
+            }
+        }
+    }
 }
 ```
 
 ## Usage
+
+### Sources
 
 ## Demo
 
 A demo app is available in the `demo` directory. It is a Compose Multiplatform app that runs on
 Android, iOS and Desktop.
 
-**Note:** While the demo does build a Browser version, it doesn't seem to work. However I don't know
-if that is the fault of this library or the Compose Multiplatform library. Therefore I haven't
-marked Javascript as supported.
-
 See the [README](demo/README.md) for more information.
 
 ## License
 
-The module `material-color-utilities` is licensed under the Apache License, Version 2.0. See
-their [LICENSE](material-color-utilities/src/commonMain/kotlin/com/kmpalette/LICENSE) and their
-repository [here](https://github.com/material-foundation/material-color-utilities) for more
+The module `androidx-palette` is licensed under the Apache License, Version 2.0. See
+their [LICENSE](androidx-palette/LICENSE) and their
+repository [here](https://github.com/androidx/androidx/tree/androidx-main/palette) for more
 information.
 
 ### Changes from original source
