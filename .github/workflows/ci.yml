@@ -113,7 +113,7 @@ jobs:
     needs: verify
     strategy:
       matrix:
-        api-level: [ 24, 30, 34 ]
+        api-level: [ 24, 30, 33 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -132,5 +132,4 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
-          arch: arm64-v8a
           script: ./gradlew connectedCheck
