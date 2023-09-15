@@ -40,6 +40,7 @@ kotlin {
                 api(project(":kmpalette-bitmap-loader"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
+                implementation(libs.androidx.annotation)
             }
         }
         val commonTest by getting {

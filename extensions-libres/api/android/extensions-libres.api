@@ -1,9 +1,9 @@
-public final class dev/jordond/kmpalette/ImagePaletteKt {
-	public static final fun rememberGeneratePalette (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteResult;
-}
-
 public final class dev/jordond/kmpalette/LibresDominantColorStateKt {
 	public static final fun rememberLibresDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/DominantColorState;
+}
+
+public final class dev/jordond/kmpalette/LibresPaletteKt {
+	public static final fun rememberGeneratePalette (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteResult;
 }
 
 public final class dev/jordond/kmpalette/LibresPaletteStateKt {

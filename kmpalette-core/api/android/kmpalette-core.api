@@ -24,6 +24,7 @@ public final class dev/jordond/kmpalette/PaletteKt {
 	public static final fun generatePalette (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun generatePalette$default (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public static final fun rememberGeneratePalette (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteResult;
+	public static final fun rememberGeneratePalette (Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteResult;
 }
 
 public abstract interface class dev/jordond/kmpalette/PaletteResult {

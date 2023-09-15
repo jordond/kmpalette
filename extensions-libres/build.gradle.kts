@@ -40,6 +40,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.libres)
+                implementation(libs.androidx.annotation)
             }
         }
 

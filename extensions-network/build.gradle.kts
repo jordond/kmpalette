@@ -41,6 +41,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.ktor.client)
+                implementation(libs.androidx.annotation)
             }
         }
 
