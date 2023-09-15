@@ -108,12 +108,12 @@ jobs:
           arguments: ${{ matrix.config.tasks }} --scan
 
   instrumented:
-    runs-on: macos-latest
-    name: Test API ${{ matrix.config.target }}
-    needs: verify
     strategy:
       matrix:
-        api-level: [ 24, 30, 33 ]
+        api-level: [ 24, 29, 31 ]
+    runs-on: macos-latest
+    name: Test API ${{ matrix.config.api-level }}
+    needs: verify
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -128,8 +128,32 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Run tests
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
+
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: echo "Generated AVD snapshot."
+
+      - name: Run tests for API ${{ matrix.api-level }}
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          disable-animations: true
+          force-avd-creation: false
+          ram-size: 4096M
+          emulator-boot-timeout: 12000
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
           script: ./gradlew connectedCheck
