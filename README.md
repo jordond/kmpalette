@@ -196,13 +196,36 @@ the [demo app](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palet
 In order to generate a color palette, you must first have an `ImageBitmap` object. This library
 provides some extensions artifacts for some popular sources.
 
-| Artifact               | Library                                                                                                                | Loader            | Input Class | Desktop | Android | iOS | Demo                                                                                                                      |
-|------------------------|------------------------------------------------------------------------------------------------------------------------|-------------------|-------------|:-------:|:-------:|:---:|---------------------------------------------------------------------------------------------------------------------------|
-| `extensions-base64`    | N/A                                                                                                                    | `Base64Loader`    | `String`    |    ✅    |    ✅    |  ✅  | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant/Base64DemoScreen.kt)            |
-| `extensions-bytearray` | N/A                                                                                                                    | `ByteArrayLoader` | `ByteArray` |    ✅    |    ✅    |  ✅  | N/A                                                                                                                       |
-| `extensions-libres`    | [libres](https://github.com/Skeptick/libres)                                                                           | `LibresLoader`    | `Image`     |    ✅    |    ✅    |  ✅  | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette/LibresPaletteScreen.kt)       |
-| `extensions-network`   | [ktor](https://github.com/ktorio/ktor)                                                                                 | `NetworkLoader`   | `Url`       |    ✅    |    ✅    |  ✅  | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant/NetworkDemoScreen.kt)          |
-| `extensions-resources` | [Compose Multiplatform Resources](https://github.com/JetBrains/compose-multiplatform/tree/master/components/resources) | `ResourceLoader`  | `Resource`  |    ✅    |    ✅    |  ✅  | [`ResourcesPaletteScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette/ResourcesPaletteScreen.kt) |
+|                         Artifact                         | Library                                                                                                                | Loader            | Input Class | Demo                                                                                                                      |
+|:--------------------------------------------------------:|------------------------------------------------------------------------------------------------------------------------|-------------------|-------------|---------------------------------------------------------------------------------------------------------------------------|
+|    [`extensions-base64`](extensions-base64/README.md)    | N/A                                                                                                                    | `Base64Loader`    | `String`    | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant/Base64DemoScreen.kt)            |
+| [`extensions-bytearray`](extensions-bytearray/README.md) | N/A                                                                                                                    | `ByteArrayLoader` | `ByteArray` | N/A                                                                                                                       |
+|    [`extensions-libres`](extensions-libres/README.md)    | [libres](https://github.com/Skeptick/libres)                                                                           | `LibresLoader`    | `Image`     | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette/LibresPaletteScreen.kt)       |
+|   [`extensions-network`](extensions-network/README.md)   | [ktor](https://github.com/ktorio/ktor)                                                                                 | `NetworkLoader`   | `Url`       | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant/NetworkDemoScreen.kt)          |
+| [`extensions-resources`](extensions-resources/README.md) | [Compose Multiplatform Resources](https://github.com/JetBrains/compose-multiplatform/tree/master/components/resources) | `ResourceLoader`  | `Resource`  | [`ResourcesPaletteScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette/ResourcesPaletteScreen.kt) |
+
+Each of these extensions provides a `ImageBitmapLoader` object that can be used to generate
+an `ImageBitmap` from the input class. For example, the `NetworkLoader` can be used to generate
+an `ImageBitmap` from a `Url`:
+
+```kotlin
+@Composable
+fun SomeComposable(url: Url) {
+    val dominantColorState = rememberDominantColorState(loader = NetworkLoader())
+    LaunchedEffect(url) {
+        dominantColorState.updateFrom(url)
+    }
+
+    Box(
+        modifier = Modifier
+            .width(200.dp)
+            .height(100.dp)
+            .background(dominantColorState.color)
+    ) {
+        Text("Some Text", color = dominantColorState.onColor)
+    }
+}
+```
 
 ## Demo
 
