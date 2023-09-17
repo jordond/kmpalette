@@ -58,7 +58,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.extensions.resources"
+    namespace = "com.kmpalette.extensions.resources"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

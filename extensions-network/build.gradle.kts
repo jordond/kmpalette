@@ -61,7 +61,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.network"
+    namespace = "com.kmpalette.network"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

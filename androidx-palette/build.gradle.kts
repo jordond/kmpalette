@@ -72,7 +72,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.palette"
+    namespace = "com.kmpalette.palette"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
@@ -83,7 +83,6 @@ android {
 
     sourceSets["main"].apply {
         res.srcDirs("src/androidInstrumentedTest/res")
-//        res.srcDirs("src/androidTest/res")
     }
 
     kotlin {

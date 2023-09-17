@@ -1,7 +1,7 @@
 <img width="500px" src="art/logo.png" alt="logo"/>
 <br />
 
-![Maven Central](https://img.shields.io/maven-central/v/dev.jordond.kmpalette/kmpalette)
+![Maven Central](https://img.shields.io/maven-central/v/com.kmpalette/kmpalette)
 [![Kotlin](https://img.shields.io/badge/kotlin-v1.9.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Build](https://github.com/jordond/kmpalette/actions/workflows/ci.yml/badge.svg)](https://github.com/jordond/kmpalette/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/jordond/kmPalette)](https://opensource.org/license/mit/)
@@ -76,13 +76,13 @@ In `libs.versions.toml`:
 kmpalette = "1.0.0"
 
 [libraries]
-kmpalette-core = { module = "dev.jordond.kmpalette:kmpalette-core", version.ref = "kmpalette" }
+kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpalette" }
 # Optional source libraries
-kmpalette-extensions-base64 = { module = "dev.jordond.kmpalette:extensions-base64", version.ref = "kmpalette" }
-kmpalette-extensions-bytearray = { module = "dev.jordond.kmpalette:extensions-bytearray", version.ref = "kmpalette" }
-kmpalette-extensions-libres = { module = "dev.jordond.kmpalette:extensions-libres", version.ref = "kmpalette" }
-kmpalette-extensions-network = { module = "dev.jordond.kmpalette:extensions-network", version.ref = "kmpalette" }
-kmpalette-extensions-resources = { module = "dev.jordond.kmpalette:extensions-resources", version.ref = "kmpalette" }
+kmpalette-extensions-base64 = { module = "com.kmpalette:extensions-base64", version.ref = "kmpalette" }
+kmpalette-extensions-bytearray = { module = "com.kmpalette:extensions-bytearray", version.ref = "kmpalette" }
+kmpalette-extensions-libres = { module = "com.kmpalette:extensions-libres", version.ref = "kmpalette" }
+kmpalette-extensions-network = { module = "com.kmpalette:extensions-network", version.ref = "kmpalette" }
+kmpalette-extensions-resources = { module = "com.kmpalette:extensions-resources", version.ref = "kmpalette" }
 ```
 
 To add to a multiplatform project, add the dependency to the common source-set:

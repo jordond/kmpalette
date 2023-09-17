@@ -47,7 +47,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.loader"
+    namespace = "com.kmpalette.loader"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

@@ -98,14 +98,14 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.demo"
+    namespace = "com.kmpalette.demo"
     compileSdk = libs.versions.sdk.compile.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()
         targetSdk = libs.versions.sdk.target.get().toInt()
 
-        applicationId = "dev.jordond.kmpalette.demo"
+        applicationId = "com.kmpalette.demo"
         versionCode = 1
         versionName = "1.0.0"
     }
@@ -127,7 +127,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "dev.jordond.kmpalette.desktopApp"
+            packageName = "com.kmpalette.desktopApp"
             packageVersion = "1.0.0"
         }
     }
