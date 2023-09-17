@@ -16,11 +16,16 @@ if [ -z "$NEW_VERSION" ]; then
   if [ -n "$NEW_VERSION" ]; then
     echo "Update README with version: '$NEW_VERSION'"
 
-    # Update artifact versions in README.md
-    sed -i '' -E "s/\:$SEMVER_REG\"\)/\:$NEW_VERSION\"\)/" "$README_FILE"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      # Update artifact versions in README.md
+      sed -i '' -E "s/\:$SEMVER_REG\"\)/\:$NEW_VERSION\"\)/" "$README_FILE"
 
-    # Update version catalog in README.md
-    sed -i '' -E "s/kmpalette = \"$SEMVER_REG\"/kmpalette = \"$NEW_VERSION\"/" "$README_FILE"
+      # Update version catalog in README.md
+      sed -i '' -E "s/foobar = \"$SEMVER_REG\"/foobar = \"$NEW_VERSION\"/" "$README_FILE"
+    else
+      sed -i -E "s/\:$SEMVER_REG\"/\:$NEW_VERSION\"/g" "$README_FILE"
+      sed -i -E "s/foobar = \"$SEMVER_REG\"/foobar = \"$NEW_VERSION\"/g" "$README_FILE"
+    fi
   fi
 fi
 

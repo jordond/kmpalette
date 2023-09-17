@@ -24,16 +24,11 @@ library. And when/if that library ever goes multiplatform, this library will be 
 
 <img width="300px" src="art/ios-demo.gif" />
 
-## TODO
-
-- Documentation
-- Update readme on publish (github action)
-- add linter (spotless/detekt)
-
 ## Table of Contents
 
 - [Platforms](#platforms)
 - [Inspiration](#inspiration)
+- [Dynamic Material Themes](#dynamic-material-themes)
 - [Setup](#setup)
     - [Version Catalog](#version-catalog)
 - [Usage](#usage)
@@ -60,8 +55,12 @@ I created this library because I wanted to use the
 [`androidx.palette`](https://developer.android.com/jetpack/androidx/releases/palette) library in a
 Compose Multiplatform app. But that library is not multiplatform, so I decided to port it.
 
-I also created this library to use in tandem with my dynamic theme generating
-library [MaterialKolor](https://github.com/jordond/materialkolor).
+## Dynamic Material Themes
+
+Want to create a dynamic Material theme based on the dominant color in an image?
+
+Check out my other Compose Multiplatform
+library [MaterialKolor](https://github.com/jordond/materialkolor)!
 
 ## Setup
 
@@ -74,7 +73,7 @@ In `libs.versions.toml`:
 
 ```toml
 [versions]
-kmpalette = "1.2.5"
+kmpalette = "1.0.0"
 
 [libraries]
 kmpalette-core = { module = "dev.jordond.kmpalette:kmpalette-core", version.ref = "kmpalette" }
