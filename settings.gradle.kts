@@ -4,14 +4,17 @@ pluginManagement {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
 dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
     repositories {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -32,12 +35,15 @@ gradleEnterprise {
 rootProject.name = "kmpalette"
 
 include(
-    ":kmpalette",
+    ":kmpalette-core",
     ":androidx-palette",
-    ":loader",
-    ":loader-bytearray",
-    ":loader-resources",
-    ":loader-libres",
+    ":kmpalette-bitmap-loader",
+    ":extensions-base64",
+    ":extensions-bytearray",
+    ":extensions-resources",
+    ":extensions-libres",
+    ":extensions-network",
+    ":test-utils",
 )
 
 include(":demo:composeApp")

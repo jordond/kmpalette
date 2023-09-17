@@ -1,0 +1,15 @@
+public final class com/kmpalette/extensions/base64/Base64DominantColorStateKt {
+	public static final fun rememberBase64DominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
+}
+
+public final class com/kmpalette/extensions/base64/Base64PaletteStateKt {
+	public static final fun rememberBase64PaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
+}
+
+public final class com/kmpalette/loader/Base64Loader : com/kmpalette/loader/ImageBitmapLoader {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/kmpalette/loader/Base64Loader;
+	public synthetic fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun load (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
