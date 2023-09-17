@@ -1,16 +1,16 @@
-public final class dev/jordond/kmpalette/NetworkDominantColorStateKt {
-	public static final fun rememberNetworkDominantColorState-n5X53cU (JJILio/ktor/client/HttpClient;Lio/ktor/client/request/HttpRequestBuilder;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/DominantColorState;
+public final class com/kmpalette/extensions/network/NetworkDominantColorStateKt {
+	public static final fun rememberNetworkDominantColorState-n5X53cU (JJILio/ktor/client/HttpClient;Lio/ktor/client/request/HttpRequestBuilder;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
 }
 
-public final class dev/jordond/kmpalette/NetworkPaletteKt {
-	public static final fun rememberGeneratePalette (Lio/ktor/http/Url;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteResult;
+public final class com/kmpalette/extensions/network/NetworkPaletteKt {
+	public static final fun rememberGeneratePalette (Lio/ktor/http/Url;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteResult;
 }
 
-public final class dev/jordond/kmpalette/NetworkPaletteStateKt {
-	public static final fun rememberNetworkPaletteState (ILio/ktor/client/HttpClient;Lio/ktor/client/request/HttpRequestBuilder;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteState;
+public final class com/kmpalette/extensions/network/NetworkPaletteStateKt {
+	public static final fun rememberNetworkPaletteState (ILio/ktor/client/HttpClient;Lio/ktor/client/request/HttpRequestBuilder;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
 }
 
-public final class dev/jordond/kmpalette/loader/NetworkLoader : dev/jordond/kmpalette/loader/ImageBitmapLoader {
+public final class com/kmpalette/loader/NetworkLoader : com/kmpalette/loader/ImageBitmapLoader {
 	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Lio/ktor/client/HttpClient;Lio/ktor/client/request/HttpRequestBuilder;)V

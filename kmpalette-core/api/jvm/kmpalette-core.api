@@ -1,152 +1,152 @@
-public abstract class dev/jordond/kmpalette/DominantColorState {
+public abstract class com/kmpalette/DominantColorState {
 	public static final field $stable I
-	public static final field Companion Ldev/jordond/kmpalette/DominantColorState$Companion;
+	public static final field Companion Lcom/kmpalette/DominantColorState$Companion;
 	public static final field DEFAULT_CACHE_SIZE I
 	public synthetic fun <init> (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getColor-0d7_KjU ()J
-	protected abstract fun getLoader ()Ldev/jordond/kmpalette/loader/ImageBitmapLoader;
+	protected abstract fun getLoader ()Lcom/kmpalette/loader/ImageBitmapLoader;
 	public final fun getOnColor-0d7_KjU ()J
-	public final fun getResult ()Ldev/jordond/kmpalette/PaletteResult;
+	public final fun getResult ()Lcom/kmpalette/PaletteResult;
 	public final fun reset ()V
 	public final fun updateFrom (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class dev/jordond/kmpalette/DominantColorState$Companion {
+public final class com/kmpalette/DominantColorState$Companion {
 }
 
-public final class dev/jordond/kmpalette/DominantColorStateKt {
-	public static final fun rememberDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/DominantColorState;
-	public static final fun rememberDominantColorState-K2djEUw (Ldev/jordond/kmpalette/loader/ImageBitmapLoader;JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/DominantColorState;
+public final class com/kmpalette/DominantColorStateKt {
+	public static final fun rememberDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
+	public static final fun rememberDominantColorState-K2djEUw (Lcom/kmpalette/loader/ImageBitmapLoader;JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
 }
 
-public final class dev/jordond/kmpalette/PaletteKt {
+public final class com/kmpalette/PaletteKt {
 	public static final fun generatePalette (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun generatePalette$default (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
-	public static final fun rememberGeneratePalette (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteResult;
-	public static final fun rememberGeneratePalette (Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteResult;
+	public static final fun rememberGeneratePalette (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteResult;
+	public static final fun rememberGeneratePalette (Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteResult;
 }
 
-public abstract interface class dev/jordond/kmpalette/PaletteResult {
-	public abstract fun getPaletteOrNull ()Ldev/jordond/kmpalette/palette/graphics/Palette;
+public abstract interface class com/kmpalette/PaletteResult {
+	public abstract fun getPaletteOrNull ()Landroidx/palette/graphics/Palette;
 }
 
-public final class dev/jordond/kmpalette/PaletteResult$DefaultImpls {
-	public static fun getPaletteOrNull (Ldev/jordond/kmpalette/PaletteResult;)Ldev/jordond/kmpalette/palette/graphics/Palette;
+public final class com/kmpalette/PaletteResult$DefaultImpls {
+	public static fun getPaletteOrNull (Lcom/kmpalette/PaletteResult;)Landroidx/palette/graphics/Palette;
 }
 
-public final class dev/jordond/kmpalette/PaletteResult$Error : dev/jordond/kmpalette/PaletteResult {
+public final class com/kmpalette/PaletteResult$Error : com/kmpalette/PaletteResult {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/Throwable;)V
 	public final fun component1 ()Ljava/lang/Throwable;
-	public final fun copy (Ljava/lang/Throwable;)Ldev/jordond/kmpalette/PaletteResult$Error;
-	public static synthetic fun copy$default (Ldev/jordond/kmpalette/PaletteResult$Error;Ljava/lang/Throwable;ILjava/lang/Object;)Ldev/jordond/kmpalette/PaletteResult$Error;
+	public final fun copy (Ljava/lang/Throwable;)Lcom/kmpalette/PaletteResult$Error;
+	public static synthetic fun copy$default (Lcom/kmpalette/PaletteResult$Error;Ljava/lang/Throwable;ILjava/lang/Object;)Lcom/kmpalette/PaletteResult$Error;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCause ()Ljava/lang/Throwable;
-	public fun getPaletteOrNull ()Ldev/jordond/kmpalette/palette/graphics/Palette;
+	public fun getPaletteOrNull ()Landroidx/palette/graphics/Palette;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/jordond/kmpalette/PaletteResult$Loading : dev/jordond/kmpalette/PaletteResult {
+public final class com/kmpalette/PaletteResult$Loading : com/kmpalette/PaletteResult {
 	public static final field $stable I
-	public static final field INSTANCE Ldev/jordond/kmpalette/PaletteResult$Loading;
+	public static final field INSTANCE Lcom/kmpalette/PaletteResult$Loading;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getPaletteOrNull ()Ldev/jordond/kmpalette/palette/graphics/Palette;
+	public fun getPaletteOrNull ()Landroidx/palette/graphics/Palette;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/jordond/kmpalette/PaletteResult$Success : dev/jordond/kmpalette/PaletteResult {
+public final class com/kmpalette/PaletteResult$Success : com/kmpalette/PaletteResult {
 	public static final field $stable I
-	public fun <init> (Ldev/jordond/kmpalette/palette/graphics/Palette;)V
-	public final fun component1 ()Ldev/jordond/kmpalette/palette/graphics/Palette;
-	public final fun copy (Ldev/jordond/kmpalette/palette/graphics/Palette;)Ldev/jordond/kmpalette/PaletteResult$Success;
-	public static synthetic fun copy$default (Ldev/jordond/kmpalette/PaletteResult$Success;Ldev/jordond/kmpalette/palette/graphics/Palette;ILjava/lang/Object;)Ldev/jordond/kmpalette/PaletteResult$Success;
+	public fun <init> (Landroidx/palette/graphics/Palette;)V
+	public final fun component1 ()Landroidx/palette/graphics/Palette;
+	public final fun copy (Landroidx/palette/graphics/Palette;)Lcom/kmpalette/PaletteResult$Success;
+	public static synthetic fun copy$default (Lcom/kmpalette/PaletteResult$Success;Landroidx/palette/graphics/Palette;ILjava/lang/Object;)Lcom/kmpalette/PaletteResult$Success;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getPalette ()Ldev/jordond/kmpalette/palette/graphics/Palette;
-	public fun getPaletteOrNull ()Ldev/jordond/kmpalette/palette/graphics/Palette;
+	public final fun getPalette ()Landroidx/palette/graphics/Palette;
+	public fun getPaletteOrNull ()Landroidx/palette/graphics/Palette;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract class dev/jordond/kmpalette/PaletteState {
+public abstract class com/kmpalette/PaletteState {
 	public static final field $stable I
-	public static final field Companion Ldev/jordond/kmpalette/PaletteState$Companion;
+	public static final field Companion Lcom/kmpalette/PaletteState$Companion;
 	public static final field DEFAULT_CACHE_SIZE I
 	public fun <init> ()V
 	public fun <init> (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun generate (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	protected abstract fun getLoader ()Ldev/jordond/kmpalette/loader/ImageBitmapLoader;
-	public final fun getPalette ()Ldev/jordond/kmpalette/palette/graphics/Palette;
-	public final fun getState ()Ldev/jordond/kmpalette/PaletteResult;
+	protected abstract fun getLoader ()Lcom/kmpalette/loader/ImageBitmapLoader;
+	public final fun getPalette ()Landroidx/palette/graphics/Palette;
+	public final fun getState ()Lcom/kmpalette/PaletteResult;
 }
 
-public final class dev/jordond/kmpalette/PaletteState$Companion {
+public final class com/kmpalette/PaletteState$Companion {
 }
 
-public final class dev/jordond/kmpalette/PaletteStateKt {
-	public static final fun rememberPaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteState;
-	public static final fun rememberPaletteState (Ldev/jordond/kmpalette/loader/ImageBitmapLoader;ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Ldev/jordond/kmpalette/PaletteState;
+public final class com/kmpalette/PaletteStateKt {
+	public static final fun rememberPaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
+	public static final fun rememberPaletteState (Lcom/kmpalette/loader/ImageBitmapLoader;ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
 }
 
-public final class dev/jordond/kmpalette/SwatchKt {
-	public static final fun bodyTextColor (Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;)J
-	public static final fun get (Ldev/jordond/kmpalette/palette/graphics/Palette;Ldev/jordond/kmpalette/SwatchTarget;)Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
-	public static final fun get (Ldev/jordond/kmpalette/palette/graphics/Palette;Ldev/jordond/kmpalette/palette/graphics/Target;)Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
-	public static final fun getColor (Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;)J
-	public static final fun getOnColor (Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;)J
-	public static final fun getSwatch (Ldev/jordond/kmpalette/palette/graphics/Palette;Ldev/jordond/kmpalette/SwatchTarget;)Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
-	public static final fun titleTextColor (Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;)J
+public final class com/kmpalette/SwatchKt {
+	public static final fun bodyTextColor (Landroidx/palette/graphics/Palette$Swatch;)J
+	public static final fun get (Landroidx/palette/graphics/Palette;Landroidx/palette/graphics/Target;)Landroidx/palette/graphics/Palette$Swatch;
+	public static final fun get (Landroidx/palette/graphics/Palette;Lcom/kmpalette/SwatchTarget;)Landroidx/palette/graphics/Palette$Swatch;
+	public static final fun getColor (Landroidx/palette/graphics/Palette$Swatch;)J
+	public static final fun getOnColor (Landroidx/palette/graphics/Palette$Swatch;)J
+	public static final fun getSwatch (Landroidx/palette/graphics/Palette;Lcom/kmpalette/SwatchTarget;)Landroidx/palette/graphics/Palette$Swatch;
+	public static final fun titleTextColor (Landroidx/palette/graphics/Palette$Swatch;)J
 }
 
-public abstract interface class dev/jordond/kmpalette/SwatchTarget {
+public abstract interface class com/kmpalette/SwatchTarget {
 }
 
-public final class dev/jordond/kmpalette/SwatchTarget$Muted : dev/jordond/kmpalette/SwatchTarget {
+public final class com/kmpalette/SwatchTarget$Muted : com/kmpalette/SwatchTarget {
 	public static final field $stable I
-	public static final field INSTANCE Ldev/jordond/kmpalette/SwatchTarget$Muted;
+	public static final field INSTANCE Lcom/kmpalette/SwatchTarget$Muted;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/jordond/kmpalette/SwatchTarget$MutedDark : dev/jordond/kmpalette/SwatchTarget {
+public final class com/kmpalette/SwatchTarget$MutedDark : com/kmpalette/SwatchTarget {
 	public static final field $stable I
-	public static final field INSTANCE Ldev/jordond/kmpalette/SwatchTarget$MutedDark;
+	public static final field INSTANCE Lcom/kmpalette/SwatchTarget$MutedDark;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/jordond/kmpalette/SwatchTarget$MutedLight : dev/jordond/kmpalette/SwatchTarget {
+public final class com/kmpalette/SwatchTarget$MutedLight : com/kmpalette/SwatchTarget {
 	public static final field $stable I
-	public static final field INSTANCE Ldev/jordond/kmpalette/SwatchTarget$MutedLight;
+	public static final field INSTANCE Lcom/kmpalette/SwatchTarget$MutedLight;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/jordond/kmpalette/SwatchTarget$Vibrant : dev/jordond/kmpalette/SwatchTarget {
+public final class com/kmpalette/SwatchTarget$Vibrant : com/kmpalette/SwatchTarget {
 	public static final field $stable I
-	public static final field INSTANCE Ldev/jordond/kmpalette/SwatchTarget$Vibrant;
+	public static final field INSTANCE Lcom/kmpalette/SwatchTarget$Vibrant;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/jordond/kmpalette/SwatchTarget$VibrantDark : dev/jordond/kmpalette/SwatchTarget {
+public final class com/kmpalette/SwatchTarget$VibrantDark : com/kmpalette/SwatchTarget {
 	public static final field $stable I
-	public static final field INSTANCE Ldev/jordond/kmpalette/SwatchTarget$VibrantDark;
+	public static final field INSTANCE Lcom/kmpalette/SwatchTarget$VibrantDark;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/jordond/kmpalette/SwatchTarget$VibrantLight : dev/jordond/kmpalette/SwatchTarget {
+public final class com/kmpalette/SwatchTarget$VibrantLight : com/kmpalette/SwatchTarget {
 	public static final field $stable I
-	public static final field INSTANCE Ldev/jordond/kmpalette/SwatchTarget$VibrantLight;
+	public static final field INSTANCE Lcom/kmpalette/SwatchTarget$VibrantLight;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;

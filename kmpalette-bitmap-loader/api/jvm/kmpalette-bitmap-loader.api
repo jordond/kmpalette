@@ -1,4 +1,4 @@
-public abstract interface class dev/jordond/kmpalette/loader/ImageBitmapLoader {
+public abstract interface class com/kmpalette/loader/ImageBitmapLoader {
 	public abstract fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 

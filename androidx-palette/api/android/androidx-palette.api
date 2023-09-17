@@ -1,56 +1,56 @@
-public final class dev/jordond/kmpalette/palette/graphics/Palette {
+public final class androidx/palette/graphics/Palette {
 	public static final field $stable I
-	public static final field Companion Ldev/jordond/kmpalette/palette/graphics/Palette$Companion;
+	public static final field Companion Landroidx/palette/graphics/Palette$Companion;
 	public static final field DEFAULT_CALCULATE_NUMBER_COLORS I
 	public static final field DEFAULT_RESIZE_BITMAP_AREA I
 	public static final field MIN_CONTRAST_BODY_TEXT F
 	public static final field MIN_CONTRAST_TITLE_TEXT F
 	public final fun generate ()V
-	public final fun getColorForTarget (Ldev/jordond/kmpalette/palette/graphics/Target;I)I
+	public final fun getColorForTarget (Landroidx/palette/graphics/Target;I)I
 	public final fun getDarkMutedColor (I)I
-	public final fun getDarkMutedSwatch ()Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
+	public final fun getDarkMutedSwatch ()Landroidx/palette/graphics/Palette$Swatch;
 	public final fun getDarkVibrantColor (I)I
-	public final fun getDarkVibrantSwatch ()Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
+	public final fun getDarkVibrantSwatch ()Landroidx/palette/graphics/Palette$Swatch;
 	public final fun getDominantColor (I)I
-	public final fun getDominantSwatch ()Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
+	public final fun getDominantSwatch ()Landroidx/palette/graphics/Palette$Swatch;
 	public final fun getLightMutedColor (I)I
-	public final fun getLightMutedSwatch ()Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
+	public final fun getLightMutedSwatch ()Landroidx/palette/graphics/Palette$Swatch;
 	public final fun getLightVibrantColor (I)I
-	public final fun getLightVibrantSwatch ()Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
+	public final fun getLightVibrantSwatch ()Landroidx/palette/graphics/Palette$Swatch;
 	public final fun getMutedColor (I)I
-	public final fun getMutedSwatch ()Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
-	public final fun getSwatchForTarget (Ldev/jordond/kmpalette/palette/graphics/Target;)Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
+	public final fun getMutedSwatch ()Landroidx/palette/graphics/Palette$Swatch;
+	public final fun getSwatchForTarget (Landroidx/palette/graphics/Target;)Landroidx/palette/graphics/Palette$Swatch;
 	public final fun getSwatches ()Ljava/util/List;
 	public final fun getVibrantColor (I)I
-	public final fun getVibrantSwatch ()Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
+	public final fun getVibrantSwatch ()Landroidx/palette/graphics/Palette$Swatch;
 }
 
-public final class dev/jordond/kmpalette/palette/graphics/Palette$Builder {
+public final class androidx/palette/graphics/Palette$Builder {
 	public static final field $stable I
 	public fun <init> (Landroidx/compose/ui/graphics/ImageBitmap;)V
 	public fun <init> (Ljava/util/List;)V
-	public final fun addFilter (Ldev/jordond/kmpalette/palette/graphics/Palette$Filter;)Ldev/jordond/kmpalette/palette/graphics/Palette$Builder;
-	public final fun addTarget (Ldev/jordond/kmpalette/palette/graphics/Target;)Ldev/jordond/kmpalette/palette/graphics/Palette$Builder;
-	public final fun clearFilters ()Ldev/jordond/kmpalette/palette/graphics/Palette$Builder;
-	public final fun clearRegion ()Ldev/jordond/kmpalette/palette/graphics/Palette$Builder;
-	public final fun clearTargets ()Ldev/jordond/kmpalette/palette/graphics/Palette$Builder;
-	public final fun generate ()Ldev/jordond/kmpalette/palette/graphics/Palette;
-	public final fun maximumColorCount (I)Ldev/jordond/kmpalette/palette/graphics/Palette$Builder;
-	public final fun resizeBitmapArea (I)Ldev/jordond/kmpalette/palette/graphics/Palette$Builder;
-	public final fun setRegion (IIII)Ldev/jordond/kmpalette/palette/graphics/Palette$Builder;
+	public final fun addFilter (Landroidx/palette/graphics/Palette$Filter;)Landroidx/palette/graphics/Palette$Builder;
+	public final fun addTarget (Landroidx/palette/graphics/Target;)Landroidx/palette/graphics/Palette$Builder;
+	public final fun clearFilters ()Landroidx/palette/graphics/Palette$Builder;
+	public final fun clearRegion ()Landroidx/palette/graphics/Palette$Builder;
+	public final fun clearTargets ()Landroidx/palette/graphics/Palette$Builder;
+	public final fun generate ()Landroidx/palette/graphics/Palette;
+	public final fun maximumColorCount (I)Landroidx/palette/graphics/Palette$Builder;
+	public final fun resizeBitmapArea (I)Landroidx/palette/graphics/Palette$Builder;
+	public final fun setRegion (IIII)Landroidx/palette/graphics/Palette$Builder;
 }
 
-public final class dev/jordond/kmpalette/palette/graphics/Palette$Companion {
-	public final fun from (Landroidx/compose/ui/graphics/ImageBitmap;)Ldev/jordond/kmpalette/palette/graphics/Palette$Builder;
-	public final fun from (Ljava/util/List;)Ldev/jordond/kmpalette/palette/graphics/Palette;
-	public final fun getDEFAULT_FILTER ()Ldev/jordond/kmpalette/palette/graphics/Palette$Filter;
+public final class androidx/palette/graphics/Palette$Companion {
+	public final fun from (Landroidx/compose/ui/graphics/ImageBitmap;)Landroidx/palette/graphics/Palette$Builder;
+	public final fun from (Ljava/util/List;)Landroidx/palette/graphics/Palette;
+	public final fun getDEFAULT_FILTER ()Landroidx/palette/graphics/Palette$Filter;
 }
 
-public abstract interface class dev/jordond/kmpalette/palette/graphics/Palette$Filter {
+public abstract interface class androidx/palette/graphics/Palette$Filter {
 	public abstract fun isAllowed (I[F)Z
 }
 
-public final class dev/jordond/kmpalette/palette/graphics/Palette$Swatch {
+public final class androidx/palette/graphics/Palette$Swatch {
 	public static final field $stable I
 	public fun <init> (II)V
 	public fun equals (Ljava/lang/Object;)Z
@@ -63,9 +63,9 @@ public final class dev/jordond/kmpalette/palette/graphics/Palette$Swatch {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/jordond/kmpalette/palette/graphics/Target {
+public final class androidx/palette/graphics/Target {
 	public static final field $stable I
-	public static final field Companion Ldev/jordond/kmpalette/palette/graphics/Target$Companion;
+	public static final field Companion Landroidx/palette/graphics/Target$Companion;
 	public final fun getLightnessTargets ()[F
 	public final fun getLightnessWeight ()F
 	public final fun getMaximumLightness ()F
@@ -83,30 +83,30 @@ public final class dev/jordond/kmpalette/palette/graphics/Target {
 	public final fun setExclusive (Z)V
 }
 
-public final class dev/jordond/kmpalette/palette/graphics/Target$Builder {
+public final class androidx/palette/graphics/Target$Builder {
 	public static final field $stable I
 	public fun <init> ()V
-	public fun <init> (Ldev/jordond/kmpalette/palette/graphics/Target;)V
-	public synthetic fun <init> (Ldev/jordond/kmpalette/palette/graphics/Target;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun build ()Ldev/jordond/kmpalette/palette/graphics/Target;
-	public final fun setExclusive (Z)Ldev/jordond/kmpalette/palette/graphics/Target$Builder;
-	public final fun setLightnessWeight (F)Ldev/jordond/kmpalette/palette/graphics/Target$Builder;
-	public final fun setMaximumLightness (F)Ldev/jordond/kmpalette/palette/graphics/Target$Builder;
-	public final fun setMaximumSaturation (F)Ldev/jordond/kmpalette/palette/graphics/Target$Builder;
-	public final fun setMinimumLightness (F)Ldev/jordond/kmpalette/palette/graphics/Target$Builder;
-	public final fun setMinimumSaturation (F)Ldev/jordond/kmpalette/palette/graphics/Target$Builder;
-	public final fun setPopulationWeight (F)Ldev/jordond/kmpalette/palette/graphics/Target$Builder;
-	public final fun setSaturationWeight (F)Ldev/jordond/kmpalette/palette/graphics/Target$Builder;
-	public final fun setTargetLightness (F)Ldev/jordond/kmpalette/palette/graphics/Target$Builder;
-	public final fun setTargetSaturation (F)Ldev/jordond/kmpalette/palette/graphics/Target$Builder;
+	public fun <init> (Landroidx/palette/graphics/Target;)V
+	public synthetic fun <init> (Landroidx/palette/graphics/Target;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun build ()Landroidx/palette/graphics/Target;
+	public final fun setExclusive (Z)Landroidx/palette/graphics/Target$Builder;
+	public final fun setLightnessWeight (F)Landroidx/palette/graphics/Target$Builder;
+	public final fun setMaximumLightness (F)Landroidx/palette/graphics/Target$Builder;
+	public final fun setMaximumSaturation (F)Landroidx/palette/graphics/Target$Builder;
+	public final fun setMinimumLightness (F)Landroidx/palette/graphics/Target$Builder;
+	public final fun setMinimumSaturation (F)Landroidx/palette/graphics/Target$Builder;
+	public final fun setPopulationWeight (F)Landroidx/palette/graphics/Target$Builder;
+	public final fun setSaturationWeight (F)Landroidx/palette/graphics/Target$Builder;
+	public final fun setTargetLightness (F)Landroidx/palette/graphics/Target$Builder;
+	public final fun setTargetSaturation (F)Landroidx/palette/graphics/Target$Builder;
 }
 
-public final class dev/jordond/kmpalette/palette/graphics/Target$Companion {
-	public final fun getDARK_MUTED ()Ldev/jordond/kmpalette/palette/graphics/Target;
-	public final fun getDARK_VIBRANT ()Ldev/jordond/kmpalette/palette/graphics/Target;
-	public final fun getLIGHT_MUTED ()Ldev/jordond/kmpalette/palette/graphics/Target;
-	public final fun getLIGHT_VIBRANT ()Ldev/jordond/kmpalette/palette/graphics/Target;
-	public final fun getMUTED ()Ldev/jordond/kmpalette/palette/graphics/Target;
-	public final fun getVIBRANT ()Ldev/jordond/kmpalette/palette/graphics/Target;
+public final class androidx/palette/graphics/Target$Companion {
+	public final fun getDARK_MUTED ()Landroidx/palette/graphics/Target;
+	public final fun getDARK_VIBRANT ()Landroidx/palette/graphics/Target;
+	public final fun getLIGHT_MUTED ()Landroidx/palette/graphics/Target;
+	public final fun getLIGHT_VIBRANT ()Landroidx/palette/graphics/Target;
+	public final fun getMUTED ()Landroidx/palette/graphics/Target;
+	public final fun getVIBRANT ()Landroidx/palette/graphics/Target;
 }
 
