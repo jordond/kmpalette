@@ -20,7 +20,7 @@ Supports loading images from several sources, see [sources](#sources).
 
 **Note:** This is a port of
 the [`androidx.palette`](https://developer.android.com/jetpack/androidx/releases/palette)
-library. And when/if that library ever goes multiplatform, this library will be archived.
+library.
 
 <img width="300px" src="art/ios-demo.gif" />
 
