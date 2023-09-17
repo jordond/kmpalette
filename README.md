@@ -1,7 +1,7 @@
 <img width="500px" src="art/logo.png" alt="logo"/>
 <br />
 
-![Maven Central](https://img.shields.io/maven-central/v/com.kmpalette/kmpalette)
+![Maven Central](https://img.shields.io/maven-central/v/com.kmpalette/kmpalette-core)
 [![Kotlin](https://img.shields.io/badge/kotlin-v1.9.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Build](https://github.com/jordond/kmpalette/actions/workflows/ci.yml/badge.svg)](https://github.com/jordond/kmpalette/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/jordond/kmPalette)](https://opensource.org/license/mit/)
