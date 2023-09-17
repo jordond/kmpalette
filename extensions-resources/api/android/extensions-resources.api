@@ -1,0 +1,22 @@
+public final class com/kmpalette/extensions/resources/ResourceDominantColorStateKt {
+	public static final fun rememberResourcesDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
+}
+
+public final class com/kmpalette/extensions/resources/ResourcePaletteKt {
+	public static final fun rememberGeneratePalette (Lorg/jetbrains/compose/resources/Resource;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteResult;
+}
+
+public final class com/kmpalette/extensions/resources/ResourcePaletteStateKt {
+	public static final fun rememberResourcePaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
+}
+
+public final class com/kmpalette/loader/ResourceLoader : com/kmpalette/loader/ImageBitmapLoader {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/kmpalette/loader/ResourceLoader;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public synthetic fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun load (Lorg/jetbrains/compose/resources/Resource;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+

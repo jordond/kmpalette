@@ -1,0 +1,22 @@
+public final class com/kmpalette/extensions/libres/LibresDominantColorStateKt {
+	public static final fun rememberLibresDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
+}
+
+public final class com/kmpalette/extensions/libres/LibresPaletteKt {
+	public static final fun rememberGeneratePalette (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteResult;
+}
+
+public final class com/kmpalette/extensions/libres/LibresPaletteStateKt {
+	public static final fun rememberLibresPaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
+}
+
+public final class com/kmpalette/loader/LibresLoader : com/kmpalette/loader/ImageBitmapLoader {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/kmpalette/loader/LibresLoader;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun load (ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public synthetic fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+

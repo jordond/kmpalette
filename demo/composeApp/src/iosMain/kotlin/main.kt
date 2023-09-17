@@ -1,5 +1,5 @@
 import androidx.compose.ui.window.ComposeUIViewController
-import dev.jordond.kmpalette.App
+import com.kmpalette.demo.App
 import platform.UIKit.UIViewController
 
 fun MainViewController(): UIViewController {

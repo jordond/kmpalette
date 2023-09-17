@@ -1,17 +1,17 @@
-@file:Suppress("UNUSED_VARIABLE", "OPT_IN_USAGE")
-
-import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
+@file:Suppress("OPT_IN_USAGE")
 
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
+    alias(libs.plugins.poko)
     alias(libs.plugins.dokka)
     alias(libs.plugins.publish)
+    alias(libs.plugins.kover)
 }
 
 kotlin {
-//    explicitApi = ExplicitApiMode.Strict
+    explicitApi()
 
     targetHierarchy.default()
 
@@ -20,10 +20,6 @@ kotlin {
     }
 
     jvm()
-
-//    js(IR) {
-//        browser()
-//    }
 
     macosX64()
     macosArm64()
@@ -47,9 +43,11 @@ kotlin {
                 implementation(libs.androidx.collection)
             }
         }
+
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(libs.kotlinx.coroutines.test)
             }
         }
 
@@ -58,15 +56,33 @@ kotlin {
                 implementation(libs.korim)
             }
         }
+
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(project(":extensions-base64"))
+                implementation(kotlin("test"))
+                implementation(compose.ui)
+                implementation(libs.bundles.test.android)
+                implementation(libs.androidx.core)
+                implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.coroutines.test)
+            }
+        }
     }
 }
 
 android {
-    namespace = "dev.jordond.kmpalette.palette"
+    namespace = "com.kmpalette.palette"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    sourceSets["main"].apply {
+        res.srcDirs("src/androidInstrumentedTest/res")
     }
 
     kotlin {
