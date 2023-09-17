@@ -2,7 +2,7 @@ package com.kmpalette.demo.palette
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
-import dev.jordond.kmpalette.demo.Res
+import com.kmpalette.demo.Res
 import com.kmpalette.loader.LibresLoader
 import com.kmpalette.rememberPaletteState
 import io.github.skeptick.libres.compose.painterResource
