@@ -1,0 +1,423 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Palette</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            kmpalette
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":androidx-palette:dokkaHtmlPartial/commonMain">common</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="androidx-palette::androidx.palette.graphics/Palette///PointingToDeclaration//1877900828">
+  <div class="breadcrumbs"><a href="../../index.html">androidx-palette</a><span class="delimiter">/</span><a href="../index.html">androidx.palette.graphics</a><span class="delimiter">/</span><span class="current">Palette</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Palette</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">Palette</a></div><p class="paragraph">A helper class to extract prominent colors from an image.</p><p class="paragraph">A number of colors with different profiles are extracted from the image:</p><ul><li><p class="paragraph">Vibrant</p></li><li><p class="paragraph">Vibrant Dark</p></li><li><p class="paragraph">Vibrant Light</p></li><li><p class="paragraph">Muted</p></li><li><p class="paragraph">Muted Dark</p></li><li><p class="paragraph">Muted Light</p></li></ul><p class="paragraph">These can be retrieved from the appropriate getter method.</p><p class="paragraph">Instances are created with a <a href="-builder/index.html">Builder</a> which supports several options to tweak the generated Palette. See that class' documentation for more information.</p><p class="paragraph">Generation should always be completed on a background thread, ideally the one in which you load your image on. <a href="-builder/index.html">Builder</a> supports both synchronous and asynchronous generation:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">Palette p = Palette.from(bitmap).generate();</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="1071356117%2FClasslikes%2F1877900828" anchor-label="Builder" id="1071356117%2FClasslikes%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-builder/index.html"><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1071356117%2FClasslikes%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-builder/index.html">Builder</a></div><div class="brief "><p class="paragraph">Builder class for generating <a href="index.html">Palette</a> instances.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-419251516%2FClasslikes%2F1877900828" anchor-label="Companion" id="-419251516%2FClasslikes%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-419251516%2FClasslikes%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1326394362%2FClasslikes%2F1877900828" anchor-label="Filter" id="1326394362%2FClasslikes%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-filter/index.html"><span><span>Filter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1326394362%2FClasslikes%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token keyword">interface </span><a href="-filter/index.html">Filter</a></div><div class="brief "><p class="paragraph">A Filter provides a mechanism for exercising fine-grained control over which colors are valid within a resulting <a href="index.html">Palette</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="482641846%2FClasslikes%2F1877900828" anchor-label="Swatch" id="482641846%2FClasslikes%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-swatch/index.html"><span><span>Swatch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="482641846%2FClasslikes%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-swatch/index.html">Swatch</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>rgb<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>population<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Represents a color swatch generated from an image's palette. The RGB color can be retrieved by calling <a href="-swatch/rgb.html">rgb</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1769273964%2FProperties%2F1877900828" anchor-label="darkMutedSwatch" id="1769273964%2FProperties%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="dark-muted-swatch.html"><span>dark</span><wbr><span>Muted</span><wbr><span><span>Swatch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1769273964%2FProperties%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="dark-muted-swatch.html">darkMutedSwatch</a><span class="token operator">: </span><a href="-swatch/index.html">Palette.Swatch</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns a muted and dark swatch from the palette. Might be null.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="956239475%2FProperties%2F1877900828" anchor-label="darkVibrantSwatch" id="956239475%2FProperties%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="dark-vibrant-swatch.html"><span>dark</span><wbr><span>Vibrant</span><wbr><span><span>Swatch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="956239475%2FProperties%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="dark-vibrant-swatch.html">darkVibrantSwatch</a><span class="token operator">: </span><a href="-swatch/index.html">Palette.Swatch</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns a dark and vibrant swatch from the palette. Might be null.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-694358399%2FProperties%2F1877900828" anchor-label="dominantSwatch" id="-694358399%2FProperties%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="dominant-swatch.html"><span>dominant</span><wbr><span><span>Swatch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-694358399%2FProperties%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="dominant-swatch.html">dominantSwatch</a><span class="token operator">: </span><a href="-swatch/index.html">Palette.Swatch</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1425556340%2FProperties%2F1877900828" anchor-label="lightMutedSwatch" id="-1425556340%2FProperties%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="light-muted-swatch.html"><span>light</span><wbr><span>Muted</span><wbr><span><span>Swatch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1425556340%2FProperties%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="light-muted-swatch.html">lightMutedSwatch</a><span class="token operator">: </span><a href="-swatch/index.html">Palette.Swatch</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns a muted and light swatch from the palette. Might be null.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1625933971%2FProperties%2F1877900828" anchor-label="lightVibrantSwatch" id="1625933971%2FProperties%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="light-vibrant-swatch.html"><span>light</span><wbr><span>Vibrant</span><wbr><span><span>Swatch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1625933971%2FProperties%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="light-vibrant-swatch.html">lightVibrantSwatch</a><span class="token operator">: </span><a href="-swatch/index.html">Palette.Swatch</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns a light and vibrant swatch from the palette. Might be null.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1078068778%2FProperties%2F1877900828" anchor-label="mutedSwatch" id="-1078068778%2FProperties%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="muted-swatch.html"><span>muted</span><wbr><span><span>Swatch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1078068778%2FProperties%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="muted-swatch.html">mutedSwatch</a><span class="token operator">: </span><a href="-swatch/index.html">Palette.Swatch</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns a muted swatch from the palette. Might be null.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1755234131%2FProperties%2F1877900828" anchor-label="swatches" id="1755234131%2FProperties%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="swatches.html"><span><span>swatches</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1755234131%2FProperties%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="swatches.html">swatches</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-swatch/index.html">Palette.Swatch</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns the dominant swatch from the palette.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="554031965%2FProperties%2F1877900828" anchor-label="vibrantSwatch" id="554031965%2FProperties%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="vibrant-swatch.html"><span>vibrant</span><wbr><span><span>Swatch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="554031965%2FProperties%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="vibrant-swatch.html">vibrantSwatch</a><span class="token operator">: </span><a href="-swatch/index.html">Palette.Swatch</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the most vibrant swatch in the palette. Might be null.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="212217384%2FFunctions%2F1877900828" anchor-label="generate" id="212217384%2FFunctions%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="generate.html"><span><span>generate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="212217384%2FFunctions%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="generate.html"><span class="token function">generate</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1856604361%2FFunctions%2F1877900828" anchor-label="getColorForTarget" id="1856604361%2FFunctions%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-color-for-target.html"><span>get</span><wbr><span>Color</span><wbr><span>For</span><wbr><span><span>Target</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1856604361%2FFunctions%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-color-for-target.html"><span class="token function">getColorForTarget</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">target<span class="token operator">: </span><a href="../-target/index.html">Target</a><span class="token punctuation">, </span></span><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a>&nbsp;</span>defaultColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Returns the selected color for the given target from the palette as an RGB packed int.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-110985577%2FFunctions%2F1877900828" anchor-label="getDarkMutedColor" id="-110985577%2FFunctions%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-dark-muted-color.html"><span>get</span><wbr><span>Dark</span><wbr><span>Muted</span><wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-110985577%2FFunctions%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-dark-muted-color.html"><span class="token function">getDarkMutedColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a>&nbsp;</span>defaultColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Returns a muted and dark color from the palette as an RGB packed int.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="516913136%2FFunctions%2F1877900828" anchor-label="getDarkVibrantColor" id="516913136%2FFunctions%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-dark-vibrant-color.html"><span>get</span><wbr><span>Dark</span><wbr><span>Vibrant</span><wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="516913136%2FFunctions%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-dark-vibrant-color.html"><span class="token function">getDarkVibrantColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a>&nbsp;</span>defaultColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Returns a dark and vibrant color from the palette as an RGB packed int.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1319988046%2FFunctions%2F1877900828" anchor-label="getDominantColor" id="1319988046%2FFunctions%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-dominant-color.html"><span>get</span><wbr><span>Dominant</span><wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1319988046%2FFunctions%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-dominant-color.html"><span class="token function">getDominantColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a>&nbsp;</span>defaultColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Returns the color of the dominant swatch from the palette, as an RGB packed int.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-764472285%2FFunctions%2F1877900828" anchor-label="getLightMutedColor" id="-764472285%2FFunctions%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-light-muted-color.html"><span>get</span><wbr><span>Light</span><wbr><span>Muted</span><wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-764472285%2FFunctions%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-light-muted-color.html"><span class="token function">getLightMutedColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a>&nbsp;</span>defaultColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Returns a muted and light color from the palette as an RGB packed int.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-418588036%2FFunctions%2F1877900828" anchor-label="getLightVibrantColor" id="-418588036%2FFunctions%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-light-vibrant-color.html"><span>get</span><wbr><span>Light</span><wbr><span>Vibrant</span><wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-418588036%2FFunctions%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-light-vibrant-color.html"><span class="token function">getLightVibrantColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a>&nbsp;</span>defaultColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Returns a light and vibrant color from the palette as an RGB packed int.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1950471315%2FFunctions%2F1877900828" anchor-label="getMutedColor" id="-1950471315%2FFunctions%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-muted-color.html"><span>get</span><wbr><span>Muted</span><wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1950471315%2FFunctions%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-muted-color.html"><span class="token function">getMutedColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a>&nbsp;</span>defaultColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Returns a muted color from the palette as an RGB packed int.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-143845159%2FFunctions%2F1877900828" anchor-label="getSwatchForTarget" id="-143845159%2FFunctions%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-swatch-for-target.html"><span>get</span><wbr><span>Swatch</span><wbr><span>For</span><wbr><span><span>Target</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-143845159%2FFunctions%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-swatch-for-target.html"><span class="token function">getSwatchForTarget</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">target<span class="token operator">: </span><a href="../-target/index.html">Target</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-swatch/index.html">Palette.Swatch</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the selected swatch for the given target from the palette, or <code class="lang-kotlin">null</code> if one could not be found.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1997322426%2FFunctions%2F1877900828" anchor-label="getVibrantColor" id="-1997322426%2FFunctions%2F1877900828" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":androidx-palette:dokkaHtmlPartial/commonMain" data-filterable-set=":androidx-palette:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-vibrant-color.html"><span>get</span><wbr><span>Vibrant</span><wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1997322426%2FFunctions%2F1877900828"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":androidx-palette:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-vibrant-color.html"><span class="token function">getVibrantColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorInt.html"><span class="token annotation builtin">ColorInt</span></a>&nbsp;</span>defaultColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Returns the most vibrant color in the palette as an RGB packed int.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
