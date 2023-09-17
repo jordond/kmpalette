@@ -95,6 +95,8 @@ public final class dev/jordond/kmpalette/SwatchKt {
 	public static final fun bodyTextColor (Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;)J
 	public static final fun get (Ldev/jordond/kmpalette/palette/graphics/Palette;Ldev/jordond/kmpalette/SwatchTarget;)Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
 	public static final fun get (Ldev/jordond/kmpalette/palette/graphics/Palette;Ldev/jordond/kmpalette/palette/graphics/Target;)Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
+	public static final fun getColor (Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;)J
+	public static final fun getOnColor (Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;)J
 	public static final fun getSwatch (Ldev/jordond/kmpalette/palette/graphics/Palette;Ldev/jordond/kmpalette/SwatchTarget;)Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;
 	public static final fun titleTextColor (Ldev/jordond/kmpalette/palette/graphics/Palette$Swatch;)J
 }
