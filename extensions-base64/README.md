@@ -1,10 +1,11 @@
 # Base64 Extensions
 
-This extension provides `Base64Loader` a `ImageBitmapLoader` for loading base64 encoded images to a `ImageBitmap`.
+This extension provides `Base64Loader` a `ImageBitmapLoader` for loading base64 encoded images to
+a `ImageBitmap`.
 
 | Loader         | Input Class | Demo                                                                                                           |
 |----------------|-------------|----------------------------------------------------------------------------------------------------------------|
-| `Base64Loader` | `String`    | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant/Base64DemoScreen.kt) |
+| `Base64Loader` | `String`    | [`Base64DemoScreen`](../demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/Base64DemoScreen.kt) |
 
 # Setup
 

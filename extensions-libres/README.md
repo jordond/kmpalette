@@ -5,7 +5,7 @@ loading [Libres](https://github.com/Skeptick/libres) `Image` objects.
 
 | Library                                      | Loader         | Input Class | Demo                                                                                                                |
 |----------------------------------------------|----------------|-------------|---------------------------------------------------------------------------------------------------------------------|
-| [libres](https://github.com/Skeptick/libres) | `LibresLoader` | `Image`     | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette/LibresPaletteScreen.kt) |
+| [libres](https://github.com/Skeptick/libres) | `LibresLoader` | `Image`     | [`LibresPaletteScreen`](../demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/LibresPaletteScreen.kt) |
 
 ## Setup
 

@@ -2,9 +2,9 @@
 
 This extension provides `Network` a `ImageBitmapLoader` for loading images from a URL.
 
-| Library                                              | Loader                                 | Input Class     | Demo  |
-|------------------------------------------------------|----------------------------------------|-----------------|-------|
-| [`extensions-network`](extensions-network/README.md) | [ktor](https://github.com/ktorio/ktor) | `NetworkLoader` | `Url` | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant/NetworkDemoScreen.kt)          |
+| Library                                | Loader          | Input Class | Demo                                                                                                             |
+|----------------------------------------|-----------------|-------------|------------------------------------------------------------------------------------------------------------------|
+| [ktor](https://github.com/ktorio/ktor) | `NetworkLoader` | `Url`       | [`NetworkDemoScreen`](../demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/NetworkDemoScreen.kt) |
 
 ## Setup
 

@@ -3,9 +3,12 @@
 This extension provides `ResourceLoader` a `ImageBitmapLoader` for images using Compose
 Multiplatform Resources.
 
-| Library                                                  | Loader                                                                                                                 | Input Class      | Demo       |
-|----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|------------------|------------|
-| [`extensions-resources`](extensions-resources/README.md) | [Compose Multiplatform Resources](https://github.com/JetBrains/compose-multiplatform/tree/master/components/resources) | `ResourceLoader` | `Resource` | [`ResourcesPaletteScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette/ResourcesPaletteScreen.kt) |
+| Library                                                                                                                | Loader           | Input Class | Demo                                                                                                                      |
+|------------------------------------------------------------------------------------------------------------------------|------------------|-------------|---------------------------------------------------------------------------------------------------------------------------|
+| [Compose Multiplatform Resources](https://github.com/JetBrains/compose-multiplatform/tree/master/components/resources) | `ResourceLoader` | `Resource`  | [`ResourcesPaletteScreen`](../demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/ResourcesPaletteScreen.kt) |
+
+Each of these extensions provides a `ImageBitmapLoader` object that can be used to generate
+an `ImageBitmap` from the input class. For example, the `NetworkLoader` can be used to generate
 
 ## Setup
 
@@ -34,7 +37,7 @@ android {
         res.srcDirs("src/androidMain/resources")
         resources.srcDirs("src/commonMain/resources")
     }
-    
+
     // ...
 }
 ```

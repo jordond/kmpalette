@@ -155,7 +155,7 @@ Since the generation of the dominant color is an asynchronous operation that can
 the results of the operation using the `DominantColorState.result` object.
 
 For more examples of getting a dominant color see
-the [demo app](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant)
+the [demo app](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant)
 
 ### Generate a color Palette
 
@@ -188,20 +188,20 @@ Since the generation of the dominant color is an asynchronous operation that can
 the results of the operation using the `DominantColorState.result` object.
 
 For more examples of generating a Palette see
-the [demo app](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette)
+the [demo app](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette)
 
 ### Sources
 
 In order to generate a color palette, you must first have an `ImageBitmap` object. This library
 provides some extensions artifacts for some popular sources.
 
-|                         Artifact                         | Library                                                                                                                | Loader            | Input Class | Demo                                                                                                                      |
-|:--------------------------------------------------------:|------------------------------------------------------------------------------------------------------------------------|-------------------|-------------|---------------------------------------------------------------------------------------------------------------------------|
-|    [`extensions-base64`](extensions-base64/README.md)    | N/A                                                                                                                    | `Base64Loader`    | `String`    | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant/Base64DemoScreen.kt)            |
-| [`extensions-bytearray`](extensions-bytearray/README.md) | N/A                                                                                                                    | `ByteArrayLoader` | `ByteArray` | N/A                                                                                                                       |
-|    [`extensions-libres`](extensions-libres/README.md)    | [libres](https://github.com/Skeptick/libres)                                                                           | `LibresLoader`    | `Image`     | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette/LibresPaletteScreen.kt)       |
-|   [`extensions-network`](extensions-network/README.md)   | [ktor](https://github.com/ktorio/ktor)                                                                                 | `NetworkLoader`   | `Url`       | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/dominant/NetworkDemoScreen.kt)          |
-| [`extensions-resources`](extensions-resources/README.md) | [Compose Multiplatform Resources](https://github.com/JetBrains/compose-multiplatform/tree/master/components/resources) | `ResourceLoader`  | `Resource`  | [`ResourcesPaletteScreen`](demo/composeApp/src/commonMain/kotlin/dev/jordond/kmpalette/palette/ResourcesPaletteScreen.kt) |
+|                         Artifact                         | Library                                                                                                                | Loader            | Input Class | Demo                                                                                                                   |
+|:--------------------------------------------------------:|------------------------------------------------------------------------------------------------------------------------|-------------------|-------------|------------------------------------------------------------------------------------------------------------------------|
+|    [`extensions-base64`](extensions-base64/README.md)    | N/A                                                                                                                    | `Base64Loader`    | `String`    | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/Base64DemoScreen.kt)            |
+| [`extensions-bytearray`](extensions-bytearray/README.md) | N/A                                                                                                                    | `ByteArrayLoader` | `ByteArray` | N/A                                                                                                                    |
+|    [`extensions-libres`](extensions-libres/README.md)    | [libres](https://github.com/Skeptick/libres)                                                                           | `LibresLoader`    | `Image`     | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/LibresPaletteScreen.kt)       |
+|   [`extensions-network`](extensions-network/README.md)   | [ktor](https://github.com/ktorio/ktor)                                                                                 | `NetworkLoader`   | `Url`       | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/NetworkDemoScreen.kt)          |
+| [`extensions-resources`](extensions-resources/README.md) | [Compose Multiplatform Resources](https://github.com/JetBrains/compose-multiplatform/tree/master/components/resources) | `ResourceLoader`  | `Resource`  | [`ResourcesPaletteScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/ResourcesPaletteScreen.kt) |
 
 Each of these extensions provides a `ImageBitmapLoader` object that can be used to generate
 an `ImageBitmap` from the input class. For example, the `NetworkLoader` can be used to generate
