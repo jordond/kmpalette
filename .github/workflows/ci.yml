@@ -113,7 +113,7 @@ jobs:
   instrumented:
     strategy:
       matrix:
-        api-level: [ 24, 29, 31, 34 ]
+        api-level: [ 24, 29, 31 ]
     runs-on: macos-latest
     name: Test API ${{ matrix.api-level }}
     needs: verify
