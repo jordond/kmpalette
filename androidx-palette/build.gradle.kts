@@ -21,6 +21,10 @@ kotlin {
 
     jvm()
 
+    js(IR) {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 
@@ -39,6 +43,7 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.ui)
+                implementation(libs.korim)
             }
         }
 
