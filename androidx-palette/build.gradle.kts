@@ -40,7 +40,6 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.ui)
                 implementation(libs.androidx.annotation)
-                implementation(libs.androidx.collection)
             }
         }
 
