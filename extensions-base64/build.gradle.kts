@@ -20,6 +20,10 @@ kotlin {
 
     jvm()
 
+    js(IR) {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 
@@ -41,7 +45,6 @@ kotlin {
                 api(project(":extensions-bytearray"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
-                implementation(libs.androidx.annotation)
             }
         }
 
