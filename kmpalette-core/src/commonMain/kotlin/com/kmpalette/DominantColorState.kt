@@ -136,7 +136,7 @@ public abstract class DominantColorState<T : Any>(
     /**
      * The color to use _on_ [color].
      */
-    public var onColor: Color by mutableStateOf(defaultColor)
+    public var onColor: Color by mutableStateOf(defaultOnColor)
         private set
 
     /**
@@ -213,6 +213,7 @@ public abstract class DominantColorState<T : Any>(
      */
     public fun reset() {
         color = defaultColor
+        onColor = defaultOnColor
     }
 
     public companion object {
