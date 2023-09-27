@@ -1,7 +1,5 @@
 package com.kmpalette
 
-import androidx.annotation.CheckResult
-import androidx.collection.LruCache
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -10,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.palette.graphics.Palette
+import com.kmpalette.internal.LruCache
 import com.kmpalette.loader.ImageBitmapLoader
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +25,6 @@ import kotlin.coroutines.CoroutineContext
  * @return A [PaletteState] that will be remembered across composition.
  */
 @Composable
-@CheckResult
 public fun rememberPaletteState(
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
@@ -51,7 +49,6 @@ public fun rememberPaletteState(
  * @return A [PaletteState] that will be remembered across composition.
  */
 @Composable
-@CheckResult
 public fun <T : Any> rememberPaletteState(
     loader: ImageBitmapLoader<T>,
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
@@ -117,6 +114,14 @@ public abstract class PaletteState<T : Any>(
 
         state = PaletteResult.Loading
         state = generatePalette(input, loader)
+    }
+
+    /**
+     * Resets the [PaletteState] to its initial state and clears the cache if set.
+     */
+    public fun reset() {
+        state = null
+        cache?.evictAll()
     }
 
     private suspend fun generatePalette(input: T, loader: ImageBitmapLoader<T>): PaletteResult {

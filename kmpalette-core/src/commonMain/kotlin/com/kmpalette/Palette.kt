@@ -1,6 +1,5 @@
 package com.kmpalette
 
-import androidx.annotation.CheckResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,7 +37,6 @@ public suspend fun ImageBitmap.generatePalette(
  * @return The generated [Palette].
  */
 @Composable
-@CheckResult
 public fun ImageBitmap.rememberGeneratePalette(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     block: Palette.Builder.() -> Unit = {},

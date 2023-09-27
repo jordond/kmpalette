@@ -46,7 +46,6 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.runtime)
                 implementation(libs.kotlinx.coroutines)
-                implementation("com.mayakapps.kache:kache:2.0.0-rc02")
             }
         }
 
@@ -54,6 +53,25 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
             }
+        }
+
+        val nonJsMain by creating {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(libs.androidx.collection)
+            }
+        }
+
+        val androidMain by getting {
+            dependsOn(nonJsMain)
+        }
+
+        val jvmMain by getting {
+            dependsOn(nonJsMain)
+        }
+
+        val nativeMain by getting {
+            dependsOn(nonJsMain)
         }
     }
 }

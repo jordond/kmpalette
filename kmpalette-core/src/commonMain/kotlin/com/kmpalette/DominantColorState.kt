@@ -1,6 +1,5 @@
 package com.kmpalette
 
-import androidx.collection.LruCache
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -12,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.palette.graphics.Palette
+import com.kmpalette.internal.LruCache
 import com.kmpalette.loader.ImageBitmapLoader
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -214,6 +214,7 @@ public abstract class DominantColorState<T : Any>(
     public fun reset() {
         color = defaultColor
         onColor = defaultOnColor
+        cache?.evictAll()
     }
 
     public companion object {

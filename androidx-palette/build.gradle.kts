@@ -54,10 +54,19 @@ kotlin {
             }
         }
 
-        val nativeMain by getting {
+        val skikoMain by creating {
+            dependsOn(commonMain)
             dependencies {
                 implementation(libs.korim)
             }
+        }
+
+        val nativeMain by getting {
+            dependsOn(skikoMain)
+        }
+
+        val jsMain by getting {
+            dependsOn(skikoMain)
         }
 
         val androidInstrumentedTest by getting {
