@@ -20,6 +20,10 @@ kotlin {
 
     jvm()
 
+    js(IR) {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 
@@ -40,7 +44,6 @@ kotlin {
                 api(project(":kmpalette-bitmap-loader"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
-                implementation(libs.androidx.annotation)
             }
         }
         val commonTest by getting {
