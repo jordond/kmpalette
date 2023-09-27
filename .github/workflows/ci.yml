@@ -64,7 +64,7 @@ jobs:
       matrix:
         config: [
           { target: "default", os: "ubuntu-latest", tasks: "allTest", continueOnError: false },
-          { target: "osx", os: "macos-latest", tasks: "allTest", continueOnError: false },
+          { target: "osx", os: "macos-latest", tasks: "test", continueOnError: false },
           { target: "package", os: "ubuntu-latest", tasks: ":demo:composeApp:packageDistributionForCurrentOS", continueOnError: false }
         ]
     runs-on: ${{ matrix.config.os }}
