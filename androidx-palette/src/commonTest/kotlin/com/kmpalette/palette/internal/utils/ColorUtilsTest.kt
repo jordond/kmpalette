@@ -1,6 +1,5 @@
 package com.kmpalette.palette.internal.utils
 
-import com.kmpalette.palette.internal.utils.ColorUtils
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.test.Test

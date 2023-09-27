@@ -1,6 +1,5 @@
 package com.kmpalette.palette.internal.utils
 
-import com.kmpalette.palette.internal.utils.pow
 import kotlin.test.Test
 import kotlin.test.assertTrue
 

@@ -1,7 +1,6 @@
 package com.kmpalette.loader
 
 import androidx.compose.ui.graphics.ImageBitmap
-import com.kmpalette.loader.ByteArrayLoader
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 

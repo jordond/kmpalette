@@ -25,7 +25,7 @@ import kotlin.coroutines.CoroutineContext
  * @param[httpClient] The [HttpClient] used to load the image.
  * @param[httpRequestBuilder] The [HttpRequestBuilder] used to load the image.
  * @param[coroutineContext] The [CoroutineContext] used to launch the coroutine.
- * @param[isColorValid] A lambda which allows filtering of the calculated image colors.
+ * @param[isSwatchValid] A lambda which allows filtering of the calculated [Palette.Swatch].
  * @param[builder] A lambda which allows customization of the [Palette.Builder] used to generate
  * the [Palette].
  * @return A [DominantColorState] which can be used to generate a dominant color
@@ -39,7 +39,7 @@ public fun rememberNetworkDominantColorState(
     httpClient: HttpClient = HttpClient(),
     httpRequestBuilder: HttpRequestBuilder = HttpRequestBuilder(),
     coroutineContext: CoroutineContext = Dispatchers.Default,
-    isColorValid: (Color) -> Boolean = { true },
+    isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
 ): DominantColorState<Url> = rememberDominantColorState(
     loader = NetworkLoader(httpClient, httpRequestBuilder),
@@ -47,6 +47,6 @@ public fun rememberNetworkDominantColorState(
     defaultOnColor = defaultOnColor,
     cacheSize = cacheSize,
     coroutineContext = coroutineContext,
-    isColorValid = isColorValid,
+    isSwatchValid = isSwatchValid,
     builder = builder,
 )

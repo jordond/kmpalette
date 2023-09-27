@@ -1,7 +1,6 @@
 package com.kmpalette.loader
 
 import androidx.compose.ui.graphics.ImageBitmap
-import com.kmpalette.loader.ByteArrayLoader
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.request
