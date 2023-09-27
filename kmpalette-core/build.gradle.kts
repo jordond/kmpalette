@@ -20,6 +20,10 @@ kotlin {
 
     jvm()
 
+    js(IR) {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 
@@ -42,7 +46,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.runtime)
                 implementation(libs.kotlinx.coroutines)
-                implementation(libs.androidx.collection)
+                implementation("com.mayakapps.kache:kache:2.0.0-rc02")
             }
         }
 
