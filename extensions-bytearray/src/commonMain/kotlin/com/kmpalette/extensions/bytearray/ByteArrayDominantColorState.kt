@@ -19,7 +19,7 @@ import kotlin.coroutines.CoroutineContext
  * @param[defaultOnColor] The default color to use _on_ [defaultColor].
  * @param[cacheSize] The size of the LruCache used to store recent results. Pass `0` to disable.
  * @param[coroutineContext] The [CoroutineContext] used to launch the coroutine.
- * @param[isColorValid] A lambda which allows filtering of the calculated image colors.
+ * @param[isSwatchValid] A lambda which allows filtering of the calculated [Palette.Swatch].
  * @param[builder] A lambda which allows customization of the [Palette.Builder] used to generate
  * the [Palette].
  * @return A [DominantColorState] which can be used to generate a dominant color
@@ -31,7 +31,7 @@ public fun rememberByteArrayDominantColorState(
     defaultOnColor: Color,
     cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
-    isColorValid: (Color) -> Boolean = { true },
+    isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
 ): DominantColorState<ByteArray> = rememberDominantColorState(
     loader = ByteArrayLoader,
@@ -39,6 +39,6 @@ public fun rememberByteArrayDominantColorState(
     defaultOnColor = defaultOnColor,
     cacheSize = cacheSize,
     coroutineContext = coroutineContext,
-    isColorValid = isColorValid,
+    isSwatchValid = isSwatchValid,
     builder = builder,
 )

@@ -9,7 +9,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
-import com.kmpalette.demo.App
 
 class AndroidApp : Application() {
 
