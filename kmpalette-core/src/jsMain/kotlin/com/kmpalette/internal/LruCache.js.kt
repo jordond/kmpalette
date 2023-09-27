@@ -20,8 +20,6 @@ internal actual open class LruCache<K : Any, V : Any> actual constructor(maxSize
 
     private val syncObject = LockObject()
 
-    actual fun size() = synchronized(syncObject) { _size }
-
     init {
         require(maxSize > 0) { "maxSize <= 0" }
         this._maxSize = maxSize
@@ -58,16 +56,14 @@ internal actual open class LruCache<K : Any, V : Any> actual constructor(maxSize
     open fun trimToSize(maxSize: Int) {
         while (true) {
             lateinit var key: K
-            lateinit var value: V
             synchronized(syncObject) {
                 check(!(_size < 0 || map.isEmpty() && _size != 0)) {
                     this::class.simpleName + ".sizeOf() is reporting inconsistent results!"
                 }
                 if (_size <= maxSize || map.isEmpty()) return
 
-                val (key1, value1) = map.entries.iterator().next()
+                val (key1, _) = map.entries.iterator().next()
                 key = key1
-                value = value1
                 map.remove(key)
                 _size -= 1
                 _evictionCount++
