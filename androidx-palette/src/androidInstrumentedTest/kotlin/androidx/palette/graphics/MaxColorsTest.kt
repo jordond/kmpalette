@@ -17,9 +17,9 @@
 
 package androidx.palette.graphics
 
+import androidx.palette.graphics.TestUtils.loadSampleBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import androidx.palette.graphics.TestUtils.loadSampleBitmap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert

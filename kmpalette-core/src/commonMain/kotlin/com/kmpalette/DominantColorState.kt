@@ -37,7 +37,7 @@ private data class DominantColors(
  * @param[defaultOnColor] The default color to use _on_ [defaultColor].
  * @param[cacheSize] The size of the [LruCache] used to store recent results. Pass `0` to disable.
  * @param[coroutineContext] The [CoroutineContext] used to launch the coroutine.
- * @param[isColorValid] A lambda which allows filtering of the calculated image colors.
+ * @param[isSwatchValid] A lambda which allows filtering of the calculated [Palette.Swatch].
  * @param[builder] A lambda which allows customization of the [Palette.Builder] used to generate
  * the [Palette].
  * @return A [DominantColorState] which can be used to generate a dominant color
@@ -49,7 +49,7 @@ public fun rememberDominantColorState(
     defaultOnColor: Color = MaterialTheme.colorScheme.onPrimary,
     cacheSize: Int = 0,
     coroutineContext: CoroutineContext = Dispatchers.Default,
-    isColorValid: (Color) -> Boolean = { true },
+    isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
 ): DominantColorState<ImageBitmap> = rememberDominantColorState(
     loader = ImageBitmapLoader,
@@ -57,7 +57,7 @@ public fun rememberDominantColorState(
     defaultOnColor = defaultOnColor,
     cacheSize = cacheSize,
     coroutineContext = coroutineContext,
-    isColorValid = isColorValid,
+    isSwatchValid = isSwatchValid,
     builder = builder,
 )
 
@@ -70,7 +70,7 @@ public fun rememberDominantColorState(
  * @param[defaultOnColor] The default color to use _on_ [defaultColor].
  * @param[cacheSize] The size of the [LruCache] used to store recent results. Pass `0` to disable.
  * @param[coroutineContext] The [CoroutineContext] used to launch the coroutine.
- * @param[isColorValid] A lambda which allows filtering of the calculated image colors.
+ * @param[isSwatchValid] A lambda which allows filtering of the calculated [Palette.Swatch].
  * @param[builder] A lambda which allows customization of the [Palette.Builder] used to generate
  * the [Palette].
  * @return A [DominantColorState] which can be used to generate a dominant color
@@ -83,7 +83,7 @@ public fun <T : Any> rememberDominantColorState(
     defaultOnColor: Color = MaterialTheme.colorScheme.onPrimary,
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
-    isColorValid: (Color) -> Boolean = { true },
+    isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
 ): DominantColorState<T> = remember(loader, defaultColor, defaultOnColor) {
     object : DominantColorState<T>(
@@ -91,7 +91,7 @@ public fun <T : Any> rememberDominantColorState(
         defaultOnColor = defaultOnColor,
         cacheSize = cacheSize,
         coroutineContext = coroutineContext,
-        isColorValid = isColorValid,
+        isSwatchValid = isSwatchValid,
         builder = builder,
     ) {
         override val loader: ImageBitmapLoader<T> = loader
@@ -110,7 +110,7 @@ public fun <T : Any> rememberDominantColorState(
  * @param[cacheSize] The size of the [LruCache] used to store recent results. Pass `0` to
  * disable the cache.
  * @param[coroutineContext] The [CoroutineContext] used to launch the coroutine.
- * @param[isColorValid] A lambda which allows filtering of the calculated image colors.
+ *
  * @param[builder] A lambda which allows customization of the [Palette.Builder] used to generate
  * the [Palette] from the input [T]
  */
@@ -121,7 +121,7 @@ public abstract class DominantColorState<T : Any>(
     private val defaultOnColor: Color,
     cacheSize: Int = DEFAULT_CACHE_SIZE,
     private val coroutineContext: CoroutineContext = Dispatchers.Default,
-    private val isColorValid: (Color) -> Boolean = { true },
+    private val isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     private val builder: Palette.Builder.() -> Unit = {},
 ) {
 
@@ -174,7 +174,7 @@ public abstract class DominantColorState<T : Any>(
 
         return calculateSwatchesInImage(input, loader, builder)
             .sortedByDescending { swatch -> swatch.population }
-            .firstOrNull { swatch -> isColorValid(Color(swatch.rgb)) }
+            .firstOrNull { swatch -> isSwatchValid(swatch) }
             ?.let { swatch ->
                 DominantColors(
                     color = Color(swatch.rgb),
