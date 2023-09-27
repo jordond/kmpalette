@@ -150,7 +150,7 @@ jobs:
           ram-size: 4096M
           emulator-boot-timeout: 12000
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
-          script: ./gradlew connectedCheck
+          script: ./gradlew connectedCheck --scan
 
   test-browser:
     runs-on: ubuntu-latest
@@ -179,6 +179,8 @@ jobs:
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Run tests in Chrome
+      - name: Setup headless Chrome
         uses: browser-actions/setup-chrome@v1
-        run: ./gradlew jsTest
+
+      - name: Run tests in browser
+        run: ./gradlew jsTest --scan
