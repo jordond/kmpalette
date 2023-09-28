@@ -23,6 +23,8 @@ Supports loading images from several sources, see [sources](#sources).
 the [`androidx.palette`](https://developer.android.com/jetpack/androidx/releases/palette)
 library.
 
+You can checkout a web demo at [demo.kmpalette.com](https://demo.kmpalette.com/).
+
 <img width="300px" src="art/ios-demo.gif" />
 
 ## Table of Contents
@@ -110,6 +112,8 @@ kotlin {
 ```
 
 ## Usage
+
+To see the generated KDocs, visit [docs.kmpalette.com](https://docs.kmpalette.com/)
 
 In order to use this library you first must have a `ImageBitmap` object. You can get this from using
 one of the [sources](#sources) or by using a library that creates one for you.
