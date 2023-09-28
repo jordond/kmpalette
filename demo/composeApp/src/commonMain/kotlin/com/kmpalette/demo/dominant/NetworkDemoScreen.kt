@@ -9,7 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import cafe.adriel.voyager.core.screen.Screen
-import com.kmpalette.loader.NetworkLoader
+import com.kmpalette.loader.rememberNetworkLoader
 import com.kmpalette.rememberDominantColorState
 import io.ktor.http.Url
 
@@ -19,7 +19,7 @@ class NetworkDemoScreen : Screen {
 
     @Composable
     override fun Content() {
-        val loader = remember { NetworkLoader() }
+        val loader = rememberNetworkLoader()
         val dominantColorState = rememberDominantColorState(loader)
         var errorMessage: String? by remember { mutableStateOf(null) }
         var image: ImageBitmap? by remember { mutableStateOf(null) }

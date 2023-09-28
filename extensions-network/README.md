@@ -41,6 +41,12 @@ kotlin {
                 implementation("io.ktor:ktor-client-okhttp:$ktor_version")
             }
         }
+
+        jsMain {
+            dependencies {
+                implementation("io.ktor:ktor-client-js:$ktor_version")
+            }
+        }
     }
 }
 ```
@@ -53,18 +59,22 @@ You can customize the behaviour of the request by passing in your own `HttpClien
 of `HttpRequestBuilder`:
 
 ```kotlin
-public class NetworkLoader(
+class NetworkLoader(
     private val httpClient: HttpClient = HttpClient(),
     private val requestBuilder: HttpRequestBuilder = HttpRequestBuilder(),
 ) : ImageBitmapLoader<Url>
 ```
+
+But if you are using the loader inside of a `Composable` make sure it is remembered, or use
+the `rememberNetworkLoader` function.
 
 Now you can pass a `Url` object to load an image:
 
 ```kotlin
 @Composable
 fun MyComposable(url: Url) {
-    val paletteState = rememberPaletteState(loader = NetworkLoader())
+    val networkLoader = rememberNetworkLoader()
+    val paletteState = rememberPaletteState(loader = networkLoader)
     LaunchedEffect(url) {
         paletteState.generate(url)
     }
