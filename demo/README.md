@@ -16,9 +16,10 @@
 Open the project in Android Studio and let it sync the project. In the configuration dropdown should
 be the following:
 
-- androidApp
-- Desktop
-- iosApp
+- demo.android
+- demo.ios
+- demo.desktop
+- demo.browser
 
 You can select a configuration and run it, or follow the steps below.
 
@@ -45,3 +46,12 @@ To run the application on iPhone device/simulator:
 - Or
   use [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
   for Android Studio
+
+### Browser
+
+You can run the browser application by executing the following command:
+
+```bash
+./gradlew :demo:composeApp:jsBrowserDevelopmentRun
+
+```

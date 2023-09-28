@@ -7,11 +7,15 @@ import korlibs.image.bitmap.NativeImage
 import korlibs.image.bitmap.resized
 import korlibs.math.geom.Anchor
 import korlibs.math.geom.ScaleMode
+import org.jetbrains.skia.Bitmap
 import org.jetbrains.skia.ColorAlphaType
 import org.jetbrains.skia.ImageInfo
-import org.jetbrains.skia.Bitmap as SkiaBitmap
 
 internal actual fun ImageBitmap.scale(width: Int, height: Int): ImageBitmap {
+    return nativeScale(width, height)
+}
+
+internal fun ImageBitmap.nativeScale(width: Int, height: Int): ImageBitmap {
     val pixels: IntArray = this.toPixelMap().buffer
     val scaled = NativeImage(width, height, premultiplied = false)
     scaled.writePixelsUnsafe(x = 0, y = 0, width, height, pixels, offset = 0)
@@ -44,7 +48,7 @@ private fun imageBitmapFromArgb(rawArgbImageData: IntArray, width: Int, height: 
 }
 
 private fun imageBitmapFromArgb(rawArgbImageData: ByteArray, width: Int, height: Int): ImageBitmap {
-    val bitmap = SkiaBitmap()
+    val bitmap = Bitmap()
     bitmap.allocPixels(ImageInfo.makeS32(width, height, ColorAlphaType.UNPREMUL))
     bitmap.installPixels(rawArgbImageData)
     return bitmap.asComposeImageBitmap()

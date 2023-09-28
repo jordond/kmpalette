@@ -19,6 +19,10 @@ kotlin {
 
     jvm()
 
+    js(IR) {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 
@@ -40,7 +44,6 @@ kotlin {
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.libres)
-                implementation(libs.androidx.annotation)
             }
         }
 
@@ -54,6 +57,12 @@ kotlin {
             dependencies {
                 implementation(libs.androidx.startup)
                 implementation(libs.androidx.core)
+            }
+        }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(project(":extensions-bytearray"))
             }
         }
     }

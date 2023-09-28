@@ -20,6 +20,10 @@ kotlin {
 
     jvm()
 
+    js(IR) {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 
@@ -42,7 +46,6 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.runtime)
                 implementation(libs.kotlinx.coroutines)
-                implementation(libs.androidx.collection)
             }
         }
 
@@ -50,6 +53,25 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
             }
+        }
+
+        val nonJsMain by creating {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(libs.androidx.collection)
+            }
+        }
+
+        val androidMain by getting {
+            dependsOn(nonJsMain)
+        }
+
+        val jvmMain by getting {
+            dependsOn(nonJsMain)
+        }
+
+        val nativeMain by getting {
+            dependsOn(nonJsMain)
         }
     }
 }

@@ -19,6 +19,10 @@ kotlin {
 
     jvm()
 
+    js(IR) {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 

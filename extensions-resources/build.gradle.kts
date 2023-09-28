@@ -21,6 +21,10 @@ kotlin {
 
     jvm()
 
+    js(IR) {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 
@@ -43,7 +47,6 @@ kotlin {
 
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
-                implementation(libs.androidx.annotation)
 
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)

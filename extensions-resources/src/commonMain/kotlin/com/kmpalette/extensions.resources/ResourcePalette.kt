@@ -1,6 +1,5 @@
 package com.kmpalette.extensions.resources
 
-import androidx.annotation.CheckResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
@@ -23,7 +22,6 @@ private val loader: (Resource) -> suspend () -> ImageBitmap = { { it.toImageBitm
  * @return A [PaletteResult] that will be remembered across compositions.
  */
 @Composable
-@CheckResult
 @ExperimentalResourceApi
 public fun Resource.rememberGeneratePalette(
     coroutineContext: CoroutineContext = Dispatchers.Default,

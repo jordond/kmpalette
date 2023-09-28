@@ -9,7 +9,7 @@ import kotlin.test.assertTrue
 class ColorUtilsTest {
 
     @Test
-    fun `should convert the Color int to an HSL FloatArray`() {
+    fun should_convert_the_Color_int_to_an_HSL_FloatArray() {
         val color: Int = 0x80ABCDEF.toInt()
         val hsl = FloatArray(3).also { ColorUtils.colorToHSL(color, it) }
         assertEquals(210f, hsl[0], "hue should be 210")
@@ -18,7 +18,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun `should handle monochromatic colors when converting from RGB to HSL`() {
+    fun should_handle_monochromatic_colors_when_converting_from_RGB_to_HSL() {
         val color: Int = 0x80FFFFFF.toInt()
         val hsl = FloatArray(3).also { ColorUtils.colorToHSL(color, it) }
         assertEquals(0f, hsl[0], "hue should be 0")
@@ -27,7 +27,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun `should set the alpha on a Color Int`() {
+    fun should_set_the_alpha_on_a_Color_Int() {
         val color: Int = 0x80ABCDEF.toInt()
         val newColor = ColorUtils.setAlpha(color, 0x40)
         assertEquals(0x40ABCDEF, newColor, "alpha should be 0x40")
@@ -55,7 +55,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun `should calculate the luminance of a ColorInt`() {
+    fun should_calculate_the_luminance_of_a_ColorInt() {
         val color1: Int = 0x80ABCDEF.toInt()
         val luminance1 = ColorUtils.calculateLuminance(color1).roundTo(4)
         assertEquals(0.5855, luminance1, "luminance should be 0.5855")
@@ -70,7 +70,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun `should calculate the minimum alpha`() {
+    fun should_calculate_the_minimum_alpha() {
         val foreground = 0x20ABCDEF
         val background = 0xFFFEDCBA.toInt()
 
@@ -79,7 +79,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun `should throw if color is not opaque when calculating minimum alpha`() {
+    fun should_throw_if_color_is_not_opaque_when_calculating_minimum_alpha() {
         val color: Int = 0x80ABCDEF.toInt()
         try {
             ColorUtils.calculateMinimumAlpha(color, color, 1.2f)
@@ -90,7 +90,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun `should return an invalid -1 when calculating minimum alpha if there is not sufficient contrast`() {
+    fun should_return_an_invalid_minus_1_when_calculating_minimum_alpha_if_there_is_not_sufficient_contrast() {
         val foreground = 0x20ABCDEF
         val background = 0xFFABCDEF.toInt()
         val minAlpha = ColorUtils.calculateMinimumAlpha(foreground, background, 1.2f)
@@ -98,41 +98,41 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun `should extract the alpha`() {
+    fun should_extract_the_alpha() {
         val color: Int = 0x80FFFFFF.toInt()
         val alpha = ColorUtils.alpha(color)
         assertTrue(alpha == 0x80, "alpha should be 0x80")
     }
 
     @Test
-    fun `should extract the red value from a Color Int`() {
+    fun should_extract_the_red_value_from_a_Color_Int() {
         val color: Int = 0x80ABCDEF.toInt()
         val red = ColorUtils.red(color)
         assertTrue(red == 0xAB, "red should be 0xAB")
     }
 
     @Test
-    fun `should extract the green value from a Color Int`() {
+    fun should_extract_the_green_value_from_a_Color_Int() {
         val color: Int = 0x80ABCDEF.toInt()
         val green = ColorUtils.green(color)
         assertTrue(green == 0xCD, "green should be 0xCD")
     }
 
     @Test
-    fun `should extract the blue value from a Color Int`() {
+    fun should_extract_the_blue_value_from_a_Color_Int() {
         val color: Int = 0x80ABCDEF.toInt()
         val blue = ColorUtils.blue(color)
         assertTrue(blue == 0xEF, "blue should be 0xEF")
     }
 
     @Test
-    fun `should create a Color int from the individual values`() {
+    fun should_create_a_Color_int_from_the_individual_values() {
         val color: Int = ColorUtils.argb(0x80, 0xAB, 0xCD, 0xEF)
         assertEquals(0x80ABCDEF.toInt(), color, "color should be 0x80ABCDEF")
     }
 
     @Test
-    fun `should create a Color int from the indvidual RGB values`() {
+    fun should_create_a_Color_int_from_the_indvidual_RGB_values() {
         val color: Int = ColorUtils.rgb(0xAB, 0xCD, 0xEF)
         assertEquals(0xFFABCDEF.toInt(), color, "color should be 0xFFABCDEF")
     }
