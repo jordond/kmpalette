@@ -60,7 +60,6 @@ jobs:
         with:
           add: './README.md'
           message: 'Update README.md with version ${{env.RELEASE_VERSION}}'
-          new_branch: "main"
 
   documentation:
     name: "Generate Documentation"
