@@ -17,6 +17,11 @@ kotlin {
 
     jvm("desktop")
 
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -61,7 +66,7 @@ kotlin {
                 implementation(libs.voyager.navigator)
                 implementation(libs.kermit)
                 implementation(libs.calf.filePicker)
-                implementation("io.ktor:ktor-client-core:2.3.4")
+                implementation(libs.ktor.client)
             }
         }
 
@@ -92,6 +97,13 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(libs.ktor.darwin)
+            }
+        }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(compose.html.core)
+                implementation(libs.ktor.js)
             }
         }
     }
@@ -131,6 +143,10 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+compose.experimental {
+    web.application {}
 }
 
 compose.experimental {
