@@ -114,7 +114,7 @@ android {
     compileSdk = libs.versions.sdk.compile.get().toInt()
 
     defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
+        minSdk = 24
         targetSdk = libs.versions.sdk.target.get().toInt()
 
         applicationId = "com.kmpalette.demo"
