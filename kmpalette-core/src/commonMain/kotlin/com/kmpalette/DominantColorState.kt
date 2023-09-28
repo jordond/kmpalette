@@ -85,7 +85,7 @@ public fun <T : Any> rememberDominantColorState(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): DominantColorState<T> = remember(loader, defaultColor, defaultOnColor) {
+): DominantColorState<T> = remember(defaultColor, defaultOnColor) {
     object : DominantColorState<T>(
         defaultColor = defaultColor,
         defaultOnColor = defaultOnColor,
