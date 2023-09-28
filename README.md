@@ -226,7 +226,8 @@ an `ImageBitmap` from a `Url`:
 ```kotlin
 @Composable
 fun SomeComposable(url: Url) {
-    val dominantColorState = rememberDominantColorState(loader = NetworkLoader())
+    val networkLoader = rememberNetworkLoader()
+    val dominantColorState = rememberDominantColorState(loader = networkLoader)
     LaunchedEffect(url) {
         dominantColorState.updateFrom(url)
     }

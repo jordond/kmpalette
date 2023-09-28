@@ -12,10 +12,19 @@ public final class com/kmpalette/extensions/network/NetworkPaletteStateKt {
 
 public final class com/kmpalette/loader/NetworkLoader : com/kmpalette/loader/ImageBitmapLoader {
 	public static final field $stable I
+	public static final field Companion Lcom/kmpalette/loader/NetworkLoader$Companion;
 	public fun <init> ()V
 	public fun <init> (Lio/ktor/client/HttpClient;Lio/ktor/client/request/HttpRequestBuilder;)V
 	public synthetic fun <init> (Lio/ktor/client/HttpClient;Lio/ktor/client/request/HttpRequestBuilder;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun load (Lio/ktor/http/Url;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public synthetic fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/kmpalette/loader/NetworkLoader$Companion {
+	public final fun getDefault ()Lcom/kmpalette/loader/NetworkLoader;
+}
+
+public final class com/kmpalette/loader/NetworkLoaderKt {
+	public static final fun rememberNetworkLoader (Lio/ktor/client/HttpClient;Lio/ktor/client/request/HttpRequestBuilder;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/loader/NetworkLoader;
 }
 
