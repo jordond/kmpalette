@@ -16,8 +16,6 @@
 package androidx.palette.graphics
 
 import androidx.annotation.ColorInt
-import androidx.collection.SimpleArrayMap
-import androidx.collection.SparseArrayCompat
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.palette.graphics.Palette.Builder
@@ -75,8 +73,8 @@ public class Palette internal constructor(
     private val targets: List<Target>,
 ) {
 
-    private val selectedSwatches: SimpleArrayMap<Target, Swatch?> = SimpleArrayMap()
-    private val usedColors: SparseArrayCompat<Boolean> = SparseArrayCompat()
+    private val selectedSwatches: HashMap<Target, Swatch?> = HashMap()
+    private val usedColors: HashMap<Int, Boolean> = HashMap()
 
     public val dominantSwatch: Swatch? = findDominantSwatch()
 
@@ -228,13 +226,9 @@ public class Palette internal constructor(
         // TODO(b/141959297): Suppressed during upgrade to AGP 3.6.
         // We need to make sure that the scored targets are generated first. This is so that
         // inherited targets have something to inherit from
-        var i = 0
-        val count = targets.size
-        while (i < count) {
-            val target = targets[i]
+        targets.forEach { target ->
             target.normalizeWeights()
-            selectedSwatches.put(target, generateScoredTarget(target))
-            i++
+            selectedSwatches[target] = generateScoredTarget(target)
         }
 
         // We now clear out the used colors
@@ -245,7 +239,7 @@ public class Palette internal constructor(
         val maxScoreSwatch = getMaxScoredSwatchForTarget(target)
         if (maxScoreSwatch != null && target.isExclusive) {
             // If we have a swatch, and the target is exclusive, add the color to the used list
-            usedColors.append(maxScoreSwatch.rgb, true)
+            usedColors[maxScoreSwatch.rgb] = true
         }
         return maxScoreSwatch
     }

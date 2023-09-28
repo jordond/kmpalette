@@ -21,6 +21,10 @@ kotlin {
 
     jvm()
 
+    js(IR) {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 
@@ -39,8 +43,7 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.ui)
-                implementation(libs.androidx.annotation)
-                implementation(libs.androidx.collection)
+                implementation(libs.korim)
             }
         }
 
@@ -51,10 +54,19 @@ kotlin {
             }
         }
 
-        val nativeMain by getting {
+        val skikoMain by creating {
+            dependsOn(commonMain)
             dependencies {
                 implementation(libs.korim)
             }
+        }
+
+        val nativeMain by getting {
+            dependsOn(skikoMain)
+        }
+
+        val jsMain by getting {
+            dependsOn(skikoMain)
         }
 
         val androidInstrumentedTest by getting {

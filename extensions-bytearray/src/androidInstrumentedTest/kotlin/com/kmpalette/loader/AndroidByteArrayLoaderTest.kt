@@ -1,6 +1,5 @@
 package com.kmpalette.loader
 
-import com.kmpalette.loader.ByteArrayLoader
 import com.kmpalette.test.ImageBitmapUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

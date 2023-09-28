@@ -81,6 +81,7 @@ public abstract class com/kmpalette/PaletteState {
 	protected abstract fun getLoader ()Lcom/kmpalette/loader/ImageBitmapLoader;
 	public final fun getPalette ()Landroidx/palette/graphics/Palette;
 	public final fun getState ()Lcom/kmpalette/PaletteResult;
+	public final fun reset ()V
 }
 
 public final class com/kmpalette/PaletteState$Companion {

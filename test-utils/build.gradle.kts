@@ -16,6 +16,10 @@ kotlin {
 
     jvm()
 
+    js(IR) {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 
@@ -46,6 +50,18 @@ kotlin {
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines.test)
             }
+        }
+
+        val skikoMain by creating {
+            dependsOn(commonMain)
+        }
+
+        val nativeMain by getting {
+            dependsOn(skikoMain)
+        }
+
+        val jsMain by getting {
+            dependsOn(skikoMain)
         }
 
         val androidInstrumentedTest by getting {

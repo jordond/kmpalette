@@ -10,6 +10,7 @@
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
 ![badge-ios](http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat)
 ![badge-desktop](http://img.shields.io/badge/platform-desktop-DB413D.svg?style=flat)
+![badge-js](http://img.shields.io/badge/platform-js-FDD835.svg?style=flat)
 
 A Compose Multiplatform library for generating color palettes from images, including the dominant
 color. You can use this library in combination
@@ -48,6 +49,7 @@ This library is written for Compose Multiplatform, and can be used on the follow
 - Android
 - iOS / MacOS
 - JVM (Desktop)
+- JavaScript (Browser)
 
 ## Inspiration
 
@@ -154,6 +156,20 @@ fun SomeComposable(bitmap: ImageBitmap) {
 Since the generation of the dominant color is an asynchronous operation that can fail, you can track
 the results of the operation using the `DominantColorState.result` object.
 
+If you want to filter the dominant color, you can use the pass a lambda
+to `rememberDominantColorState()`:
+
+```kotlin
+val dominantColorState = rememberDominantColorState(
+    isSwatchValid = { swatch ->
+        swatch.color.contrastAgainst(MaterialTheme.colorScheme.surfaceColor) >= MinContrastRatio
+    }
+)
+LaunchedEffect(bitmap) {
+    dominantColorState.updateFrom(bitmap)
+}
+```
+
 For more examples of getting a dominant color see
 the [demo app](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant)
 
@@ -210,7 +226,8 @@ an `ImageBitmap` from a `Url`:
 ```kotlin
 @Composable
 fun SomeComposable(url: Url) {
-    val dominantColorState = rememberDominantColorState(loader = NetworkLoader())
+    val networkLoader = rememberNetworkLoader()
+    val dominantColorState = rememberDominantColorState(loader = networkLoader)
     LaunchedEffect(url) {
         dominantColorState.updateFrom(url)
     }
