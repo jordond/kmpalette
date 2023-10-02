@@ -1,8 +1,8 @@
 package com.kmpalette.palette.internal.utils
 
-import androidx.annotation.ColorInt
-import androidx.annotation.FloatRange
-import androidx.annotation.IntRange
+import com.kmpalette.palette.internal.annotation.ColorInt
+import com.kmpalette.palette.internal.annotation.FloatRange
+import com.kmpalette.palette.internal.annotation.IntRange
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min

@@ -15,11 +15,11 @@
  */
 package androidx.palette.graphics
 
-import androidx.annotation.ColorInt
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.palette.graphics.Palette.Builder
 import com.kmpalette.palette.internal.ColorCutQuantizer
+import com.kmpalette.palette.internal.annotation.ColorInt
 import com.kmpalette.palette.internal.scale
 import com.kmpalette.palette.internal.utils.ColorUtils
 import dev.drewhamilton.poko.Poko
