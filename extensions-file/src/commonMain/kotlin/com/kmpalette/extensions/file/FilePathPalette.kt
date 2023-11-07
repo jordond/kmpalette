@@ -16,7 +16,7 @@ private val loader: (Path) -> suspend () -> ImageBitmap = { { it.toImageBitmap()
 /**
  * Generate and remember a [PaletteResult] from a absolute file path [String].
  *
- * You must import the Ktor client library to use this loader.
+ * You must import the okio library to use this loader.
  *
  * @param[coroutineContext] The [CoroutineContext] to use for generating the [PaletteResult].
  * @param[block] A block to configure the [Palette.Builder].
@@ -34,7 +34,7 @@ public fun String.rememberGeneratePalette(
 /**
  * Generate and remember a [PaletteResult] from a [Path].
  *
- * You must import the Ktor client library to use this loader.
+ * You must import the okio library to use this loader.
  *
  * @param[coroutineContext] The [CoroutineContext] to use for generating the [PaletteResult].
  * @param[block] A block to configure the [Palette.Builder].

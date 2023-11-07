@@ -6,7 +6,6 @@ import com.kmpalette.PaletteState
 import com.kmpalette.loader.FilePathLoader
 import com.kmpalette.loader.PathLoader
 import com.kmpalette.rememberPaletteState
-import io.ktor.client.HttpClient
 import kotlinx.coroutines.Dispatchers
 import okio.Path
 import kotlin.coroutines.CoroutineContext
@@ -14,7 +13,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Wrapper around [rememberPaletteState] that uses [FilePathLoader] to load the image.
  *
- * You must import the Ktor client library to use this loader.
+ * You must import the okio library to use this loader.
  *
  * @see rememberPaletteState
  * @param[cacheSize] The maximum number of [Palette]s to cache. If 0, no caching will be done.
@@ -26,7 +25,6 @@ import kotlin.coroutines.CoroutineContext
 @Composable
 public fun rememberFilePathPaletteState(
     cacheSize: Int = PaletteState.DEFAULT_CACHE_SIZE,
-    httpClient: HttpClient = HttpClient(),
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
 ): PaletteState<String> = rememberPaletteState(
@@ -39,7 +37,7 @@ public fun rememberFilePathPaletteState(
 /**
  * Wrapper around [rememberPaletteState] that uses [PathLoader] to load the image.
  *
- * You must import the Ktor client library to use this loader.
+ * You must import the okio library to use this loader.
  *
  * @see rememberPaletteState
  * @param[cacheSize] The maximum number of [Palette]s to cache. If 0, no caching will be done.
@@ -51,7 +49,6 @@ public fun rememberFilePathPaletteState(
 @Composable
 public fun rememberPathPaletteState(
     cacheSize: Int = PaletteState.DEFAULT_CACHE_SIZE,
-    httpClient: HttpClient = HttpClient(),
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
 ): PaletteState<Path> = rememberPaletteState(
