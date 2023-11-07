@@ -1,6 +1,6 @@
 # Network Extensions
 
-This extension provides `Network` a `ImageBitmapLoader` for loading images from a URL.
+This extension provides `NetworkLoader` a `ImageBitmapLoader` for loading images from a URL.
 
 | Library                                | Loader          | Input Class | Demo                                                                                                             |
 |----------------------------------------|-----------------|-------------|------------------------------------------------------------------------------------------------------------------|
@@ -20,6 +20,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kmpalette.core)
+                implementation(libs.kmpalette.extensions.network)
                 implementation("io.ktor:ktor-client-core:$ktor_version")
             }
         }
