@@ -1,5 +1,3 @@
-@file:Suppress("OPT_IN_USAGE")
-
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
@@ -11,7 +9,7 @@ plugins {
 kotlin {
     explicitApi()
 
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
 
     androidTarget {
         publishAllLibraryVariants()
@@ -40,8 +38,7 @@ kotlin {
                 implementation(project(":extensions-bytearray"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
-                implementation(libs.ktor.client)
-                implementation("com.squareup.okio:okio:3.6.0")
+                implementation(libs.okio)
             }
         }
 

@@ -1,5 +1,3 @@
-@file:Suppress("OPT_IN_USAGE")
-
 import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
@@ -13,7 +11,7 @@ plugins {
 kotlin {
     explicitApi()
 
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
 
     androidTarget {
         publishAllLibraryVariants()
