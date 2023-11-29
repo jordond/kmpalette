@@ -29,7 +29,7 @@ materialKolor = "1.2.8"
 kermit = "2.0.2"
 voyager = "1.0.0-rc10"
 kover = "0.7.5"
-poko = "0.15.0"
+poko = "0.15.1"
 calf-filePicker = "0.2.0"
 
 # These are pinned for Android instrumented tests
