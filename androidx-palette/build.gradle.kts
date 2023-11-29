@@ -1,5 +1,3 @@
-@file:Suppress("OPT_IN_USAGE")
-
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
@@ -13,7 +11,7 @@ plugins {
 kotlin {
     explicitApi()
 
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
 
     androidTarget {
         publishAllLibraryVariants()

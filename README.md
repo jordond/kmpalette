@@ -48,10 +48,15 @@ You can checkout a web demo at [demo.kmpalette.com](https://demo.kmpalette.com/)
 
 This library is written for Compose Multiplatform, and can be used on the following platforms:
 
-- Android
-- iOS / MacOS
-- JVM (Desktop)
-- JavaScript (Browser)
+| Artifact               | Android | Desktop | iOS | macOS | Browser |
+|------------------------|:-------:|:-------:|:---:|:-----:|:-------:|
+| `core`                 |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
+| `extensions-base64`    |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
+| `extensions-bytearray` |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
+| `extensions-libres`    |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
+| `extensions-network`   |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
+| `extensions-resources` |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
+| `extensions-file`      |    ✅    |    ✅    |  ✅  |   ✅   |    ❌    |
 
 ## Inspiration
 
@@ -87,6 +92,7 @@ kmpalette-extensions-bytearray = { module = "com.kmpalette:extensions-bytearray"
 kmpalette-extensions-libres = { module = "com.kmpalette:extensions-libres", version.ref = "kmpalette" }
 kmpalette-extensions-network = { module = "com.kmpalette:extensions-network", version.ref = "kmpalette" }
 kmpalette-extensions-resources = { module = "com.kmpalette:extensions-resources", version.ref = "kmpalette" }
+kmpalette-extensions-file = { module = "com.kmpalette:extensions-file", version.ref = "kmpalette" }
 ```
 
 To add to a multiplatform project, add the dependency to the common source-set:
@@ -105,6 +111,7 @@ kotlin {
                 implementation(libs.kmpalette.extensions.libres)
                 implementation(libs.kmpalette.extensions.network)
                 implementation(libs.kmpalette.extensions.resources)
+                implementation(libs.kmpalette.extensions.file)
             }
         }
     }
@@ -215,13 +222,14 @@ the [demo app](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette)
 In order to generate a color palette, you must first have an `ImageBitmap` object. This library
 provides some extensions artifacts for some popular sources.
 
-|                         Artifact                         | Library                                                                                                                | Loader            | Input Class | Demo                                                                                                                   |
-|:--------------------------------------------------------:|------------------------------------------------------------------------------------------------------------------------|-------------------|-------------|------------------------------------------------------------------------------------------------------------------------|
-|    [`extensions-base64`](extensions-base64/README.md)    | N/A                                                                                                                    | `Base64Loader`    | `String`    | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/Base64DemoScreen.kt)            |
-| [`extensions-bytearray`](extensions-bytearray/README.md) | N/A                                                                                                                    | `ByteArrayLoader` | `ByteArray` | N/A                                                                                                                    |
-|    [`extensions-libres`](extensions-libres/README.md)    | [libres](https://github.com/Skeptick/libres)                                                                           | `LibresLoader`    | `Image`     | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/LibresPaletteScreen.kt)       |
-|   [`extensions-network`](extensions-network/README.md)   | [ktor](https://github.com/ktorio/ktor)                                                                                 | `NetworkLoader`   | `Url`       | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/NetworkDemoScreen.kt)          |
-| [`extensions-resources`](extensions-resources/README.md) | [Compose Multiplatform Resources](https://github.com/JetBrains/compose-multiplatform/tree/master/components/resources) | `ResourceLoader`  | `Resource`  | [`ResourcesPaletteScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/ResourcesPaletteScreen.kt) |
+| Artifact                                                 | Library                                                                                                                | Loader                         | Input Class      | Demo                                                                                                                   |
+|----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|--------------------------------|------------------|------------------------------------------------------------------------------------------------------------------------|
+| [`extensions-base64`](extensions-base64/README.md)       | N/A                                                                                                                    | `Base64Loader`                 | `String`         | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/Base64DemoScreen.kt)            |
+| [`extensions-bytearray`](extensions-bytearray/README.md) | N/A                                                                                                                    | `ByteArrayLoader`              | `ByteArray`      | N/A                                                                                                                    |
+| [`extensions-libres`](extensions-libres/README.md)       | [libres](https://github.com/Skeptick/libres)                                                                           | `LibresLoader`                 | `Image`          | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/LibresPaletteScreen.kt)       |
+| [`extensions-network`](extensions-network/README.md)     | [ktor](https://github.com/ktorio/ktor)                                                                                 | `NetworkLoader`                | `Url`            | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/NetworkDemoScreen.kt)          |
+| [`extensions-resources`](extensions-resources/README.md) | [Compose Multiplatform Resources](https://github.com/JetBrains/compose-multiplatform/tree/master/components/resources) | `ResourceLoader`               | `Resource`       | [`ResourcesPaletteScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/ResourcesPaletteScreen.kt) |
+| [`extensions-file`](extensions-file/README.md)           | [okio](https://square.github.io)                                                                                       | `PathLoader`, `FilePathLoader` | `Path`, `String` | N/A                                                                                                                    |
 
 Each of these extensions provides a `ImageBitmapLoader` object that can be used to generate
 an `ImageBitmap` from the input class. For example, the `NetworkLoader` can be used to generate

@@ -51,6 +51,7 @@
 				A93A953829CC810C00F8E227 /* Products */,
 				979913F6AE5D271756D4649D /* Pods */,
 				C4127409AE3703430489E7BC /* Frameworks */,
+				BB33396AAA5F8D0EE2AE568C /* xcschemes */,
 			);
 			sourceTree = "<group>";
 		};
@@ -78,6 +79,14 @@
 				A93A954129CC810D00F8E227 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		BB33396AAA5F8D0EE2AE568C /* xcschemes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = xcschemes;
+			path = iosApp.xcworkspace/xcuserdata/jordon.xcuserdatad/xcschemes;
 			sourceTree = "<group>";
 		};
 		C4127409AE3703430489E7BC /* Frameworks */ = {
