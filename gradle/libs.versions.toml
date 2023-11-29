@@ -35,7 +35,7 @@ okio = "3.6.0"
 
 # These are pinned for Android instrumented tests
 #noinspection GradleDependency
-kotlin-coroutines = "1.7.3"
+kotlin-coroutines = "1.7.2"
 #noinspection GradleDependency
 androidx-core-ktx = "1.10.0"
 

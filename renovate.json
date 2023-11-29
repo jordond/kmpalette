@@ -3,7 +3,9 @@
   "extends": [
     "config:base"
   ],
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "packageRules": [
     {
       "groupName": "Kotlin",
@@ -14,5 +16,9 @@
         "org.jetbrains.kotlinx:binary-compatibility-validator"
       ]
     }
+  ],
+  "ignoreDeps": [
+    "kotlinx-coroutines-core",
+    "core-ktx"
   ]
 }
