@@ -78,6 +78,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(project(":extensions-file"))
                 implementation(libs.androidx.appcompat)
                 implementation(libs.androidx.activityCompose)
                 implementation(libs.compose.uitooling)

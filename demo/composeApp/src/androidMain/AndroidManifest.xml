@@ -8,6 +8,7 @@
         android:icon="@android:drawable/ic_menu_compass"
         android:label="kmpalette"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+        android:name=".AndroidApp"
         >
         <activity
             android:name=".AppActivity"

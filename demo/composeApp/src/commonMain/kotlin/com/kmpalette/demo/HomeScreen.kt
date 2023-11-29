@@ -46,6 +46,9 @@ class HomeScreen : Screen {
                 Button(onClick = { navigator.push(NetworkDemoScreen()) }) {
                     Text("Dominant Color - Network")
                 }
+                Button(onClick = { navigator.push(FileDemoScreen()) }) {
+                    Text("Dominant Color - Sample File")
+                }
             }
         }
     }
