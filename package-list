@@ -9,6 +9,9 @@ com.kmpalette.loader
 module:extensions-bytearray
 com.kmpalette.extensions.bytearray
 com.kmpalette.loader
+module:extensions-file
+com.kmpalette.extensions.file
+com.kmpalette.loader
 module:extensions-libres
 com.kmpalette.extensions.libres
 com.kmpalette.loader
