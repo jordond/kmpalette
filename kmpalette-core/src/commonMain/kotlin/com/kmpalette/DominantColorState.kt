@@ -10,9 +10,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.palette.graphics.Palette
 import com.kmpalette.internal.LruCache
 import com.kmpalette.loader.ImageBitmapLoader
+import com.kmpalette.loader.PainterLoader
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
@@ -59,6 +65,41 @@ public fun rememberDominantColorState(
     coroutineContext = coroutineContext,
     isSwatchValid = isSwatchValid,
     builder = builder,
+)
+
+/**
+ * Wrapper around [rememberDominantColorState] that uses [PainterLoader] to load the image.
+ *
+ * @see rememberDominantColorState
+ * @param[defaultColor] The default color, which will be used if [Palette.generate] fails.
+ * @param[defaultOnColor] The default color to use _on_ [defaultColor].
+ * @param[density] The [Density] used for drawing the [Painter] as [ImageBitmap].
+ * @param[layoutDirection] The [LayoutDirection] used for drawing the [Painter] as [ImageBitmap].
+ * @param[cacheSize] The size of the LruCache used to store recent results. Pass `0` to disable.
+ * @param[coroutineContext] The [CoroutineContext] used to launch the coroutine.
+ * @param[isSwatchValid] A lambda which allows filtering of the calculated [Palette.Swatch].
+ * @param[builder] A lambda which allows filtering of the calculated [Palette.Builder] used to generate
+ * the [Palette].
+ * @return A [DominantColorState] which can be used to generate a dominant color from a [Painter].
+ */
+@Composable
+public fun rememberPainterDominantColorState(
+    defaultColor: Color = MaterialTheme.colorScheme.primary,
+    defaultOnColor: Color = MaterialTheme.colorScheme.onPrimary,
+    density: Density = LocalDensity.current,
+    layoutDirection: LayoutDirection = LocalLayoutDirection.current,
+    cacheSize: Int = 0,
+    coroutineContext: CoroutineContext = Dispatchers.Default,
+    isSwatchValid: (Palette.Swatch) -> Boolean = { true },
+    builder: Palette.Builder.() -> Unit = {},
+): DominantColorState<Painter> = rememberDominantColorState(
+    loader = PainterLoader(density, layoutDirection),
+    defaultColor = defaultColor,
+    defaultOnColor = defaultOnColor,
+    cacheSize = cacheSize,
+    coroutineContext = coroutineContext,
+    isSwatchValid = isSwatchValid,
+    builder = builder
 )
 
 /**
