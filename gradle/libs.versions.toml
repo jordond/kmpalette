@@ -32,6 +32,7 @@ kover = "0.7.5"
 poko = "0.15.1"
 calf-filePicker = "0.3.0"
 okio = "3.6.0"
+detekt = "1.23.4"
 
 # These are pinned for Android instrumented tests
 #noinspection GradleDependency
@@ -70,6 +71,9 @@ libres = { module = "io.github.skeptick.libres:libres-compose", version.ref = "l
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 calf-filePicker = { module = "com.mohamedrejeb.calf:calf-file-picker", version.ref = "calf-filePicker" }
+detekt = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+detekt-library = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -85,6 +89,7 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 
 [bundles]
 test-android = ["junit", "androidx-test-junit", "androidx-test-runner", "androidx-test-rules", "androidx-test-espresso", "robolectric"]
