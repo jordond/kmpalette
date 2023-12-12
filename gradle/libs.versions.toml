@@ -32,6 +32,7 @@ kover = "0.7.5"
 poko = "0.15.1"
 calf-filePicker = "0.3.0"
 okio = "3.6.0"
+kamel = "0.9.0"
 
 # These are pinned for Android instrumented tests
 #noinspection GradleDependency
@@ -70,6 +71,7 @@ libres = { module = "io.github.skeptick.libres:libres-compose", version.ref = "l
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 calf-filePicker = { module = "com.mohamedrejeb.calf:calf-file-picker", version.ref = "calf-filePicker" }
+kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

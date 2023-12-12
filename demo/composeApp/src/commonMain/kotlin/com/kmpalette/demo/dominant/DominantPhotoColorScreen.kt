@@ -30,6 +30,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -89,8 +91,9 @@ class DominantPhotoColorScreen : Screen {
 @Composable
 internal fun <T : Any> DominantDemoContent(
     dominantColorState: DominantColorState<T>,
-    imageBitmap: ImageBitmap?,
-    content: @Composable () -> Unit,
+    imageBitmap: ImageBitmap? = null,
+    painter: Painter? = null,
+    content: @Composable () -> Unit = {},
 ) {
     var style: PaletteStyle by remember { mutableStateOf(PaletteStyle.TonalSpot) }
 
@@ -111,6 +114,12 @@ internal fun <T : Any> DominantDemoContent(
             if (imageBitmap != null) {
                 Image(
                     bitmap = imageBitmap,
+                    contentDescription = null,
+                    modifier = Modifier.heightIn(max = 200.dp)
+                )
+            } else if (painter != null) {
+                Image(
+                    painter = painter,
                     contentDescription = null,
                     modifier = Modifier.heightIn(max = 200.dp)
                 )

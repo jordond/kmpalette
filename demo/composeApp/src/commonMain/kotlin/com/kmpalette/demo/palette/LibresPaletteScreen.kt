@@ -7,7 +7,7 @@ import com.kmpalette.loader.LibresLoader
 import com.kmpalette.rememberPaletteState
 import io.github.skeptick.libres.compose.painterResource
 
-private val images = listOf(
+internal val images = listOf(
     Res.image.bg_1,
     Res.image.bg_2,
     Res.image.bg_3,
