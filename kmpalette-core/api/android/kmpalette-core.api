@@ -162,3 +162,7 @@ public final class com/kmpalette/loader/PainterLoader : com/kmpalette/loader/Ima
 	public synthetic fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
+public final class com/kmpalette/loader/PainterLoaderKt {
+	public static final fun rememberPainterLoader (Landroidx/compose/ui/unit/Density;Landroidx/compose/ui/unit/LayoutDirection;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/loader/PainterLoader;
+}
+

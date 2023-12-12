@@ -122,8 +122,10 @@ kotlin {
 
 To see the generated KDocs, visit [docs.kmpalette.com](https://docs.kmpalette.com/)
 
-In order to use this library you first must have a `ImageBitmap` object. You can get this from using
-one of the [sources](#sources) or by using a library that creates one for you.
+In order to use this library you first must have a `ImageBitmap` or a `Painter` object.
+
+To get an `ImageBitmap` you can use one of the [sources](#sources) or by using a library that
+creates one for you.
 
 Since this library is a port of
 the [`androidx.palette`](https://developer.android.com/jetpack/androidx/releases/palette) library,
@@ -164,6 +166,21 @@ fun SomeComposable(bitmap: ImageBitmap) {
 }
 ```
 
+You can also use a `Painter` object by specifying the `DominantColorState.loader` parameter:
+
+```kotlin
+@Composable
+fun SomeComposable(painter: Painter) {
+    val loader = rememberPainterLoader()
+    val dominantColorState = rememberDominantColorState(loader = loader)
+    LaunchedEffect(painter) {
+        dominantColorState.updateFrom(painter)
+    }
+
+    // ...
+}
+```
+
 Since the generation of the dominant color is an asynchronous operation that can fail, you can track
 the results of the operation using the `DominantColorState.result` object.
 
@@ -190,6 +207,8 @@ If you want a whole color palette instead of just a dominate color, you can use
 the `rememberPaletteState` composeable. This will provide a `Palette` object which contains a few
 different color `Swatch`s, each have their own color and _onColor_.
 
+Using an `ImageBitmap`:
+
 ```kotlin
 fun SomeComposable(bitmap: ImageBitmap) {
     val paletteState = rememberPaletteState()
@@ -211,6 +230,20 @@ fun SomeComposable(bitmap: ImageBitmap) {
 }
 ```
 
+Or using a `Painter`:
+
+```kotlin
+fun SomeComposable(painter: Painter) {
+    val loader = rememberPainterLoader()
+    val paletteState = rememberPaletteState(loader = loader)
+    LaunchedEffect(painter) {
+        paletteState.generate(painter)
+    }
+
+    // ...
+}
+```
+
 Since the generation of the dominant color is an asynchronous operation that can fail, you can track
 the results of the operation using the `DominantColorState.result` object.
 
@@ -219,8 +252,10 @@ the [demo app](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette)
 
 ### Sources
 
-In order to generate a color palette, you must first have an `ImageBitmap` object. This library
-provides some extensions artifacts for some popular sources.
+The `kmpalette-core` library provides the core functionality for generating color palettes from
+a `ImageBitmap` or a `Painter` object.
+
+This library provides some extensions artifacts for some popular sources.
 
 | Artifact                                                 | Library                                                                                                                | Loader                         | Input Class      | Demo                                                                                                                   |
 |----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|--------------------------------|------------------|------------------------------------------------------------------------------------------------------------------------|

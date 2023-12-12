@@ -1,5 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -9,7 +8,6 @@ plugins {
     alias(libs.plugins.libres)
 }
 
-@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     applyDefaultHierarchyTemplate()
 
@@ -67,6 +65,7 @@ kotlin {
                 implementation(libs.kermit)
                 implementation(libs.calf.filePicker)
                 implementation(libs.ktor.client)
+                implementation(libs.kamel)
             }
         }
 
