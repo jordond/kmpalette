@@ -25,3 +25,4 @@ module:kmpalette-bitmap-loader
 com.kmpalette.loader
 module:kmpalette-core
 com.kmpalette
+com.kmpalette.loader
