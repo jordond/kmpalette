@@ -83,10 +83,18 @@ kotlin {
                 implementation(libs.compose.uitooling)
                 implementation(libs.kotlinx.coroutines.android)
                 implementation(libs.ktor.android)
+
+                implementation("io.coil-kt:coil:2.5.0")
+                implementation("io.coil-kt:coil-compose:2.5.0")
             }
         }
 
+        val nonAndroidMain by creating {
+            dependsOn(commonMain)
+        }
+
         val desktopMain by getting {
+            dependsOn(nonAndroidMain)
             dependencies {
                 implementation(compose.desktop.common)
                 implementation(compose.desktop.currentOs)
@@ -95,16 +103,23 @@ kotlin {
         }
 
         val iosMain by getting {
+            dependsOn(nonAndroidMain)
             dependencies {
                 implementation(libs.ktor.darwin)
             }
         }
 
         val jsMain by getting {
+            dependsOn(nonAndroidMain)
             dependencies {
                 implementation(compose.html.core)
                 implementation(libs.ktor.js)
             }
+        }
+
+        val nativeMain by getting {
+            dependsOn(commonMain)
+            dependsOn(nonAndroidMain)
         }
     }
 }
@@ -130,6 +145,10 @@ android {
 
     kotlin {
         jvmToolchain(11)
+    }
+
+    buildFeatures {
+        compose = true
     }
 }
 

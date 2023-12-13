@@ -14,6 +14,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.kmpalette.demo.dominant.Base64DemoScreen
 import com.kmpalette.demo.dominant.DominantPhotoColorScreen
+import com.kmpalette.demo.dominant.HardwareBitmapScreen
 import com.kmpalette.demo.dominant.NetworkDemoScreen
 import com.kmpalette.demo.dominant.NetworkPainterDemoScreen
 import com.kmpalette.demo.palette.LibresPaletteScreen
@@ -56,6 +57,9 @@ class HomeScreen : Screen {
                 }
                 Button(onClick = { navigator.push(FileDemoScreen()) }) {
                     Text("Dominant Color - Sample File")
+                }
+                Button(onClick = { navigator.push(HardwareBitmapScreen()) }) {
+                    Text("Dominant Color - Hardware Bitmap (Android only)")
                 }
             }
         }

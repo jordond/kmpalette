@@ -61,15 +61,30 @@ kotlin {
         }
 
         val androidMain by getting {
+            dependsOn(commonMain)
             dependsOn(nonJsMain)
+            dependencies {
+                implementation(compose.ui)
+                implementation(libs.androidx.startup)
+            }
+        }
+
+        val nonAndroidMain by creating {
+            dependsOn(commonMain)
         }
 
         val jvmMain by getting {
             dependsOn(nonJsMain)
+            dependsOn(nonAndroidMain)
         }
 
         val nativeMain by getting {
             dependsOn(nonJsMain)
+            dependsOn(nonAndroidMain)
+        }
+
+        val jsMain by getting {
+            dependsOn(nonAndroidMain)
         }
     }
 }

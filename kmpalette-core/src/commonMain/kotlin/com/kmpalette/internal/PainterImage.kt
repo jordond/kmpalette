@@ -14,27 +14,45 @@ internal class PainterImage(
     private val density: Density,
     private val layoutDirection: LayoutDirection
 ) {
-    fun asBitmap(
+    suspend fun asBitmap(
         width: Int = painter.intrinsicSize.width.roundToInt(),
         height: Int = painter.intrinsicSize.height.roundToInt()
     ): ImageBitmap {
-        val bitmap = ImageBitmap(width, height)
-        val canvas = Canvas(bitmap)
-        val floatSize = Size(width.toFloat(), height.toFloat())
-
-        bitmap.prepareToDraw()
-
-        CanvasDrawScope().draw(
-            density = density,
-            layoutDirection = layoutDirection,
-            canvas = canvas,
-            size = floatSize
-        ) {
-            with(painter) {
-                draw(floatSize)
-            }
-        }
-
-        return bitmap
+        return createBitmapFrom(painter, density, layoutDirection, width, height)
     }
 }
+
+internal fun defaultCreateBitmapFrom(
+    painter: Painter,
+    density: Density,
+    layoutDirection: LayoutDirection,
+    width: Int = painter.intrinsicSize.width.roundToInt(),
+    height: Int = painter.intrinsicSize.height.roundToInt(),
+): ImageBitmap {
+    val bitmap = ImageBitmap(width, height)
+    val canvas = Canvas(bitmap)
+    val floatSize = Size(width.toFloat(), height.toFloat())
+
+    bitmap.prepareToDraw()
+
+    CanvasDrawScope().draw(
+        density = density,
+        layoutDirection = layoutDirection,
+        canvas = canvas,
+        size = floatSize
+    ) {
+        with(painter) {
+            draw(floatSize)
+        }
+    }
+
+    return bitmap
+}
+
+internal expect suspend fun createBitmapFrom(
+    painter: Painter,
+    density: Density,
+    layoutDirection: LayoutDirection,
+    width: Int = painter.intrinsicSize.width.roundToInt(),
+    height: Int = painter.intrinsicSize.height.roundToInt(),
+): ImageBitmap
