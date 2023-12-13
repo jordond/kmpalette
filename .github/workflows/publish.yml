@@ -123,3 +123,4 @@ jobs:
           projectName: kmpalette-demo
           directory: demo/composeApp/build/dist/js/productionExecutable
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
