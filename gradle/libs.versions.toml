@@ -31,7 +31,7 @@ voyager = "1.0.0"
 kover = "0.7.5"
 poko = "0.15.1"
 calf-filePicker = "0.3.0"
-okio = "3.6.0"
+okio = "3.7.0"
 kamel = "0.9.0"
 
 # These are pinned for Android instrumented tests
