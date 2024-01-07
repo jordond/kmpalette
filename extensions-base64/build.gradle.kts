@@ -22,6 +22,11 @@ kotlin {
         browser()
     }
 
+    @OptIn(org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+    }
+
     macosX64()
     macosArm64()
 
