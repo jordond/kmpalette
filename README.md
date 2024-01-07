@@ -10,7 +10,7 @@
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
 ![badge-ios](http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat)
 ![badge-desktop](http://img.shields.io/badge/platform-desktop-DB413D.svg?style=flat)
-![badge-js-wasm](http://img.shields.io/badge/platform-js%2wasmJs-FDD835.svg?style=flat)
+![badge-js-wasm](http://img.shields.io/badge/platform-js%2Fwasm-FDD835.svg?style=flat)
 
 A Compose Multiplatform library for generating color palettes from images, including the dominant
 color. You can use this library in combination
