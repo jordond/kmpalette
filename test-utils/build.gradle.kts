@@ -63,7 +63,7 @@ kotlin {
             dependsOn(skikoMain)
         }
 
-        val jsMain by getting {
+        val jsAndWasmJsMain by creating {
             dependsOn(skikoMain)
         }
 

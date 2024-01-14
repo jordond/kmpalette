@@ -68,6 +68,12 @@ kotlin {
                 implementation(project(":extensions-bytearray"))
             }
         }
+
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(project(":extensions-bytearray"))
+            }
+        }
     }
 }
 

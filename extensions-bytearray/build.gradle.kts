@@ -84,6 +84,10 @@ kotlin {
             dependsOn(skikoMain)
         }
 
+        val wasmJsMain by getting {
+            dependsOn(skikoMain)
+        }
+
         val jvmTest by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)

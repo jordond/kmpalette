@@ -5,7 +5,7 @@ import kotlinx.atomicfu.locks.synchronized
 internal typealias LockObject = Any
 
 /**
- * Modified from [this](https://github.com/qdsfdhvh/compose-imageloader/blob/7a12a122be95043fe2a9cbf2f560b60228e5cf79/image-loader/src/jsMain/kotlin/com/seiko/imageloader/util/LruCache.kt).
+ * Modified from [this](https://github.com/qdsfdhvh/compose-imageloader/blob/7a12a122be95043fe2a9cbf2f560b60228e5cf79/image-loader/src/jsAndWasmJsMain/kotlin/com/seiko/imageloader/util/LruCache.kt).
  */
 internal actual open class LruCache<K : Any, V : Any> actual constructor(maxSize: Int) {
 

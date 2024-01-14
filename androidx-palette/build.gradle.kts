@@ -72,6 +72,10 @@ kotlin {
             dependsOn(skikoMain)
         }
 
+        val wasmJsMain by getting {
+            dependsOn(skikoMain)
+        }
+
         val androidInstrumentedTest by getting {
             dependencies {
                 implementation(project(":extensions-base64"))
