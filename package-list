@@ -2,7 +2,7 @@ $dokka.format:html-v1
 $dokka.linkExtension:html
 
 module:androidx-palette
-androidx.palette.graphics
+com.kmpalette.palette.graphics
 module:extensions-base64
 com.kmpalette.extensions.base64
 com.kmpalette.loader
