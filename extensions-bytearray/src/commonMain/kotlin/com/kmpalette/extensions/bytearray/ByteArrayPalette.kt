@@ -3,9 +3,9 @@ package com.kmpalette.extensions.bytearray
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.palette.graphics.Palette
 import com.kmpalette.PaletteResult
 import com.kmpalette.loader.toImageBitmap
+import com.kmpalette.palette.graphics.Palette
 import kotlin.coroutines.CoroutineContext
 
 private val loader: (ByteArray) -> suspend () -> ImageBitmap = { { it.toImageBitmap() } }

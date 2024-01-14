@@ -12,10 +12,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.palette.graphics.Palette
 import com.kmpalette.internal.LruCache
 import com.kmpalette.loader.ImageBitmapLoader
 import com.kmpalette.loader.PainterLoader
+import com.kmpalette.palette.graphics.Palette
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext

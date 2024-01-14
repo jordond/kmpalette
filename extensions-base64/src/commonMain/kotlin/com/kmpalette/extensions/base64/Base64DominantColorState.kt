@@ -3,9 +3,9 @@ package com.kmpalette.extensions.base64
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.palette.graphics.Palette
 import com.kmpalette.DominantColorState
 import com.kmpalette.loader.Base64Loader
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberDominantColorState
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext

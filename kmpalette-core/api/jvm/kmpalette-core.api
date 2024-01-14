@@ -29,11 +29,11 @@ public final class com/kmpalette/PaletteKt {
 }
 
 public abstract interface class com/kmpalette/PaletteResult {
-	public abstract fun getPaletteOrNull ()Landroidx/palette/graphics/Palette;
+	public abstract fun getPaletteOrNull ()Lcom/kmpalette/palette/graphics/Palette;
 }
 
 public final class com/kmpalette/PaletteResult$DefaultImpls {
-	public static fun getPaletteOrNull (Lcom/kmpalette/PaletteResult;)Landroidx/palette/graphics/Palette;
+	public static fun getPaletteOrNull (Lcom/kmpalette/PaletteResult;)Lcom/kmpalette/palette/graphics/Palette;
 }
 
 public final class com/kmpalette/PaletteResult$Error : com/kmpalette/PaletteResult {
@@ -44,7 +44,7 @@ public final class com/kmpalette/PaletteResult$Error : com/kmpalette/PaletteResu
 	public static synthetic fun copy$default (Lcom/kmpalette/PaletteResult$Error;Ljava/lang/Throwable;ILjava/lang/Object;)Lcom/kmpalette/PaletteResult$Error;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCause ()Ljava/lang/Throwable;
-	public fun getPaletteOrNull ()Landroidx/palette/graphics/Palette;
+	public fun getPaletteOrNull ()Lcom/kmpalette/palette/graphics/Palette;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -53,20 +53,20 @@ public final class com/kmpalette/PaletteResult$Loading : com/kmpalette/PaletteRe
 	public static final field $stable I
 	public static final field INSTANCE Lcom/kmpalette/PaletteResult$Loading;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getPaletteOrNull ()Landroidx/palette/graphics/Palette;
+	public fun getPaletteOrNull ()Lcom/kmpalette/palette/graphics/Palette;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/kmpalette/PaletteResult$Success : com/kmpalette/PaletteResult {
 	public static final field $stable I
-	public fun <init> (Landroidx/palette/graphics/Palette;)V
-	public final fun component1 ()Landroidx/palette/graphics/Palette;
-	public final fun copy (Landroidx/palette/graphics/Palette;)Lcom/kmpalette/PaletteResult$Success;
-	public static synthetic fun copy$default (Lcom/kmpalette/PaletteResult$Success;Landroidx/palette/graphics/Palette;ILjava/lang/Object;)Lcom/kmpalette/PaletteResult$Success;
+	public fun <init> (Lcom/kmpalette/palette/graphics/Palette;)V
+	public final fun component1 ()Lcom/kmpalette/palette/graphics/Palette;
+	public final fun copy (Lcom/kmpalette/palette/graphics/Palette;)Lcom/kmpalette/PaletteResult$Success;
+	public static synthetic fun copy$default (Lcom/kmpalette/PaletteResult$Success;Lcom/kmpalette/palette/graphics/Palette;ILjava/lang/Object;)Lcom/kmpalette/PaletteResult$Success;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getPalette ()Landroidx/palette/graphics/Palette;
-	public fun getPaletteOrNull ()Landroidx/palette/graphics/Palette;
+	public final fun getPalette ()Lcom/kmpalette/palette/graphics/Palette;
+	public fun getPaletteOrNull ()Lcom/kmpalette/palette/graphics/Palette;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -80,7 +80,7 @@ public abstract class com/kmpalette/PaletteState {
 	public synthetic fun <init> (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun generate (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	protected abstract fun getLoader ()Lcom/kmpalette/loader/ImageBitmapLoader;
-	public final fun getPalette ()Landroidx/palette/graphics/Palette;
+	public final fun getPalette ()Lcom/kmpalette/palette/graphics/Palette;
 	public final fun getState ()Lcom/kmpalette/PaletteResult;
 	public final fun reset ()V
 }
@@ -95,13 +95,13 @@ public final class com/kmpalette/PaletteStateKt {
 }
 
 public final class com/kmpalette/SwatchKt {
-	public static final fun bodyTextColor (Landroidx/palette/graphics/Palette$Swatch;)J
-	public static final fun get (Landroidx/palette/graphics/Palette;Landroidx/palette/graphics/Target;)Landroidx/palette/graphics/Palette$Swatch;
-	public static final fun get (Landroidx/palette/graphics/Palette;Lcom/kmpalette/SwatchTarget;)Landroidx/palette/graphics/Palette$Swatch;
-	public static final fun getColor (Landroidx/palette/graphics/Palette$Swatch;)J
-	public static final fun getOnColor (Landroidx/palette/graphics/Palette$Swatch;)J
-	public static final fun getSwatch (Landroidx/palette/graphics/Palette;Lcom/kmpalette/SwatchTarget;)Landroidx/palette/graphics/Palette$Swatch;
-	public static final fun titleTextColor (Landroidx/palette/graphics/Palette$Swatch;)J
+	public static final fun bodyTextColor (Lcom/kmpalette/palette/graphics/Palette$Swatch;)J
+	public static final fun get (Lcom/kmpalette/palette/graphics/Palette;Lcom/kmpalette/SwatchTarget;)Lcom/kmpalette/palette/graphics/Palette$Swatch;
+	public static final fun get (Lcom/kmpalette/palette/graphics/Palette;Lcom/kmpalette/palette/graphics/Target;)Lcom/kmpalette/palette/graphics/Palette$Swatch;
+	public static final fun getColor (Lcom/kmpalette/palette/graphics/Palette$Swatch;)J
+	public static final fun getOnColor (Lcom/kmpalette/palette/graphics/Palette$Swatch;)J
+	public static final fun getSwatch (Lcom/kmpalette/palette/graphics/Palette;Lcom/kmpalette/SwatchTarget;)Lcom/kmpalette/palette/graphics/Palette$Swatch;
+	public static final fun titleTextColor (Lcom/kmpalette/palette/graphics/Palette$Swatch;)J
 }
 
 public abstract interface class com/kmpalette/SwatchTarget {

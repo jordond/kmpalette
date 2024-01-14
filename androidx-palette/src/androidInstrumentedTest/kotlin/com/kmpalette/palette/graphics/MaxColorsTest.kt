@@ -15,11 +15,11 @@
  */
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package androidx.palette.graphics
+package com.kmpalette.palette.graphics
 
-import androidx.palette.graphics.TestUtils.loadSampleBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.kmpalette.palette.graphics.TestUtils.loadSampleBitmap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert

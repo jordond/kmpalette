@@ -40,7 +40,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import androidx.palette.graphics.Palette
 import com.kmpalette.PaletteResult
 import com.kmpalette.PaletteState
 import com.kmpalette.demo.SelectedColor
@@ -49,6 +48,7 @@ import com.kmpalette.demo.theme.AppTheme
 import com.kmpalette.demo.util.ColorBox
 import com.kmpalette.demo.util.colorSchemePairs
 import com.kmpalette.demo.util.conditional
+import com.kmpalette.palette.graphics.Palette
 import com.materialkolor.PaletteStyle
 
 @Composable

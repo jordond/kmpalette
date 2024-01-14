@@ -3,10 +3,10 @@ package com.kmpalette.extensions.bytearray
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.palette.graphics.Palette
 import com.kmpalette.DominantColorState
 import com.kmpalette.DominantColorState.Companion.DEFAULT_CACHE_SIZE
 import com.kmpalette.loader.ByteArrayLoader
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberDominantColorState
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext

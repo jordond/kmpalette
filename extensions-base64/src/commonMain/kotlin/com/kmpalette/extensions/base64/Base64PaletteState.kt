@@ -1,9 +1,9 @@
 package com.kmpalette.extensions.base64
 
 import androidx.compose.runtime.Composable
-import androidx.palette.graphics.Palette
 import com.kmpalette.PaletteState
 import com.kmpalette.loader.Base64Loader
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberPaletteState
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext

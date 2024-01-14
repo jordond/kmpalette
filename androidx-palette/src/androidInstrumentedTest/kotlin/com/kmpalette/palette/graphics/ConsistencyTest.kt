@@ -15,7 +15,7 @@
  */
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package androidx.palette.graphics
+package com.kmpalette.palette.graphics
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4

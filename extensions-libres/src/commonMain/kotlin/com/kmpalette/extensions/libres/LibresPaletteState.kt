@@ -1,9 +1,9 @@
 package com.kmpalette.extensions.libres
 
 import androidx.compose.runtime.Composable
-import androidx.palette.graphics.Palette
 import com.kmpalette.PaletteState
 import com.kmpalette.loader.LibresLoader
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberPaletteState
 import io.github.skeptick.libres.images.Image
 import kotlinx.coroutines.Dispatchers

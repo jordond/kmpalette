@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.palette.graphics
+package com.kmpalette.palette.graphics
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.palette.graphics.Palette.Builder
+import com.kmpalette.palette.graphics.Palette.Builder
 import com.kmpalette.palette.internal.ColorCutQuantizer
 import com.kmpalette.palette.internal.annotation.ColorInt
 import com.kmpalette.palette.internal.scale
