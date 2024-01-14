@@ -3,9 +3,9 @@ package com.kmpalette.extensions.network
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.palette.graphics.Palette
 import com.kmpalette.DominantColorState
 import com.kmpalette.loader.NetworkLoader
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberDominantColorState
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder

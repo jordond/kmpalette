@@ -15,7 +15,7 @@
  */
 package com.kmpalette.palette.internal
 
-import androidx.palette.graphics.Palette
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.palette.internal.utils.ColorUtils
 import com.kmpalette.palette.internal.utils.PriorityQueue
 import kotlin.math.min

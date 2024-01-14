@@ -1,10 +1,10 @@
 package com.kmpalette
 
 import androidx.compose.ui.graphics.Color
-import androidx.palette.graphics.Palette
-import androidx.palette.graphics.Palette.Swatch
-import androidx.palette.graphics.Target
-import androidx.palette.graphics.Target.Builder
+import com.kmpalette.palette.graphics.Palette
+import com.kmpalette.palette.graphics.Palette.Builder
+import com.kmpalette.palette.graphics.Palette.Swatch
+import com.kmpalette.palette.graphics.Target
 
 /**
  * A class which allows custom selection of colors in a [Palette]'s generation. Instances

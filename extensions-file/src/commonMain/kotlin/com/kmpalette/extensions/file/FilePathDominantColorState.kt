@@ -3,10 +3,10 @@ package com.kmpalette.extensions.file
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.palette.graphics.Palette
 import com.kmpalette.DominantColorState
 import com.kmpalette.loader.FilePathLoader
 import com.kmpalette.loader.PathLoader
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberDominantColorState
 import kotlinx.coroutines.Dispatchers
 import okio.Path

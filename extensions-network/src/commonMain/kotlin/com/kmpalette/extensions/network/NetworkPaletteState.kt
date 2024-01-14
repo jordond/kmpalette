@@ -1,9 +1,9 @@
 package com.kmpalette.extensions.network
 
 import androidx.compose.runtime.Composable
-import androidx.palette.graphics.Palette
 import com.kmpalette.PaletteState
 import com.kmpalette.loader.NetworkLoader
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberPaletteState
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder

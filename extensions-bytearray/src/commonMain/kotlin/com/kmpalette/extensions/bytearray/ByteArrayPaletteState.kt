@@ -1,10 +1,10 @@
 package com.kmpalette.extensions.bytearray
 
 import androidx.compose.runtime.Composable
-import androidx.palette.graphics.Palette
 import com.kmpalette.PaletteState
 import com.kmpalette.PaletteState.Companion.DEFAULT_CACHE_SIZE
 import com.kmpalette.loader.ByteArrayLoader
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberPaletteState
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext

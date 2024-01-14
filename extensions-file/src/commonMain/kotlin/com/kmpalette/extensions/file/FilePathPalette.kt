@@ -3,9 +3,9 @@ package com.kmpalette.extensions.file
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.palette.graphics.Palette
 import com.kmpalette.PaletteResult
 import com.kmpalette.loader.toImageBitmap
+import com.kmpalette.palette.graphics.Palette
 import kotlinx.coroutines.Dispatchers
 import okio.Path
 import okio.Path.Companion.toPath

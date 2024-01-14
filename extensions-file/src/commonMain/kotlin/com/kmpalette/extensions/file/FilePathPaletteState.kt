@@ -1,10 +1,10 @@
 package com.kmpalette.extensions.file
 
 import androidx.compose.runtime.Composable
-import androidx.palette.graphics.Palette
 import com.kmpalette.PaletteState
 import com.kmpalette.loader.FilePathLoader
 import com.kmpalette.loader.PathLoader
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberPaletteState
 import kotlinx.coroutines.Dispatchers
 import okio.Path

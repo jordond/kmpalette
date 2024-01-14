@@ -3,9 +3,9 @@ package com.kmpalette.extensions.libres
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.palette.graphics.Palette
 import com.kmpalette.DominantColorState
 import com.kmpalette.loader.LibresLoader
+import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberDominantColorState
 import io.github.skeptick.libres.images.Image
 import kotlinx.coroutines.Dispatchers

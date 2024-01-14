@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.palette.graphics
+package com.kmpalette.palette.graphics
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.palette.graphics.TestUtils.assertCloseColors
-import androidx.palette.graphics.TestUtils.loadSampleBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.kmpalette.palette.graphics.TestUtils.assertCloseColors
+import com.kmpalette.palette.graphics.TestUtils.loadSampleBitmap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert

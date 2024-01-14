@@ -1,4 +1,4 @@
-package androidx.palette.graphics
+package com.kmpalette.palette.graphics
 
 import android.content.Context
 import android.graphics.BitmapFactory
