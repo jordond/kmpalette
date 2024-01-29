@@ -37,7 +37,7 @@ jobs:
           distribution: adopt
 
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/wrapper-validation-action@v2
 
       - name: Binary Compatibility Validation
         uses: gradle/gradle-build-action@v2
@@ -82,7 +82,7 @@ jobs:
             ${{ runner.os }}-konan-
 
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/wrapper-validation-action@v2
 
       - name: Run ${{ matrix.config.target }} tests
         continue-on-error: ${{ matrix.config.continueOnError }}
@@ -108,7 +108,7 @@ jobs:
           distribution: adopt
 
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/wrapper-validation-action@v2
 
       - name: Run tests for API ${{ matrix.api-level }}
         uses: reactivecircus/android-emulator-runner@v2
@@ -137,7 +137,7 @@ jobs:
           distribution: adopt
 
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/wrapper-validation-action@v2
 
       - name: Setup headless Chrome
         uses: browser-actions/setup-chrome@v1
