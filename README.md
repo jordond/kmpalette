@@ -55,7 +55,6 @@ This library is written for Compose Multiplatform, and can be used on the follow
 | `extensions-bytearray` |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
 | `extensions-libres`    |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
 | `extensions-network`   |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
-| `extensions-resources` |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
 | `extensions-file`      |    ✅    |    ✅    |  ✅  |   ✅   |    ❌    |
 
 ## Inspiration
@@ -91,7 +90,6 @@ kmpalette-extensions-base64 = { module = "com.kmpalette:extensions-base64", vers
 kmpalette-extensions-bytearray = { module = "com.kmpalette:extensions-bytearray", version.ref = "kmpalette" }
 kmpalette-extensions-libres = { module = "com.kmpalette:extensions-libres", version.ref = "kmpalette" }
 kmpalette-extensions-network = { module = "com.kmpalette:extensions-network", version.ref = "kmpalette" }
-kmpalette-extensions-resources = { module = "com.kmpalette:extensions-resources", version.ref = "kmpalette" }
 kmpalette-extensions-file = { module = "com.kmpalette:extensions-file", version.ref = "kmpalette" }
 ```
 
@@ -110,7 +108,6 @@ kotlin {
                 implementation(libs.kmpalette.extensions.bytearray)
                 implementation(libs.kmpalette.extensions.libres)
                 implementation(libs.kmpalette.extensions.network)
-                implementation(libs.kmpalette.extensions.resources)
                 implementation(libs.kmpalette.extensions.file)
             }
         }
@@ -257,14 +254,13 @@ a `ImageBitmap` or a `Painter` object.
 
 This library provides some extensions artifacts for some popular sources.
 
-| Artifact                                                 | Library                                                                                                                | Loader                         | Input Class      | Demo                                                                                                                   |
-|----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|--------------------------------|------------------|------------------------------------------------------------------------------------------------------------------------|
-| [`extensions-base64`](extensions-base64/README.md)       | N/A                                                                                                                    | `Base64Loader`                 | `String`         | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/Base64DemoScreen.kt)            |
-| [`extensions-bytearray`](extensions-bytearray/README.md) | N/A                                                                                                                    | `ByteArrayLoader`              | `ByteArray`      | N/A                                                                                                                    |
-| [`extensions-libres`](extensions-libres/README.md)       | [libres](https://github.com/Skeptick/libres)                                                                           | `LibresLoader`                 | `Image`          | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/LibresPaletteScreen.kt)       |
-| [`extensions-network`](extensions-network/README.md)     | [ktor](https://github.com/ktorio/ktor)                                                                                 | `NetworkLoader`                | `Url`            | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/NetworkDemoScreen.kt)          |
-| [`extensions-resources`](extensions-resources/README.md) | [Compose Multiplatform Resources](https://github.com/JetBrains/compose-multiplatform/tree/master/components/resources) | `ResourceLoader`               | `Resource`       | [`ResourcesPaletteScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/ResourcesPaletteScreen.kt) |
-| [`extensions-file`](extensions-file/README.md)           | [okio](https://square.github.io)                                                                                       | `PathLoader`, `FilePathLoader` | `Path`, `String` | N/A                                                                                                                    |
+| Artifact                                                 | Library                                      | Loader                         | Input Class      | Demo                                                                                                             |
+|----------------------------------------------------------|----------------------------------------------|--------------------------------|------------------|------------------------------------------------------------------------------------------------------------------|
+| [`extensions-base64`](extensions-base64/README.md)       | N/A                                          | `Base64Loader`                 | `String`         | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/Base64DemoScreen.kt)      |
+| [`extensions-bytearray`](extensions-bytearray/README.md) | N/A                                          | `ByteArrayLoader`              | `ByteArray`      | N/A                                                                                                              |
+| [`extensions-libres`](extensions-libres/README.md)       | [libres](https://github.com/Skeptick/libres) | `LibresLoader`                 | `Image`          | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/LibresPaletteScreen.kt) |
+| [`extensions-network`](extensions-network/README.md)     | [ktor](https://github.com/ktorio/ktor)       | `NetworkLoader`                | `Url`            | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/NetworkDemoScreen.kt)    |
+| [`extensions-file`](extensions-file/README.md)           | [okio](https://square.github.io)             | `PathLoader`, `FilePathLoader` | `Path`, `String` | N/A                                                                                                              |
 
 Each of these extensions provides a `ImageBitmapLoader` object that can be used to generate
 an `ImageBitmap` from the input class. For example, the `NetworkLoader` can be used to generate
@@ -286,6 +282,25 @@ fun SomeComposable(url: Url) {
             .background(dominantColorState.color)
     ) {
         Text("Some Text", color = dominantColorState.onColor)
+    }
+}
+```
+
+### Compose Multiplatform Resources
+
+As of Compose Multiplatform `1.6.0` the way Resources are handled has changed. Thus this library has
+deleted it's extension as it is no longer needed.
+
+To generate a palette from a `DrawableResource` you can use the `@Composable imageResource()` to get
+an `ImageBitmap` then pass that to the default loader.
+
+```kotlin
+@Composable
+fun MyComposeable() {
+    val image = imageResource(R.drawable.my_image)
+    val dominantColorState = rememberDominantColorState()
+    LaunchedEffect(url) {
+        dominantColorState.updateFrom(image)
     }
 }
 ```

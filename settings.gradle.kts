@@ -40,7 +40,6 @@ include(
     ":kmpalette-bitmap-loader",
     ":extensions-base64",
     ":extensions-bytearray",
-    ":extensions-resources",
     ":extensions-libres",
     ":extensions-network",
     ":extensions-file",
