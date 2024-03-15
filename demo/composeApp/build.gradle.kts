@@ -8,10 +8,6 @@ plugins {
     alias(libs.plugins.libres)
 }
 
-libres{
-    generatedClassName = "R"
-}
-
 kotlin {
     applyDefaultHierarchyTemplate()
 
