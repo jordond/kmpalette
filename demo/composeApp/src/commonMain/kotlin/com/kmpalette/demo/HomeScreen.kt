@@ -18,7 +18,6 @@ import com.kmpalette.demo.dominant.NetworkDemoScreen
 import com.kmpalette.demo.dominant.NetworkPainterDemoScreen
 import com.kmpalette.demo.palette.LibresPaletteScreen
 import com.kmpalette.demo.palette.PainterPaletteScreen
-import com.kmpalette.demo.palette.ResourcesPaletteScreen
 import com.kmpalette.demo.theme.AppTheme
 
 class HomeScreen : Screen {
@@ -35,9 +34,6 @@ class HomeScreen : Screen {
             ) {
                 Button(onClick = { navigator.push(LibresPaletteScreen()) }) {
                     Text("Palette - Libres")
-                }
-                Button(onClick = { navigator.push(ResourcesPaletteScreen()) }) {
-                    Text("Palette - Resources")
                 }
                 Button(onClick = { navigator.push(PainterPaletteScreen()) }) {
                     Text("Palette - Painter")

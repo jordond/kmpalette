@@ -50,7 +50,6 @@ kotlin {
             dependencies {
                 implementation(project(":kmpalette-core"))
                 implementation(project(":extensions-libres"))
-                implementation(project(":extensions-resources"))
                 implementation(project(":extensions-base64"))
                 implementation(project(":extensions-network"))
                 implementation(compose.runtime)
@@ -124,8 +123,8 @@ android {
 
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        res.srcDirs("src/androidMain/resources")
-        resources.srcDirs("src/commonMain/resources")
+        res.srcDirs("src/androidMain/composeResources")
+        resources.srcDirs("src/commonMain/composeResources")
     }
 
     kotlin {
@@ -143,10 +142,6 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
-}
-
-compose.experimental {
-    web.application {}
 }
 
 compose.experimental {

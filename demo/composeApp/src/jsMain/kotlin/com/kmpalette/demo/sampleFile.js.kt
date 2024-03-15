@@ -8,7 +8,7 @@ actual fun sampleFile(): String {
     error("Not supported by this platform")
 }
 
-actual class FileDemoScreen actual constructor(): Screen {
+actual class FileDemoScreen actual constructor() : Screen {
 
     @Composable
     override fun Content() {
