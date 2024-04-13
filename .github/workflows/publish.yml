@@ -81,7 +81,7 @@ jobs:
         uses: gradle/wrapper-validation-action@v3
 
       - name: Generate documentation
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: dokkaHtmlMultiModule
 
@@ -111,7 +111,7 @@ jobs:
         uses: gradle/wrapper-validation-action@v3
 
       - name: Build Production browser demo
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: :demo:composeApp:jsBrowserProductionWebpack
 
