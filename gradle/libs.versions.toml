@@ -32,7 +32,7 @@ kover = "0.7.6"
 poko = "0.16.0"
 calf-filePicker = "0.4.0"
 okio = "3.9.0"
-kamel = "0.9.4"
+kamel = "0.9.5"
 
 # These are pinned for Android instrumented tests
 #noinspection GradleDependency
