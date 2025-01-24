@@ -16,7 +16,6 @@ import com.kmpalette.demo.dominant.Base64DemoScreen
 import com.kmpalette.demo.dominant.DominantPhotoColorScreen
 import com.kmpalette.demo.dominant.NetworkDemoScreen
 import com.kmpalette.demo.dominant.NetworkPainterDemoScreen
-import com.kmpalette.demo.palette.LibresPaletteScreen
 import com.kmpalette.demo.palette.PainterPaletteScreen
 import com.kmpalette.demo.theme.AppTheme
 
@@ -32,9 +31,6 @@ class HomeScreen : Screen {
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxSize(),
             ) {
-                Button(onClick = { navigator.push(LibresPaletteScreen()) }) {
-                    Text("Palette - Libres")
-                }
                 Button(onClick = { navigator.push(PainterPaletteScreen()) }) {
                     Text("Palette - Painter")
                 }

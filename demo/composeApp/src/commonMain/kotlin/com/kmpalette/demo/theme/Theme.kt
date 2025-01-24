@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.materialkolor.AnimatedDynamicMaterialTheme
+import com.materialkolor.DynamicMaterialTheme
 import com.materialkolor.PaletteStyle
 
 private val AppShapes = Shapes(
@@ -43,7 +43,8 @@ internal fun AppTheme(
         typography = AppTypography,
         shapes = AppShapes,
         content = {
-            AnimatedDynamicMaterialTheme(
+            DynamicMaterialTheme(
+                animate = true,
                 seedColor = seedColor,
                 useDarkTheme = useDarkTheme,
                 style = paletteStyle,

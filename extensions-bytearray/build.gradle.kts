@@ -41,6 +41,7 @@ kotlin {
             dependencies {
                 implementation(project(":kmpalette-core"))
                 api(project(":kmpalette-bitmap-loader"))
+                api(project(":androidx-palette"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
             }
