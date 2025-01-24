@@ -20,6 +20,12 @@ kotlin {
         binaries.executable()
     }
 
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -94,13 +100,6 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(libs.ktor.darwin)
-            }
-        }
-
-        val jsMain by getting {
-            dependencies {
-                implementation(compose.html.core)
-                implementation(libs.ktor.js)
             }
         }
     }

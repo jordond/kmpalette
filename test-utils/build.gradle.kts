@@ -18,8 +18,10 @@ kotlin {
         browser()
     }
 
-    macosX64()
-    macosArm64()
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+    }
 
     listOf(
         iosX64(),
@@ -52,14 +54,9 @@ kotlin {
 
         val skikoMain by creating {
             dependsOn(commonMain)
-        }
-
-        val nativeMain by getting {
-            dependsOn(skikoMain)
-        }
-
-        val jsMain by getting {
-            dependsOn(skikoMain)
+            jsMain.get().dependsOn(this)
+            wasmJsMain.get().dependsOn(this)
+            nativeMain.get().dependsOn(this)
         }
 
         val androidInstrumentedTest by getting {
