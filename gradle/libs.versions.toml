@@ -8,10 +8,8 @@ ktor = "3.0.3"
 versions = "0.52.0"
 compose-multiplatform = "1.7.3"
 androidx-appcompat = "1.7.0"
-androidx-lifecycle = "2.8.7"
 androidx-activityCompose = "1.10.0"
 androidx-startup = "1.2.0"
-androidx-annotation = "1.9.1"
 androidx-collection = "1.4.5"
 androidx-test-junit = "1.2.1"
 androidx-test-runner = "1.6.2"
@@ -38,11 +36,8 @@ kotlin-coroutines = "1.10.1"
 androidx-core-ktx = "1.15.0"
 
 [libraries]
-androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
 androidx-collection = { module = "androidx.collection:collection", version.ref = "androidx-collection" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
-androidx-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "androidx-startup" }
