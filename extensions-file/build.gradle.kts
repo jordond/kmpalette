@@ -18,9 +18,6 @@ kotlin {
 
     jvm()
 
-    macosX64()
-    macosArm64()
-
     listOf(
         iosX64(),
         iosArm64(),

@@ -24,8 +24,10 @@ kotlin {
         browser()
     }
 
-    macosX64()
-    macosArm64()
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+    }
 
     listOf(
         iosX64(),
@@ -42,7 +44,7 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.ui)
-                implementation(libs.korim)
+                implementation(libs.korge)
             }
         }
 
@@ -55,8 +57,9 @@ kotlin {
 
         val skikoMain by creating {
             dependsOn(commonMain)
+            wasmJsMain.get().dependsOn(this)
             dependencies {
-                implementation(libs.korim)
+                implementation(libs.korge)
             }
         }
 
@@ -65,6 +68,10 @@ kotlin {
         }
 
         val jsMain by getting {
+            dependsOn(skikoMain)
+        }
+
+        val wasmJsMain by getting {
             dependsOn(skikoMain)
         }
 

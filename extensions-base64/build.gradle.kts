@@ -23,8 +23,10 @@ kotlin {
         browser()
     }
 
-    macosX64()
-    macosArm64()
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+    }
 
     listOf(
         iosX64(),
@@ -40,6 +42,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":kmpalette-core"))
+                api(project(":androidx-palette"))
                 api(project(":kmpalette-bitmap-loader"))
                 api(project(":extensions-bytearray"))
                 implementation(compose.ui)
