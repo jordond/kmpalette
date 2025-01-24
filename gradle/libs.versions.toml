@@ -26,11 +26,11 @@ dokka = "2.0.0"
 publish = "0.29.0"
 materialKolor = "2.0.0"
 kermit = "2.0.5"
-voyager = "1.0.0"
+voyager = "1.1.0-beta03"
 kover = "0.9.1"
 poko = "0.18.2"
 calf-filePicker = "0.7.0"
-okio = "3.9.1"
+okio = "3.10.2"
 kamel = "0.9.5"
 
 # These are pinned for Android instrumented tests
