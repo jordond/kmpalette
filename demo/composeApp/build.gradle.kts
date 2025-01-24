@@ -49,7 +49,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":kmpalette-core"))
-                implementation(project(":extensions-libres"))
                 implementation(project(":extensions-base64"))
                 implementation(project(":extensions-network"))
                 implementation(compose.runtime)
@@ -58,7 +57,6 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(libs.kotlinx.coroutines)
-                implementation(libs.libres)
                 implementation(libs.materialKolor)
                 implementation(libs.voyager.navigator)
                 implementation(libs.kermit)

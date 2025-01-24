@@ -53,7 +53,6 @@ This library is written for Compose Multiplatform, and can be used on the follow
 | `core`                 |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
 | `extensions-base64`    |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
 | `extensions-bytearray` |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
-| `extensions-libres`    |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
 | `extensions-network`   |    ✅    |    ✅    |  ✅  |   ✅   |    ✅    |
 | `extensions-file`      |    ✅    |    ✅    |  ✅  |   ✅   |    ❌    |
 
@@ -88,7 +87,6 @@ kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpal
 # Optional source libraries
 kmpalette-extensions-base64 = { module = "com.kmpalette:extensions-base64", version.ref = "kmpalette" }
 kmpalette-extensions-bytearray = { module = "com.kmpalette:extensions-bytearray", version.ref = "kmpalette" }
-kmpalette-extensions-libres = { module = "com.kmpalette:extensions-libres", version.ref = "kmpalette" }
 kmpalette-extensions-network = { module = "com.kmpalette:extensions-network", version.ref = "kmpalette" }
 kmpalette-extensions-file = { module = "com.kmpalette:extensions-file", version.ref = "kmpalette" }
 ```
@@ -106,7 +104,6 @@ kotlin {
                 // Optional extensions based on your image source
                 implementation(libs.kmpalette.extensions.base64)
                 implementation(libs.kmpalette.extensions.bytearray)
-                implementation(libs.kmpalette.extensions.libres)
                 implementation(libs.kmpalette.extensions.network)
                 implementation(libs.kmpalette.extensions.file)
             }
@@ -258,7 +255,6 @@ This library provides some extensions artifacts for some popular sources.
 |----------------------------------------------------------|----------------------------------------------|--------------------------------|------------------|------------------------------------------------------------------------------------------------------------------|
 | [`extensions-base64`](extensions-base64/README.md)       | N/A                                          | `Base64Loader`                 | `String`         | [`Base64DemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/Base64DemoScreen.kt)      |
 | [`extensions-bytearray`](extensions-bytearray/README.md) | N/A                                          | `ByteArrayLoader`              | `ByteArray`      | N/A                                                                                                              |
-| [`extensions-libres`](extensions-libres/README.md)       | [libres](https://github.com/Skeptick/libres) | `LibresLoader`                 | `Image`          | [`LibresPaletteScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/palette/LibresPaletteScreen.kt) |
 | [`extensions-network`](extensions-network/README.md)     | [ktor](https://github.com/ktorio/ktor)       | `NetworkLoader`                | `Url`            | [`NetworkDemoScreen`](demo/composeApp/src/commonMain/kotlin/com/kmpalette/demo/dominant/NetworkDemoScreen.kt)    |
 | [`extensions-file`](extensions-file/README.md)           | [okio](https://square.github.io)             | `PathLoader`, `FilePathLoader` | `Path`, `String` | N/A                                                                                                              |
 

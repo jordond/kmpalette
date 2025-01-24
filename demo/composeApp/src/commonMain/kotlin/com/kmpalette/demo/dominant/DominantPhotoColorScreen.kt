@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,16 +42,20 @@ import com.kmpalette.demo.util.ColorBox
 import com.kmpalette.demo.util.colorSchemePairs
 import com.kmpalette.rememberDominantColorState
 import com.materialkolor.PaletteStyle
+import com.mohamedrejeb.calf.core.LocalPlatformContext
 import com.mohamedrejeb.calf.io.readByteArray
 import com.mohamedrejeb.calf.picker.FilePickerFileType
 import com.mohamedrejeb.calf.picker.FilePickerSelectionMode
 import com.mohamedrejeb.calf.picker.rememberFilePickerLauncher
 import com.mohamedrejeb.calf.picker.toImageBitmap
+import kotlinx.coroutines.launch
 
 class DominantPhotoColorScreen : Screen {
 
     @Composable
     override fun Content() {
+        val scope = rememberCoroutineScope()
+        val context = LocalPlatformContext.current
         val dominantColorState = rememberDominantColorState {
             clearFilters()
         }
@@ -59,8 +64,10 @@ class DominantPhotoColorScreen : Screen {
             type = FilePickerFileType.Image,
             selectionMode = FilePickerSelectionMode.Single,
             onResult = { files ->
-                val bitmap = files.firstOrNull()?.readByteArray()?.toImageBitmap()
-                selectedPhoto = bitmap
+                scope.launch {
+                    val bitmap = files.firstOrNull()?.readByteArray(context)?.toImageBitmap()
+                    selectedPhoto = bitmap
+                }
             }
         )
 

@@ -41,7 +41,6 @@ include(
     ":kmpalette-bitmap-loader",
     ":extensions-base64",
     ":extensions-bytearray",
-    ":extensions-libres",
     ":extensions-network",
     ":extensions-file",
     ":test-utils",

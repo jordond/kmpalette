@@ -24,7 +24,6 @@ junit = "4.13.2"
 binaryCompatibility = "0.17.0"
 dokka = "2.0.0"
 publish = "0.29.0"
-libres = "1.2.2"
 materialKolor = "2.0.0"
 kermit = "2.0.5"
 voyager = "1.0.0"
@@ -65,7 +64,6 @@ ktor-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
-libres = { module = "io.github.skeptick.libres:libres-compose", version.ref = "libres" }
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 calf-filePicker = { module = "com.mohamedrejeb.calf:calf-file-picker", version.ref = "calf-filePicker" }
@@ -79,7 +77,6 @@ cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotli
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-libres = { id = "io.github.skeptick.libres", version.ref = "libres" }
 dependencies = { id = "com.github.ben-manes.versions", version.ref = "versions" }
 binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
