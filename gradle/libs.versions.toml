@@ -29,7 +29,7 @@ kover = "0.9.1"
 poko = "0.18.2"
 calf-filePicker = "0.7.0"
 okio = "3.10.2"
-kamel = "0.9.5"
+kamel = "1.0.3"
 
 # These are pinned for Android instrumented tests
 kotlin-coroutines = "1.10.1"
