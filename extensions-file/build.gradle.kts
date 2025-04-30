@@ -37,6 +37,7 @@ kotlin {
                 implementation(project(":kmpalette-core"))
                 api(project(":kmpalette-bitmap-loader"))
                 implementation(project(":extensions-bytearray"))
+                implementation(project(":androidx-palette"))
                 implementation(compose.ui)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.okio)
