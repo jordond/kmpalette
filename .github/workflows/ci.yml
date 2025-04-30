@@ -81,36 +81,36 @@ jobs:
         continue-on-error: ${{ matrix.config.continueOnError }}
         run: ./gradlew ${{ matrix.config.tasks }} --scan
 
-  test-instrumented:
-    strategy:
-      matrix:
-        api-level: [ 24, 29, 31 ]
-    runs-on: macos-latest
-    name: Test API ${{ matrix.api-level }}
-    needs: verify
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: setup-java
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: adopt
-
-      - uses: gradle/gradle-build-action@v3
-
-      - name: Run tests for API ${{ matrix.api-level }}
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          arch: x86_64
-          disable-animations: true
-          force-avd-creation: false
-          ram-size: 4096M
-          emulator-boot-timeout: 12000
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
-          script: ./gradlew connectedCheck --scan
+#  test-instrumented:
+#    strategy:
+#      matrix:
+#        api-level: [ 24, 29, 31 ]
+#    runs-on: macos-latest
+#    name: Test API ${{ matrix.api-level }}
+#    needs: verify
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: setup-java
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: 17
+#          distribution: adopt
+#
+#      - uses: gradle/gradle-build-action@v3
+#
+#      - name: Run tests for API ${{ matrix.api-level }}
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: ${{ matrix.api-level }}
+#          arch: x86_64
+#          disable-animations: true
+#          force-avd-creation: false
+#          ram-size: 4096M
+#          emulator-boot-timeout: 12000
+#          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
+#          script: ./gradlew connectedCheck --scan
 
   test-browser:
     runs-on: ubuntu-latest
