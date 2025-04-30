@@ -44,7 +44,7 @@ jobs:
           echo "New version: ${NEW_VERSION}"
           export ORG_GRADLE_PROJECT_VERSION_NAME=${NEW_VERSION:1}
           echo "RELEASE_VERSION=$NEW_VERSION" >> "$GITHUB_ENV"
-          ./gradlew publishAllPublicationsToMavenCentral --no-configuration-cache --stacktrace
+          ./gradlew publish --no-configuration-cache
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVENCENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVENCENTRAL_PASSWORD }}
@@ -115,11 +115,15 @@ jobs:
           arguments: :demo:composeApp:jsBrowserProductionWebpack
 
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: kmpalette-demo
-          directory: demo/composeApp/build/dist/js/productionExecutable
+          command: pages deploy demo/composeApp/build/dist/js/productionExecutable --project-name=example
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+
+      - name: Print deployment-url
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+        run: echo $DEPLOYMENT_URL
