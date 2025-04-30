@@ -53,7 +53,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
 
       - name: Update README for ${{ env.RELEASE_VERSION }}
-        run: ./.github/version.sh "${RELEASE_VERSION}"
+        run: ./.github/version.sh "${RELEASE_VERSION:1}"
 
       - name: Commit changes to README to ${{ env.branch }}
         uses: EndBug/add-and-commit@v9

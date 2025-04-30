@@ -171,13 +171,3 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
-
-      - name: Update README for ${{ steps.version.outputs.version }}
-        run: ./.github/version.sh "${{ steps.version.outputs.version }}"
-
-      - name: Commit changes to README to ${{ env.branch }}
-        uses: EndBug/add-and-commit@v9
-        with:
-          add: "./README.md"
-          message: "Update README.md with version ${{env.RELEASE_VERSION}}"
-          new_branch: main
