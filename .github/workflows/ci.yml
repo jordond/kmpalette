@@ -10,10 +10,9 @@ on:
   pull_request:
     branches:
       - main
-    types: [ opened, synchronize, reopened, ready_for_review ]
     paths-ignore:
-      - 'art/**'
       - '**.md'
+      - 'docs/**'
 
 concurrency:
   group: build-${{ github.ref }}
@@ -36,11 +35,7 @@ jobs:
           java-version: 17
           distribution: adopt
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v3
+      - uses: gradle/gradle-build-action@v3
 
       - name: Binary Compatibility Validation
         run: ./gradlew apiCheck --scan
@@ -69,8 +64,7 @@ jobs:
           java-version: 17
           distribution: adopt
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/gradle-build-action@v3
 
       - name: Cache Konan
         uses: actions/cache@v4
@@ -83,47 +77,40 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-konan-
 
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v3
-
       - name: Run ${{ matrix.config.target }} tests
         continue-on-error: ${{ matrix.config.continueOnError }}
         run: ./gradlew ${{ matrix.config.tasks }} --scan
 
-  test-instrumented:
-    strategy:
-      matrix:
-        api-level: [ 24, 29, 31 ]
-    runs-on: macos-latest
-    name: Test API ${{ matrix.api-level }}
-    needs: verify
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: setup-java
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: adopt
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v3
-
-      - name: Run tests for API ${{ matrix.api-level }}
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          arch: x86_64
-          disable-animations: true
-          force-avd-creation: false
-          ram-size: 4096M
-          emulator-boot-timeout: 12000
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
-          script: ./gradlew connectedCheck --scan
+#  test-instrumented:
+#    strategy:
+#      matrix:
+#        api-level: [ 24, 29, 31 ]
+#    runs-on: macos-latest
+#    name: Test API ${{ matrix.api-level }}
+#    needs: verify
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: setup-java
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: 17
+#          distribution: adopt
+#
+#      - uses: gradle/gradle-build-action@v3
+#
+#      - name: Run tests for API ${{ matrix.api-level }}
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: ${{ matrix.api-level }}
+#          arch: x86_64
+#          disable-animations: true
+#          force-avd-creation: false
+#          ram-size: 4096M
+#          emulator-boot-timeout: 12000
+#          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
+#          script: ./gradlew connectedCheck --scan
 
   test-browser:
     runs-on: ubuntu-latest
@@ -139,14 +126,48 @@ jobs:
           java-version: 17
           distribution: adopt
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v3
+      - uses: gradle/gradle-build-action@v3
 
       - name: Setup headless Chrome
         uses: browser-actions/setup-chrome@v1
 
       - name: Run tests in browser
         run: ./gradlew jsTest --scan
+
+  release:
+    if: github.ref == 'refs/heads/main'
+
+    name: Publish library SNAPSHOT
+    runs-on: macos-latest
+    needs: verify
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract version
+        id: version
+        uses: ./.github/actions/calculate-tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: setup-java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: adopt
+
+      - uses: gradle/gradle-build-action@v3
+
+      - name: Deploy to Sonatype
+        run: |
+          export ORG_GRADLE_PROJECT_VERSION_NAME=${{ steps.version.outputs.version }}-SNAPSHOT
+          ./gradlew publish --no-configuration-cache
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVENCENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVENCENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}

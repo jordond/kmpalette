@@ -1,0 +1,45 @@
+name-template: 'v$RESOLVED_VERSION 🌈'
+tag-template: 'v$RESOLVED_VERSION'
+
+categories:
+  - title: '🚀 Features and Enhancements'
+    labels:
+      - 'type: Feature :bulb:'
+      - 'type: Enhancement :pen:'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'type: Bug :bug:'
+  - title: '🧰 Maintenance'
+    label: 'type: Chore'
+  - title: '🧺 Miscellaneous' # Everything except ABAP
+    label: 'type: Misc'
+  - title: '🔗 Dependency Updates'
+    label: 'type: dependencies'
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+
+exclude-labels:
+  - 'skip-changelog'
+
+template: |
+  ## What's New
+
+  $CHANGES
+
+  ## Contributors
+
+  Thanks to $CONTRIBUTORS for your contributions to this release!
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION

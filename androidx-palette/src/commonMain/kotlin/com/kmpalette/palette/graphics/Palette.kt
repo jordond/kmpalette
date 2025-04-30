@@ -512,11 +512,11 @@ public class Palette internal constructor(
             val bitmap = imageBitmap
             if (bitmap != null) {
                 if (region == null) {
-                    region = Rect(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
+                    region = Rect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
                 }
 
                 // Now just get the intersection with the region
-                val other = Rect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
+                val other = Rect(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
                 if (!region!!.overlaps(other)) {
                     throw IllegalArgumentException("The given region must intersect with "
                         + "the Bitmap's dimensions.")

@@ -1,0 +1,21 @@
+name: 'Next Release Tag'
+description: 'Calculate the next release'
+
+outputs:
+  version:
+    description: Version of this release
+    value: ${{ steps.version_extractor.outputs.VERSION}}
+
+runs:
+  using: composite
+  steps:
+    # Use to calculate next version name
+    - name: Run drafter to calculate version (on main)
+      id: draft-release-notes
+      uses: release-drafter/release-drafter@v6
+      env:
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+
+    - id: version_extractor
+      run: ./.github/actions/calculate-tag/extract_tag.sh ${{github.ref}} ${{ steps.draft-release-notes.outputs.tag_name}}
+      shell: bash
