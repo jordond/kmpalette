@@ -42,7 +42,7 @@ jobs:
         run: |
           NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
           echo "New version: ${NEW_VERSION}"
-          export ORG_GRADLE_PROJECT_VERSION_NAME=${NEW_VERSION}
+          export ORG_GRADLE_PROJECT_VERSION_NAME=${NEW_VERSION:1}
           echo "RELEASE_VERSION=$NEW_VERSION" >> "$GITHUB_ENV"
           ./gradlew publishAllPublicationsToMavenCentral --no-configuration-cache --stacktrace
         env:
