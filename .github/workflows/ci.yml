@@ -7,6 +7,12 @@ on:
       - main
     paths-ignore:
       - '**.md'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
 
 concurrency:
   group: build-${{ github.ref }}
@@ -29,11 +35,7 @@ jobs:
           java-version: 17
           distribution: adopt
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v3
+      - uses: gradle/gradle-build-action@v3
 
       - name: Binary Compatibility Validation
         run: ./gradlew apiCheck --scan
@@ -62,8 +64,7 @@ jobs:
           java-version: 17
           distribution: adopt
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/gradle-build-action@v3
 
       - name: Cache Konan
         uses: actions/cache@v4
@@ -75,9 +76,6 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/gradle/libs.versions.toml') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v3
 
       - name: Run ${{ matrix.config.target }} tests
         continue-on-error: ${{ matrix.config.continueOnError }}
@@ -100,11 +98,7 @@ jobs:
           java-version: 17
           distribution: adopt
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v3
+      - uses: gradle/gradle-build-action@v3
 
       - name: Run tests for API ${{ matrix.api-level }}
         uses: reactivecircus/android-emulator-runner@v2
@@ -132,11 +126,7 @@ jobs:
           java-version: 17
           distribution: adopt
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v3
+      - uses: gradle/gradle-build-action@v3
 
       - name: Setup headless Chrome
         uses: browser-actions/setup-chrome@v1
@@ -145,6 +135,8 @@ jobs:
         run: ./gradlew jsTest --scan
 
   release:
+    if: github.ref == 'refs/heads/main'
+
     name: Publish library SNAPSHOT
     runs-on: macos-latest
     needs: verify
@@ -167,23 +159,12 @@ jobs:
           java-version: 17
           distribution: adopt
 
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v3
+      - uses: gradle/gradle-build-action@v3
 
       - name: Deploy to Sonatype
         run: |
           export ORG_GRADLE_PROJECT_VERSION_NAME=${{ steps.version.outputs.version }}-SNAPSHOT
-          ./gradlew publishAllPublicationsToMavenCentral --no-configuration-cache --stacktrace
+          ./gradlew publish --no-configuration-cache
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVENCENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVENCENTRAL_PASSWORD }}
