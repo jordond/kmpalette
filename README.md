@@ -80,7 +80,7 @@ In `libs.versions.toml`:
 
 ```toml
 [versions]
-kmpalette = "0.1.0"
+kmpalette = "0.1.1"
 
 [libraries]
 kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpalette" }
