@@ -27,7 +27,7 @@ kermit = "2.0.5"
 voyager = "1.1.0-beta03"
 kover = "0.9.1"
 poko = "0.18.2"
-calf-filePicker = "0.7.0"
+calf-filePicker = "0.9.0"
 okio = "3.10.2"
 kamel = "1.0.3"
 
