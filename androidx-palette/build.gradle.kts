@@ -18,8 +18,14 @@ kotlin {
 
     androidLibrary {
         namespace = "${libs.versions.group.get()}.palette"
-        compileSdk = libs.versions.sdk.compile.get().toInt()
-        minSdk = libs.versions.sdk.min.get().toInt()
+        compileSdk =
+            libs.versions.sdk.compile
+                .get()
+                .toInt()
+        minSdk =
+            libs.versions.sdk.min
+                .get()
+                .toInt()
 
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
@@ -49,7 +55,7 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.compose.runtime)
             implementation(libs.compose.ui)
-            implementation(libs.korim)
+            implementation(libs.androidx.annotation)
         }
 
         commonTest.dependencies {
@@ -60,6 +66,7 @@ kotlin {
         val skikoMain by creating {
             dependsOn(commonMain.get())
             nativeMain.get().dependsOn(this)
+            jvmMain.get().dependsOn(this)
             jsMain.get().dependsOn(this)
             dependencies {
                 implementation(libs.korim)
@@ -68,7 +75,7 @@ kotlin {
 
 //        val androidInstrumentedTest by getting {
 //            dependencies {
-////                implementation(project(":extensions-base64"))
+// //                implementation(project(":extensions-base64"))
 //                implementation(kotlin("test"))
 //                implementation(compose.ui)
 //                implementation(libs.bundles.test.android)
@@ -79,4 +86,3 @@ kotlin {
 //        }
     }
 }
-

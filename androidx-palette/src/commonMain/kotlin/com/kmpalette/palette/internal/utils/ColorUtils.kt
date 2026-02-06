@@ -1,8 +1,8 @@
 package com.kmpalette.palette.internal.utils
 
-import com.kmpalette.palette.internal.annotation.ColorInt
-import com.kmpalette.palette.internal.annotation.FloatRange
-import com.kmpalette.palette.internal.annotation.IntRange
+import androidx.annotation.ColorInt
+import androidx.annotation.FloatRange
+import androidx.annotation.IntRange
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -17,13 +17,16 @@ internal object ColorUtils {
     private const val MIN_ALPHA_SEARCH_MAX_ITERATIONS = 10
     private const val MIN_ALPHA_SEARCH_PRECISION = 1
 
-    @ColorInt val BLACK = -0x1000000
-    @ColorInt val WHITE = -0x1
+    @ColorInt
+    val BLACK = -0x1000000
+
+    @ColorInt
+    val WHITE = -0x1
 
     /**
      * Convert RGB components to HSL (hue-saturation-lightness).
      *
-     *  * outHsl[0] is Hue [0, 360)
+     *  * outHsl[0] is Hue [0, 360]
      *  * outHsl[1] is Saturation [0, 1]
      *  * outHsl[2] is Lightness [0, 1]
      *
@@ -74,7 +77,7 @@ internal object ColorUtils {
         @ColorInt color: Int,
         @IntRange(from = 0x0, to = 0xFF) alpha: Int,
     ): Int {
-        if (alpha < 0 || alpha > 255) {
+        if (alpha !in 0..255) {
             throw IllegalArgumentException("alpha must be between 0 and 255.")
         }
         return color and 0x00ffffff or (alpha shl 24)
@@ -112,9 +115,9 @@ internal object ColorUtils {
      * The resulting XYZ representation will use the D65 illuminant and the CIE
      * 2° Standard Observer (1931).
      *
-     *  * outXyz[0] is X [0, 95.047)
-     *  * outXyz[1] is Y [0, 100)
-     *  * outXyz[2] is Z [0, 108.883)
+     *  * outXyz[0] is X [0, 95.04]
+     *  * outXyz[1] is Y [0, 100]
+     *  * outXyz[2] is Z [0, 108.88]
      *
      *
      * @param r red component value [0, 255]
@@ -150,9 +153,9 @@ internal object ColorUtils {
      * 2° Standard Observer (1931).
      *
      *
-     *  * outXyz[0] is X [0, 95.047)
-     *  * outXyz[1] is Y [0, 100)
-     *  * outXyz[2] is Z [0, 108.883)
+     *  * outXyz[0] is X [0, 95.047]
+     *  * outXyz[1] is Y [0, 100]
+     *  * outXyz[2] is Z [0, 108.883]
      *
      *
      * @param color the ARGB color to convert. The alpha component is ignored
@@ -188,7 +191,7 @@ internal object ColorUtils {
             )
         }
 
-        // First lets check that a fully opaque foreground has sufficient contrast
+        // First, let's check that a fully opaque foreground has sufficient contrast
         var testForeground: Int = setAlpha(foreground, 255)
         var testRatio: Double = calculateContrast(testForeground, background)
         if (testRatio < minContrastRatio) {
@@ -247,7 +250,7 @@ internal object ColorUtils {
 
     /**
      * Return the blue component of a color int. This is the same as saying
-     * color & 0xFF
+     * color and 0xFF
      */
     fun blue(@ColorInt color: Int): Int {
         return color and 0xFF

@@ -15,11 +15,10 @@
  */
 package com.kmpalette.palette.graphics
 
+import androidx.annotation.ColorInt
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.ImageBitmap
-import com.kmpalette.palette.graphics.Palette.Builder
 import com.kmpalette.palette.internal.ColorCutQuantizer
-import com.kmpalette.palette.internal.annotation.ColorInt
 import com.kmpalette.palette.internal.scale
 import com.kmpalette.palette.internal.utils.ColorUtils
 import dev.drewhamilton.poko.Poko
@@ -268,10 +267,10 @@ public class Palette internal constructor(
         // been used yet.
         val hsl = swatch.hsl
         return hsl[1] >= target.minimumSaturation
-            && hsl[1] <= target.maximumSaturation
-            && hsl[2] >= target.minimumLightness
-            && hsl[2] <= target.maximumLightness
-            && usedColors[swatch.rgb]?.not() ?: true
+                && hsl[1] <= target.maximumSaturation
+                && hsl[2] >= target.minimumLightness
+                && hsl[2] <= target.maximumLightness
+                && usedColors[swatch.rgb]?.not() ?: true
     }
 
     private fun generateScore(swatch: Swatch, target: Target): Float {
@@ -282,15 +281,15 @@ public class Palette internal constructor(
         val maxPopulation = dominantSwatch?.population ?: 1
         if (target.saturationWeight > 0) {
             saturationScore = (target.saturationWeight
-                * (1f - abs(hsl[1] - target.targetSaturation)))
+                    * (1f - abs(hsl[1] - target.targetSaturation)))
         }
         if (target.lightnessWeight > 0) {
             luminanceScore = (target.lightnessWeight
-                * (1f - abs(hsl[2] - target.targetLightness)))
+                    * (1f - abs(hsl[2] - target.targetLightness)))
         }
         if (target.populationWeight > 0) {
             populationScore = (target.populationWeight
-                * (swatch.population / maxPopulation.toFloat()))
+                    * (swatch.population / maxPopulation.toFloat()))
         }
         return saturationScore + luminanceScore + populationScore
     }
@@ -361,9 +360,11 @@ public class Palette internal constructor(
             if (!generatedTextColors) {
                 // First check white, as most colors will be dark
                 val lightBodyAlpha: Int = ColorUtils.calculateMinimumAlpha(
-                    ColorUtils.WHITE, rgb, MIN_CONTRAST_BODY_TEXT)
+                    ColorUtils.WHITE, rgb, MIN_CONTRAST_BODY_TEXT
+                )
                 val lightTitleAlpha: Int = ColorUtils.calculateMinimumAlpha(
-                    ColorUtils.WHITE, rgb, MIN_CONTRAST_TITLE_TEXT)
+                    ColorUtils.WHITE, rgb, MIN_CONTRAST_TITLE_TEXT
+                )
 
                 if (lightBodyAlpha != -1 && lightTitleAlpha != -1) {
                     // If we found valid light values, use them and return
@@ -374,9 +375,11 @@ public class Palette internal constructor(
                 }
 
                 val darkBodyAlpha: Int = ColorUtils.calculateMinimumAlpha(
-                    ColorUtils.BLACK, rgb, MIN_CONTRAST_BODY_TEXT)
+                    ColorUtils.BLACK, rgb, MIN_CONTRAST_BODY_TEXT
+                )
                 val darkTitleAlpha: Int = ColorUtils.calculateMinimumAlpha(
-                    ColorUtils.BLACK, rgb, MIN_CONTRAST_TITLE_TEXT)
+                    ColorUtils.BLACK, rgb, MIN_CONTRAST_TITLE_TEXT
+                )
                 if (darkBodyAlpha != -1 && darkTitleAlpha != -1) {
                     // If we found valid dark values, use them and return
                     _bodyTextColor = ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
@@ -392,7 +395,10 @@ public class Palette internal constructor(
                     else ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
 
                 _titleTextColor =
-                    if (lightTitleAlpha != -1) ColorUtils.setAlpha(ColorUtils.WHITE, lightTitleAlpha)
+                    if (lightTitleAlpha != -1) ColorUtils.setAlpha(
+                        ColorUtils.WHITE,
+                        lightTitleAlpha
+                    )
                     else ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha)
 
                 generatedTextColors = true
@@ -518,8 +524,10 @@ public class Palette internal constructor(
                 // Now just get the intersection with the region
                 val other = Rect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
                 if (!region!!.overlaps(other)) {
-                    throw IllegalArgumentException("The given region must intersect with "
-                        + "the Bitmap's dimensions.")
+                    throw IllegalArgumentException(
+                        "The given region must intersect with "
+                                + "the Bitmap's dimensions."
+                    )
                 }
             }
             return this

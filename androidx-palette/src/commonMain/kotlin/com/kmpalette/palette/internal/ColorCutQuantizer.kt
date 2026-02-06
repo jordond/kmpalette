@@ -22,14 +22,14 @@ import kotlin.math.min
 import kotlin.math.round
 
 /**
- * An color quantizer based on the Median-cut algorithm, but optimized for picking out distinct
+ * A color quantizer based on the Median-cut algorithm but optimized for picking out distinct
  * colors rather than representation colors.
  *
  * The color space is represented as a 3-dimensional cube with each dimension being an RGB
  * component. The cube is then repeatedly divided until we have reduced the color space to the
  * requested number of colors. An average color is then generated from each cube.
  *
- * What makes this different to median-cut is that median-cut divided cubes so that all of the cubes
+ * What makes this different to median-cut is that median-cut divided cubes so that all the cubes
  * have roughly the same population, where this quantizer divides boxes based on their color volume.
  * This means that the color space is divided into distinct colors, rather than representative
  * colors.
@@ -38,12 +38,15 @@ import kotlin.math.round
  * @param[maxColors] The maximum number of colors that should be in the result palette.
  * @param[filters] Set of filters to use in the quantization stage.
  */
-internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Array<Palette.Filter>?) {
+internal class ColorCutQuantizer(
+    pixels: IntArray,
+    maxColors: Int,
+    private val filters: Array<Palette.Filter>?,
+) {
 
     val colors: IntArray
-    val histogram: IntArray
+    val histogram: IntArray = IntArray(1 shl (QUANTIZE_WORD_WIDTH * 3))
 
-    private val filters: Array<Palette.Filter>?
     private val tempHsl: FloatArray = FloatArray(3)
 
     private var _quantizedColors: MutableList<Palette.Swatch> = mutableListOf()
@@ -55,8 +58,6 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
         get() = _quantizedColors
 
     init {
-        this.filters = filters
-        histogram = IntArray(1 shl (QUANTIZE_WORD_WIDTH * 3))
         val hist: IntArray = histogram
         for (i in pixels.indices) {
             val quantizedColor: Int = quantizeFromRgb888(pixels[i])
@@ -79,7 +80,7 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
             }
         }
 
-        // Now lets go through create an array consisting of only distinct colors
+        // Now let's go through create an array consisting of only distinct colors
         colors = IntArray(distinctColorCount)
         val colors: IntArray = colors
         var distinctColorIndex = 0
@@ -95,7 +96,7 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
                 _quantizedColors.add(Palette.Swatch(approximateToRgb888(color), hist[color]))
             }
         } else {
-            // We need use quantization to reduce the number of colors
+            // We need to use quantization to reduce the number of colors
             _quantizedColors = quantizePixels(maxColors)
         }
     }
@@ -105,7 +106,7 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
         // split the largest box in the queue
         val pq: PriorityQueue<Vbox> = PriorityQueue(VBOX_COMPARATOR_VOLUME)
 
-        // To start, offer a box which contains all of the colors
+        // To start, offer a box which contains all the colors
         pq.offer(Vbox(0, colors.size - 1))
 
         // Now go through the boxes, splitting them until we have reached maxColors or there are no
@@ -123,18 +124,18 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
      * queue.
      *
      * @param queue [PriorityQueue] to poll for boxes
-     * @param maxSize Maximum amount of boxes to split
+     * @param maxSize Maximum number of boxes to split
      */
     private fun splitBoxes(queue: PriorityQueue<Vbox>, maxSize: Int) {
         while (queue.size < maxSize) {
             val vbox: Vbox? = queue.poll()
             if (vbox != null && vbox.canSplit()) {
-                // First split the box, and offer the result
+                // First, split the box and offer the result
                 queue.offer(vbox.splitBox())
                 // Then offer the box back
                 queue.offer(vbox)
             } else {
-                // If we get here then there are no more boxes to split, so return
+                // If we get here, then there are no more boxes to split, so return
                 return
             }
         }
@@ -156,13 +157,12 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
     /**
      * Represents a tightly fitting box around a color space.
      *
-     * lower and upper index are inclusive.
+     * Lower and upper indexes are inclusive.
      */
     private inner class Vbox(
         private val lowerIndex: Int,
         private var upperIndex: Int,
     ) {
-
         // Population of colors within this box
         private var population: Int = 0
         private var minRed: Int = 0
@@ -279,8 +279,8 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
         /**
          * Finds the point within this box's lowerIndex and upperIndex index of where to split.
          *
-         * This is calculated by finding the longest color dimension, and then sorting the
-         * sub-array based on that dimension value in each color. The colors are then iterated over
+         * This is calculated by finding the longest color dimension and then sorting the
+         * subarray based on that dimension value in each color. The colors are then iterated over
          * until a color is found with at least the midpoint of the whole box's dimension midpoint.
          *
          * @return the index of the colors array to split from
@@ -295,10 +295,10 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
             // its most significant is the desired dimension
             modifySignificantOctet(colors, longestDimension, lowerIndex, upperIndex)
 
-            // Now sort... Arrays.sort uses a exclusive toIndex so we need to add 1
+            // Now sort... Arrays.sort uses an exclusive toIndex so we need to add 1
             colors.sort(lowerIndex, upperIndex + 1)
 
-            // Now revert all of the colors so that they are packed as RGB again
+            // Now revert all the colors so that they are packed as RGB again
             modifySignificantOctet(colors, longestDimension, lowerIndex, upperIndex)
             val midPoint: Int = population / 2
             var i: Int = lowerIndex
@@ -337,7 +337,10 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
                 val redMean: Int = round(redSum / totalPopulation.toFloat()).toInt()
                 val greenMean: Int = round(greenSum / totalPopulation.toFloat()).toInt()
                 val blueMean: Int = round(blueSum / totalPopulation.toFloat()).toInt()
-                return Palette.Swatch(approximateToRgb888(redMean, greenMean, blueMean), totalPopulation)
+                return Palette.Swatch(
+                    approximateToRgb888(redMean, greenMean, blueMean),
+                    totalPopulation
+                )
             }
     }
 
@@ -388,26 +391,28 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
             when (dimension) {
                 COMPONENT_RED -> {}
                 COMPONENT_GREEN -> {
-                    // We need to do a RGB to GRB swap, or vice-versa
+                    // We need to do an RGB to GRB swap, or vice versa
                     var i: Int = lower
                     while (i <= upper) {
                         val color: Int = a[i]
-                        val values = (quantizedGreen(color) shl (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
-                            ) or (quantizedRed(color) shl QUANTIZE_WORD_WIDTH
-                            ) or quantizedBlue(color)
+                        val values =
+                            (quantizedGreen(color) shl (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
+                                    ) or (quantizedRed(color) shl QUANTIZE_WORD_WIDTH
+                                    ) or quantizedBlue(color)
 
                         a[i] = values
                         i++
                     }
                 }
+
                 COMPONENT_BLUE -> {
-                    // We need to do a RGB to BGR swap, or vice-versa
+                    // We need to do an RGB to BGR swap, or vice versa
                     var i: Int = lower
                     while (i <= upper) {
                         val color: Int = a[i]
                         a[i] = (quantizedBlue(color) shl (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
-                            ) or (quantizedGreen(color) shl QUANTIZE_WORD_WIDTH
-                            ) or quantizedRed(color)
+                                ) or (quantizedGreen(color) shl QUANTIZE_WORD_WIDTH
+                                ) or quantizedRed(color)
                         i++
                     }
                 }
@@ -417,7 +422,8 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
         /**
          * Comparator which sorts [Vbox] instances based on their volume, in descending order
          */
-        private val VBOX_COMPARATOR_VOLUME: Comparator<Vbox> = Comparator { a, b -> b.volume - a.volume }
+        private val VBOX_COMPARATOR_VOLUME: Comparator<Vbox> =
+            Comparator { a, b -> b.volume - a.volume }
 
         /**
          * Quantized a RGB888 value to have a word width of {@value #QUANTIZE_WORD_WIDTH}.
@@ -433,13 +439,19 @@ internal class ColorCutQuantizer(pixels: IntArray, maxColors: Int, filters: Arra
          * Quantized RGB888 values to have a word width of {@value #QUANTIZE_WORD_WIDTH}.
          */
         fun approximateToRgb888(r: Int, g: Int, b: Int): Int {
-            return ColorUtils.rgb(modifyWordWidth(r, QUANTIZE_WORD_WIDTH, 8),
+            return ColorUtils.rgb(
+                modifyWordWidth(r, QUANTIZE_WORD_WIDTH, 8),
                 modifyWordWidth(g, QUANTIZE_WORD_WIDTH, 8),
-                modifyWordWidth(b, QUANTIZE_WORD_WIDTH, 8))
+                modifyWordWidth(b, QUANTIZE_WORD_WIDTH, 8)
+            )
         }
 
         private fun approximateToRgb888(color: Int): Int {
-            return approximateToRgb888(quantizedRed(color), quantizedGreen(color), quantizedBlue(color))
+            return approximateToRgb888(
+                quantizedRed(color),
+                quantizedGreen(color),
+                quantizedBlue(color)
+            )
         }
 
         /**
