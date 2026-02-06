@@ -16,18 +16,13 @@
 package com.kmpalette.palette.graphics
 
 import androidx.annotation.ColorInt
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.graphics.ImageBitmap
 import com.kmpalette.palette.internal.ColorCutQuantizer
-import com.kmpalette.palette.internal.scale
+import com.kmpalette.palette.internal.Region
+import com.kmpalette.palette.internal.ScaledPixels
+import com.kmpalette.palette.internal.scalePixelsToArea
 import com.kmpalette.palette.internal.utils.ColorUtils
 import dev.drewhamilton.poko.Poko
 import kotlin.math.abs
-import kotlin.math.ceil
-import kotlin.math.floor
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.sqrt
 
 /**
  * A helper class to extract prominent colors from an image.
@@ -52,192 +47,94 @@ import kotlin.math.sqrt
  * generation:
  *
  * ```
- * Palette p = Palette.from(bitmap).generate();
+ * Palette p = Palette.from(pixels, width, height).generate();
  * ```
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 public class Palette internal constructor(
-    /**
-     * Returns the dominant swatch from the palette.
-     *
-     *
-     * The dominant swatch is defined as the swatch with the greatest population (frequency)
-     * within the palette.
-     */
     public val swatches: List<Swatch>,
-
-    /**
-     * Returns all of the swatches which make up the palette.
-     */
     private val targets: List<Target>,
 ) {
-
     private val selectedSwatches: HashMap<Target, Swatch?> = HashMap()
     private val usedColors: HashMap<Int, Boolean> = HashMap()
 
     public val dominantSwatch: Swatch? = findDominantSwatch()
 
-    /**
-     * Returns the most vibrant swatch in the palette. Might be null.
-     *
-     * @see Target.VIBRANT
-     */
     public val vibrantSwatch: Swatch?
         get() = getSwatchForTarget(Target.VIBRANT)
 
-    /**
-     * Returns a light and vibrant swatch from the palette. Might be null.
-     *
-     * @see Target.LIGHT_VIBRANT
-     */
     public val lightVibrantSwatch: Swatch?
         get() = getSwatchForTarget(Target.LIGHT_VIBRANT)
 
-    /**
-     * Returns a dark and vibrant swatch from the palette. Might be null.
-     *
-     * @see Target.DARK_VIBRANT
-     */
     public val darkVibrantSwatch: Swatch?
         get() = getSwatchForTarget(Target.DARK_VIBRANT)
 
-    /**
-     * Returns a muted swatch from the palette. Might be null.
-     *
-     * @see Target.MUTED
-     */
     public val mutedSwatch: Swatch?
         get() = getSwatchForTarget(Target.MUTED)
 
-    /**
-     * Returns a muted and light swatch from the palette. Might be null.
-     *
-     * @see Target.LIGHT_MUTED
-     */
     public val lightMutedSwatch: Swatch?
         get() = getSwatchForTarget(Target.LIGHT_MUTED)
 
-    /**
-     * Returns a muted and dark swatch from the palette. Might be null.
-     *
-     * @see Target.DARK_MUTED
-     */
     public val darkMutedSwatch: Swatch?
         get() = getSwatchForTarget(Target.DARK_MUTED)
 
-    /**
-     * Returns the most vibrant color in the palette as an RGB packed int.
-     *
-     * @param defaultColor value to return if the swatch isn't available
-     * @see .getVibrantSwatch
-     */
     @ColorInt
-    public fun getVibrantColor(@ColorInt defaultColor: Int): Int {
-        return getColorForTarget(Target.VIBRANT, defaultColor)
-    }
+    public fun getVibrantColor(
+        @ColorInt defaultColor: Int,
+    ): Int = getColorForTarget(Target.VIBRANT, defaultColor)
 
-    /**
-     * Returns a light and vibrant color from the palette as an RGB packed int.
-     *
-     * @param defaultColor value to return if the swatch isn't available
-     * @see .getLightVibrantSwatch
-     */
     @ColorInt
-    public fun getLightVibrantColor(@ColorInt defaultColor: Int): Int {
-        return getColorForTarget(Target.LIGHT_VIBRANT, defaultColor)
-    }
+    public fun getLightVibrantColor(
+        @ColorInt defaultColor: Int,
+    ): Int = getColorForTarget(Target.LIGHT_VIBRANT, defaultColor)
 
-    /**
-     * Returns a dark and vibrant color from the palette as an RGB packed int.
-     *
-     * @param defaultColor value to return if the swatch isn't available
-     * @see .getDarkVibrantSwatch
-     */
     @ColorInt
-    public fun getDarkVibrantColor(@ColorInt defaultColor: Int): Int {
-        return getColorForTarget(Target.DARK_VIBRANT, defaultColor)
-    }
+    public fun getDarkVibrantColor(
+        @ColorInt defaultColor: Int,
+    ): Int = getColorForTarget(Target.DARK_VIBRANT, defaultColor)
 
-    /**
-     * Returns a muted color from the palette as an RGB packed int.
-     *
-     * @param defaultColor value to return if the swatch isn't available
-     * @see .getMutedSwatch
-     */
     @ColorInt
-    public fun getMutedColor(@ColorInt defaultColor: Int): Int {
-        return getColorForTarget(Target.MUTED, defaultColor)
-    }
+    public fun getMutedColor(
+        @ColorInt defaultColor: Int,
+    ): Int = getColorForTarget(Target.MUTED, defaultColor)
 
-    /**
-     * Returns a muted and light color from the palette as an RGB packed int.
-     *
-     * @param defaultColor value to return if the swatch isn't available
-     * @see .getLightMutedSwatch
-     */
     @ColorInt
-    public fun getLightMutedColor(@ColorInt defaultColor: Int): Int {
-        return getColorForTarget(Target.LIGHT_MUTED, defaultColor)
-    }
+    public fun getLightMutedColor(
+        @ColorInt defaultColor: Int,
+    ): Int = getColorForTarget(Target.LIGHT_MUTED, defaultColor)
 
-    /**
-     * Returns a muted and dark color from the palette as an RGB packed int.
-     *
-     * @param defaultColor value to return if the swatch isn't available
-     * @see .getDarkMutedSwatch
-     */
     @ColorInt
-    public fun getDarkMutedColor(@ColorInt defaultColor: Int): Int {
-        return getColorForTarget(Target.DARK_MUTED, defaultColor)
-    }
+    public fun getDarkMutedColor(
+        @ColorInt defaultColor: Int,
+    ): Int = getColorForTarget(Target.DARK_MUTED, defaultColor)
 
-    /**
-     * Returns the selected swatch for the given target from the palette, or `null` if one
-     * could not be found.
-     */
-    public fun getSwatchForTarget(target: Target): Swatch? {
-        return selectedSwatches[target]
-    }
+    public fun getSwatchForTarget(target: Target): Swatch? = selectedSwatches[target]
 
-    /**
-     * Returns the selected color for the given target from the palette as an RGB packed int.
-     *
-     * @param defaultColor value to return if the swatch isn't available
-     */
     @ColorInt
-    public fun getColorForTarget(target: Target, @ColorInt defaultColor: Int): Int {
+    public fun getColorForTarget(
+        target: Target,
+        @ColorInt defaultColor: Int,
+    ): Int {
         val swatch = getSwatchForTarget(target)
         return swatch?.rgb ?: defaultColor
     }
 
-    /**
-     * Returns the color of the dominant swatch from the palette, as an RGB packed int.
-     *
-     * @param defaultColor value to return if the swatch isn't available
-     * @see .getDominantSwatch
-     */
     @ColorInt
-    public fun getDominantColor(@ColorInt defaultColor: Int): Int {
-        return dominantSwatch?.rgb ?: defaultColor
-    }
+    public fun getDominantColor(
+        @ColorInt defaultColor: Int,
+    ): Int = dominantSwatch?.rgb ?: defaultColor
 
-    public fun generate() {
-        // TODO(b/141959297): Suppressed during upgrade to AGP 3.6.
-        // We need to make sure that the scored targets are generated first. This is so that
-        // inherited targets have something to inherit from
+    internal fun generate() {
         targets.forEach { target ->
             target.normalizeWeights()
             selectedSwatches[target] = generateScoredTarget(target)
         }
-
-        // We now clear out the used colors
         usedColors.clear()
     }
 
     private fun generateScoredTarget(target: Target): Swatch? {
         val maxScoreSwatch = getMaxScoredSwatchForTarget(target)
         if (maxScoreSwatch != null && target.isExclusive) {
-            // If we have a swatch, and the target is exclusive, add the color to the used list
             usedColors[maxScoreSwatch.rgb] = true
         }
         return maxScoreSwatch
@@ -262,60 +159,56 @@ public class Palette internal constructor(
         return maxScoreSwatch
     }
 
-    private fun shouldBeScoredForTarget(swatch: Swatch, target: Target): Boolean {
-        // Check whether the HSL values are within the correct ranges, and this color hasn't
-        // been used yet.
+    private fun shouldBeScoredForTarget(
+        swatch: Swatch,
+        target: Target,
+    ): Boolean {
         val hsl = swatch.hsl
-        return hsl[1] >= target.minimumSaturation
-                && hsl[1] <= target.maximumSaturation
-                && hsl[2] >= target.minimumLightness
-                && hsl[2] <= target.maximumLightness
-                && usedColors[swatch.rgb]?.not() ?: true
+        return hsl[1] >= target.minimumSaturation &&
+                hsl[1] <= target.maximumSaturation &&
+                hsl[2] >= target.minimumLightness &&
+                hsl[2] <= target.maximumLightness &&
+                usedColors[swatch.rgb]?.not() ?: true
     }
 
-    private fun generateScore(swatch: Swatch, target: Target): Float {
+    private fun generateScore(
+        swatch: Swatch,
+        target: Target,
+    ): Float {
         val hsl = swatch.hsl
         var saturationScore = 0f
         var luminanceScore = 0f
         var populationScore = 0f
         val maxPopulation = dominantSwatch?.population ?: 1
         if (target.saturationWeight > 0) {
-            saturationScore = (target.saturationWeight
-                    * (1f - abs(hsl[1] - target.targetSaturation)))
+            saturationScore = (
+                    target.saturationWeight
+                            * (1f - abs(hsl[1] - target.targetSaturation))
+                    )
         }
         if (target.lightnessWeight > 0) {
-            luminanceScore = (target.lightnessWeight
-                    * (1f - abs(hsl[2] - target.targetLightness)))
+            luminanceScore = (
+                    target.lightnessWeight
+                            * (1f - abs(hsl[2] - target.targetLightness))
+                    )
         }
         if (target.populationWeight > 0) {
-            populationScore = (target.populationWeight
-                    * (swatch.population / maxPopulation.toFloat()))
+            populationScore = (
+                    target.populationWeight
+                            * (swatch.population / maxPopulation.toFloat())
+                    )
         }
         return saturationScore + luminanceScore + populationScore
     }
 
-    private fun findDominantSwatch(): Swatch? {
-        return swatches.maxByOrNull { it.population }
-    }
+    private fun findDominantSwatch(): Swatch? = swatches.maxByOrNull { it.population }
 
-    /**
-     * Represents a color swatch generated from an image's palette. The RGB color can be retrieved
-     * by calling [rgb].
-     */
     @Poko
     public class Swatch(
-        /**
-         * @return this swatch's RGB color value
-         */
         @get:ColorInt
         public val rgb: Int,
-
-        /**
-         * @return the number of pixels represented by this swatch
-         */
         public val population: Int,
     ) {
-
         private val red: Int = ColorUtils.red(rgb)
         private val green: Int = ColorUtils.green(rgb)
         private val blue: Int = ColorUtils.blue(rgb)
@@ -324,20 +217,11 @@ public class Palette internal constructor(
         private var _titleTextColor = 0
         private var _bodyTextColor = 0
 
-        /**
-         * Return this swatch's HSL values.
-         * hsv[0] is Hue [0 .. 360)
-         * hsv[1] is Saturation [0...1]
-         * hsv[2] is Lightness [0...1]
-         */
-        public var hsl: FloatArray = FloatArray(3)
-            .apply { ColorUtils.convertRGBToHSL(red, green, blue, this) }
+        public var hsl: FloatArray =
+            FloatArray(3)
+                .apply { ColorUtils.convertRGBToHSL(red, green, blue, this) }
             private set
 
-        /**
-         * Returns an appropriate color to use for any 'title' text which is displayed over this
-         * [Swatch]'s color. This color is guaranteed to have sufficient contrast.
-         */
         @get:ColorInt
         public val titleTextColor: Int
             get() {
@@ -345,10 +229,6 @@ public class Palette internal constructor(
                 return _titleTextColor
             }
 
-        /**
-         * Returns an appropriate color to use for any 'body' text which is displayed over this
-         * [Swatch]'s color. This color is guaranteed to have sufficient contrast.
-         */
         @get:ColorInt
         public val bodyTextColor: Int
             get() {
@@ -358,77 +238,89 @@ public class Palette internal constructor(
 
         private fun ensureTextColorsGenerated() {
             if (!generatedTextColors) {
-                // First check white, as most colors will be dark
-                val lightBodyAlpha: Int = ColorUtils.calculateMinimumAlpha(
-                    ColorUtils.WHITE, rgb, MIN_CONTRAST_BODY_TEXT
-                )
-                val lightTitleAlpha: Int = ColorUtils.calculateMinimumAlpha(
-                    ColorUtils.WHITE, rgb, MIN_CONTRAST_TITLE_TEXT
-                )
+                val lightBodyAlpha: Int =
+                    ColorUtils.calculateMinimumAlpha(
+                        ColorUtils.WHITE,
+                        rgb,
+                        MIN_CONTRAST_BODY_TEXT,
+                    )
+                val lightTitleAlpha: Int =
+                    ColorUtils.calculateMinimumAlpha(
+                        ColorUtils.WHITE,
+                        rgb,
+                        MIN_CONTRAST_TITLE_TEXT,
+                    )
 
                 if (lightBodyAlpha != -1 && lightTitleAlpha != -1) {
-                    // If we found valid light values, use them and return
                     _bodyTextColor = ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha)
                     _titleTextColor = ColorUtils.setAlpha(ColorUtils.WHITE, lightTitleAlpha)
                     generatedTextColors = true
                     return
                 }
 
-                val darkBodyAlpha: Int = ColorUtils.calculateMinimumAlpha(
-                    ColorUtils.BLACK, rgb, MIN_CONTRAST_BODY_TEXT
-                )
-                val darkTitleAlpha: Int = ColorUtils.calculateMinimumAlpha(
-                    ColorUtils.BLACK, rgb, MIN_CONTRAST_TITLE_TEXT
-                )
+                val darkBodyAlpha: Int =
+                    ColorUtils.calculateMinimumAlpha(
+                        ColorUtils.BLACK,
+                        rgb,
+                        MIN_CONTRAST_BODY_TEXT,
+                    )
+                val darkTitleAlpha: Int =
+                    ColorUtils.calculateMinimumAlpha(
+                        ColorUtils.BLACK,
+                        rgb,
+                        MIN_CONTRAST_TITLE_TEXT,
+                    )
                 if (darkBodyAlpha != -1 && darkTitleAlpha != -1) {
-                    // If we found valid dark values, use them and return
                     _bodyTextColor = ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
                     _titleTextColor = ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha)
                     generatedTextColors = true
                     return
                 }
 
-                // If we reach here then we can not find title and body values which use the same
-                // lightness, we need to use mismatched values
                 _bodyTextColor =
-                    if (lightBodyAlpha != -1) ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha)
-                    else ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
+                    if (lightBodyAlpha != -1) {
+                        ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha)
+                    } else {
+                        ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
+                    }
 
                 _titleTextColor =
-                    if (lightTitleAlpha != -1) ColorUtils.setAlpha(
-                        ColorUtils.WHITE,
-                        lightTitleAlpha
-                    )
-                    else ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha)
+                    if (lightTitleAlpha != -1) {
+                        ColorUtils.setAlpha(
+                            ColorUtils.WHITE,
+                            lightTitleAlpha,
+                        )
+                    } else {
+                        ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha)
+                    }
 
                 generatedTextColors = true
             }
         }
     }
 
-    /**
-     * Builder class for generating [Palette] instances.
-     */
     public class Builder {
-
         private val swatches: List<Swatch>?
-        private val imageBitmap: ImageBitmap?
+        private val pixels: IntArray?
+        private val width: Int
+        private val height: Int
+
         private val targets: MutableList<Target> = mutableListOf()
         private var maxColors = DEFAULT_CALCULATE_NUMBER_COLORS
         private var resizeArea = DEFAULT_RESIZE_BITMAP_AREA
-        private var resizeMaxDimension = -1
         private val filters: MutableList<Filter> = mutableListOf()
-        private var region: Rect? = null
+        private var region: Region? = null
 
-        /**
-         * Construct a new [Builder] using a source [ImageBitmap]
-         */
-        public constructor(bitmap: ImageBitmap) {
+        public constructor(pixels: IntArray, width: Int, height: Int) {
+            require(pixels.size == width * height) {
+                "Pixel array size (${pixels.size}) must equal width * height ($width * $height = ${width * height})"
+            }
             filters.add(DEFAULT_FILTER)
-            imageBitmap = bitmap
+            this.pixels = pixels
+            this.width = width
+            this.height = height
             swatches = null
 
-            // Add the default targets
             targets.add(Target.LIGHT_VIBRANT)
             targets.add(Target.VIBRANT)
             targets.add(Target.DARK_VIBRANT)
@@ -437,116 +329,61 @@ public class Palette internal constructor(
             targets.add(Target.DARK_MUTED)
         }
 
-        /**
-         * Construct a new [Builder] using a list of [Swatch] instances.
-         * Typically only used for testing.
-         */
         public constructor(swatches: List<Swatch>) {
             if (swatches.isEmpty()) {
                 throw IllegalArgumentException("List of Swatches is not valid")
             }
             filters.add(DEFAULT_FILTER)
             this.swatches = swatches
-            imageBitmap = null
+            pixels = null
+            width = 0
+            height = 0
         }
 
-        /**
-         * Set the maximum number of colors to use in the quantization step when using a
-         * [ImageBitmap] as the source.
-         *
-         *
-         * Good values for depend on the source image type. For landscapes, good values are in
-         * the range 10-16. For images which are largely made up of people's faces then this
-         * value should be increased to ~24.
-         */
         public fun maximumColorCount(colors: Int): Builder {
             maxColors = colors
             return this
         }
 
-        /**
-         * Set the resize value when using a [ImageBitmap] as the source.
-         * If the bitmap's area is greater than the value specified, then the bitmap
-         * will be resized so that its area matches `area`. If the
-         * bitmap is smaller or equal, the original is used as-is.
-         *
-         *
-         * This value has a large effect on the processing time. The larger the resized image is,
-         * the greater time it will take to generate the palette. The smaller the image is, the
-         * more detail is lost in the resulting image and thus less precision for color selection.
-         *
-         * @param area the number of pixels that the intermediary scaled down Bitmap should cover,
-         * or any value <= 0 to disable resizing.
-         */
         public fun resizeBitmapArea(area: Int): Builder {
             resizeArea = area
-            resizeMaxDimension = -1
             return this
         }
 
-        /**
-         * Clear all added filters. This includes any default filters added automatically by
-         * [Palette].
-         */
         public fun clearFilters(): Builder {
             filters.clear()
             return this
         }
 
-        /**
-         * Add a filter to be able to have fine grained control over which colors are
-         * allowed in the resulting palette.
-         *
-         * @param filter filter to add.
-         */
         public fun addFilter(filter: Filter): Builder {
             filters.add(filter)
             return this
         }
 
-        /**
-         * Set a region of the bitmap to be used exclusively when calculating the palette.
-         *
-         * This only works when the original input is a [ImageBitmap].
-         *
-         * @param left The left side of the rectangle used for the region.
-         * @param top The top of the rectangle used for the region.
-         * @param right The right side of the rectangle used for the region.
-         * @param bottom The bottom of the rectangle used for the region.
-         */
-        public fun setRegion(left: Int, top: Int, right: Int, bottom: Int): Builder {
-            val bitmap = imageBitmap
-            if (bitmap != null) {
-                if (region == null) {
-                    region = Rect(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
-                }
-
-                // Now just get the intersection with the region
-                val other = Rect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
-                if (!region!!.overlaps(other)) {
+        public fun setRegion(
+            left: Int,
+            top: Int,
+            right: Int,
+            bottom: Int,
+        ): Builder {
+            if (pixels != null) {
+                val bitmapRegion = Region(0, 0, width, height)
+                val requestedRegion = Region(left, top, right, bottom)
+                if (!bitmapRegion.overlaps(requestedRegion)) {
                     throw IllegalArgumentException(
-                        "The given region must intersect with "
-                                + "the Bitmap's dimensions."
+                        "The given region must intersect with the image dimensions.",
                     )
                 }
+                region = requestedRegion.intersect(bitmapRegion)
             }
             return this
         }
 
-        /**
-         * Clear any previously region set via [.setRegion].
-         */
         public fun clearRegion(): Builder {
             region = null
             return this
         }
 
-        /**
-         * Add a target profile to be generated in the palette.
-         *
-         *
-         * You can retrieve the result via [Palette.getSwatchForTarget].
-         */
         public fun addTarget(target: Target): Builder {
             if (!targets.contains(target)) {
                 targets.add(target)
@@ -554,194 +391,112 @@ public class Palette internal constructor(
             return this
         }
 
-        /**
-         * Clear all added targets. This includes any default targets added automatically by
-         * [Palette].
-         */
         public fun clearTargets(): Builder {
             targets.clear()
             return this
         }
 
-        /**
-         * Generate and return the [Palette] synchronously.
-         */
         public fun generate(): Palette {
             val swatches: List<Swatch>
-            if (imageBitmap != null) {
-                // We have a Bitmap so we need to use quantization to reduce the number of colors
-
-                // First we'll scale down the bitmap if needed
-                val bitmap: ImageBitmap = scaleBitmapDown(imageBitmap)
-                val region: Rect? = region
-                if (bitmap != imageBitmap && region != null) {
-                    // If we have a scaled bitmap and a selected region, we need to scale down the
-                    // region to match the new scale
-                    val scale: Float = bitmap.width / imageBitmap.width.toFloat()
-                    this.region = region.copy(
-                        left = floor(region.left * scale),
-                        top = floor(region.top * scale),
-                        right = min(ceil(region.right * scale), bitmap.width.toFloat()),
-                        bottom = min(ceil(region.bottom * scale), bitmap.height.toFloat()),
-                    )
+            if (pixels != null) {
+                val scaled: ScaledPixels = scalePixelsToArea(pixels, width, height, resizeArea)
+                var currentRegion = region
+                if (scaled.width != width && currentRegion != null) {
+                    val scale = scaled.width.toFloat() / width
+                    currentRegion = currentRegion.scale(scale).coerceIn(scaled.width, scaled.height)
                 }
 
-                // Now generate a quantizer from the Bitmap
-                val quantizer = ColorCutQuantizer(
-                    pixels = getPixelsFromBitmap(bitmap),
-                    maxColors = maxColors,
-                    filters = if (filters.isEmpty()) null else filters.toTypedArray(),
-                )
+                val pixelsToQuantize =
+                    getPixelsFromRegion(
+                        scaled.pixels,
+                        scaled.width,
+                        scaled.height,
+                        currentRegion,
+                    )
+
+                val quantizer =
+                    ColorCutQuantizer(
+                        pixels = pixelsToQuantize,
+                        maxColors = maxColors,
+                        filters = if (filters.isEmpty()) null else filters.toTypedArray(),
+                    )
                 swatches = quantizer.quantizedColors
             } else if (this.swatches != null) {
-                // Else we're using the provided swatches
                 swatches = this.swatches
             } else {
-                // The constructors enforce either a bitmap or swatches are present.
                 throw AssertionError()
             }
 
-            // Now create a Palette instance
             val p = Palette(swatches, targets)
-            // And make it generate itself
             p.generate()
             return p
         }
 
-        private fun getPixelsFromBitmap(bitmap: ImageBitmap): IntArray {
-            val bitmapWidth: Int = bitmap.width
-            val bitmapHeight: Int = bitmap.height
-            val pixels = IntArray(bitmapWidth * bitmapHeight)
-            bitmap.readPixels(
-                buffer = pixels,
-                startX = 0,
-                startY = 0,
-            )
-
-            val region = region
-            return if (region == null) {
-                // If we don't have a region, return all of the pixels
-                pixels
-            } else {
-                // If we do have a region, lets create a subset array containing only the region's
-                // pixels
-                val regionWidth = region.width
-                val regionHeight = region.height
-                // pixels contains all of the pixels, so we need to iterate through each row and
-                // copy the regions pixels into a new smaller array
-                val subsetPixels = IntArray((regionWidth * regionHeight).toInt())
-                for (row in 0 until regionHeight.toInt()) {
-                    pixels.copyInto(
-                        destination = subsetPixels,
-                        destinationOffset = (row * regionWidth).toInt(),
-                        startIndex = ((row + region.top) * bitmapWidth + region.left).toInt(),
-                        endIndex = ((row + region.top) * bitmapWidth + region.left + regionWidth).toInt()
-                    )
-                }
-                subsetPixels
+        private fun getPixelsFromRegion(
+            pixels: IntArray,
+            width: Int,
+            height: Int,
+            region: Region?,
+        ): IntArray {
+            if (region == null) {
+                return pixels
             }
-        }
 
-        /**
-         * Scale the bitmap down as needed.
-         */
-        private fun scaleBitmapDown(bitmap: ImageBitmap): ImageBitmap {
-            var scaleRatio = -1.0
-            if (resizeArea > 0) {
-                val bitmapArea: Int = bitmap.width * bitmap.height
-                if (bitmapArea > resizeArea) {
-                    scaleRatio = sqrt(resizeArea / bitmapArea.toDouble())
-                }
-            } else if (resizeMaxDimension > 0) {
-                val maxDimension: Int = max(bitmap.width, bitmap.height)
-                if (maxDimension > resizeMaxDimension) {
-                    scaleRatio = resizeMaxDimension / maxDimension.toDouble()
-                }
-            }
-            return if (scaleRatio <= 0) {
-                // Scaling has been disabled or not needed so just return the Bitmap
-                bitmap
-            } else {
-                bitmap.scale(
-                    width = ceil(bitmap.width * scaleRatio).toInt(),
-                    height = ceil(bitmap.height * scaleRatio).toInt(),
+            val regionWidth = region.width
+            val regionHeight = region.height
+            val subsetPixels = IntArray(regionWidth * regionHeight)
+
+            for (row in 0 until regionHeight) {
+                pixels.copyInto(
+                    destination = subsetPixels,
+                    destinationOffset = row * regionWidth,
+                    startIndex = (row + region.top) * width + region.left,
+                    endIndex = (row + region.top) * width + region.left + regionWidth,
                 )
             }
+            return subsetPixels
         }
     }
 
-    /**
-     * A Filter provides a mechanism for exercising fine-grained control over which colors
-     * are valid within a resulting [Palette].
-     */
     public fun interface Filter {
-
-        /**
-         * Hook to allow clients to be able filter colors from resulting palette.
-         *
-         * @param rgb the color in RGB888.
-         * @param hsl HSL representation of the color.
-         *
-         * @return true if the color is allowed, false if not.
-         *
-         * @see Builder.addFilter
-         */
-        public fun isAllowed(rgb: Int, hsl: FloatArray): Boolean
+        public fun isAllowed(
+            rgb: Int,
+            hsl: FloatArray,
+        ): Boolean
     }
 
     public companion object {
-
         public const val DEFAULT_RESIZE_BITMAP_AREA: Int = 112 * 112
         public const val DEFAULT_CALCULATE_NUMBER_COLORS: Int = 16
         public const val MIN_CONTRAST_TITLE_TEXT: Float = 3.0f
         public const val MIN_CONTRAST_BODY_TEXT: Float = 4.5f
 
-        /**
-         * Start generating a [Palette] with the returned [Builder] instance.
-         */
-        public fun from(bitmap: ImageBitmap): Builder {
-            return Builder(bitmap)
-        }
+        public fun from(
+            pixels: IntArray,
+            width: Int,
+            height: Int,
+        ): Builder = Builder(pixels, width, height)
 
-        /**
-         * Generate a [Palette] from the pre-generated list of [Palette.Swatch] swatches.
-         * This is useful for testing, or if you want to resurrect a [Palette] instance from a
-         * list of swatches. Will return null if the `swatches` is null.
-         */
-        public fun from(swatches: List<Swatch>): Palette {
-            return Builder(swatches).generate()
-        }
+        public fun from(swatches: List<Swatch>): Palette = Builder(swatches).generate()
 
-        /**
-         * The default filter.
-         */
-        public val DEFAULT_FILTER: Filter = object : Filter {
-            private val BLACK_MAX_LIGHTNESS = 0.05f
-            private val WHITE_MIN_LIGHTNESS = 0.95f
-            override fun isAllowed(rgb: Int, hsl: FloatArray): Boolean {
-                return !isWhite(hsl) && !isBlack(hsl) && !isNearRedILine(hsl)
+        public val DEFAULT_FILTER: Filter =
+            object : Filter {
+                private val BLACK_MAX_LIGHTNESS = 0.05f
+                private val WHITE_MIN_LIGHTNESS = 0.95f
+
+                override fun isAllowed(
+                    rgb: Int,
+                    hsl: FloatArray,
+                ): Boolean = !isWhite(hsl) && !isBlack(hsl) && !isNearRedILine(hsl)
+
+                private fun isBlack(hslColor: FloatArray): Boolean =
+                    hslColor[2] <= BLACK_MAX_LIGHTNESS
+
+                private fun isWhite(hslColor: FloatArray): Boolean =
+                    hslColor[2] >= WHITE_MIN_LIGHTNESS
+
+                private fun isNearRedILine(hslColor: FloatArray): Boolean =
+                    hslColor[0] in 10f..37f && hslColor[1] <= 0.82f
             }
-
-            /**
-             * @return true if the color represents a color which is close to black.
-             */
-            private fun isBlack(hslColor: FloatArray): Boolean {
-                return hslColor[2] <= BLACK_MAX_LIGHTNESS
-            }
-
-            /**
-             * @return true if the color represents a color which is close to white.
-             */
-            private fun isWhite(hslColor: FloatArray): Boolean {
-                return hslColor[2] >= WHITE_MIN_LIGHTNESS
-            }
-
-            /**
-             * @return true if the color lies close to the red side of the I line.
-             */
-            private fun isNearRedILine(hslColor: FloatArray): Boolean {
-                return hslColor[0] in 10f..37f && hslColor[1] <= 0.82f
-            }
-        }
     }
 }

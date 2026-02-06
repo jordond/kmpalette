@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import com.kmpalette.internal.LruCache
+import com.kmpalette.loader.DefaultImageBitmapLoader
 import com.kmpalette.loader.ImageBitmapLoader
 import com.kmpalette.loader.PainterLoader
 import com.kmpalette.palette.graphics.Palette
@@ -35,12 +36,13 @@ public fun rememberPaletteState(
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
-): PaletteState<ImageBitmap> = rememberPaletteState(
-    loader = ImageBitmapLoader,
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    builder = builder,
-)
+): PaletteState<ImageBitmap> =
+    rememberPaletteState(
+        loader = DefaultImageBitmapLoader,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        builder = builder,
+    )
 
 /**
  * Creates a [PaletteState] that will be remembered across compilation and can be used to
@@ -60,11 +62,12 @@ public fun <T : Any> rememberPaletteState(
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
-): PaletteState<T> = remember(loader) {
-    object : PaletteState<T>(cacheSize, coroutineContext, builder) {
-        override val loader: ImageBitmapLoader<T> = loader
+): PaletteState<T> =
+    remember(loader) {
+        object : PaletteState<T>(cacheSize, coroutineContext, builder) {
+            override val loader: ImageBitmapLoader<T> = loader
+        }
     }
-}
 
 /**
  * Wrapper around [rememberPaletteState] that uses [PainterLoader] to load the image.
@@ -85,12 +88,13 @@ public fun rememberPainterPaletteState(
     cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
-): PaletteState<Painter> = rememberPaletteState(
-    loader = PainterLoader(density, layoutDirection),
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    builder = builder
-)
+): PaletteState<Painter> =
+    rememberPaletteState(
+        loader = PainterLoader(density, layoutDirection),
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        builder = builder,
+    )
 
 /**
  * A state object that generates a [Palette] from an [ImageBitmap] using [loader].
@@ -107,7 +111,6 @@ public abstract class PaletteState<T : Any>(
     private val coroutineContext: CoroutineContext = Dispatchers.Default,
     private val builder: Palette.Builder.() -> Unit = {},
 ) {
-
     protected abstract val loader: ImageBitmapLoader<T>
 
     /**
@@ -120,15 +123,17 @@ public abstract class PaletteState<T : Any>(
      * The last [Palette] that was generated.
      */
     public val palette: Palette?
-        get() = when (val state = state) {
-            is PaletteResult.Success -> state.palette
+        get() =
+            when (val state = state) {
+                is PaletteResult.Success -> state.palette
+                else -> null
+            }
+
+    private val cache =
+        when {
+            cacheSize > 0 -> LruCache<T, Palette>(cacheSize)
             else -> null
         }
-
-    private val cache = when {
-        cacheSize > 0 -> LruCache<T, Palette>(cacheSize)
-        else -> null
-    }
 
     /**
      * Generates a [Palette] from [input] using [loader].
@@ -156,13 +161,17 @@ public abstract class PaletteState<T : Any>(
         cache?.evictAll()
     }
 
-    private suspend fun generatePalette(input: T, loader: ImageBitmapLoader<T>): PaletteResult {
-        val bitmap = try {
-            loader.load(input)
-        } catch (cause: Throwable) {
-            if (cause is CancellationException) throw cause
-            return PaletteResult.Error(cause)
-        }
+    private suspend fun generatePalette(
+        input: T,
+        loader: ImageBitmapLoader<T>,
+    ): PaletteResult {
+        val bitmap =
+            try {
+                loader.load(input)
+            } catch (cause: Throwable) {
+                if (cause is CancellationException) throw cause
+                return PaletteResult.Error(cause)
+            }
 
         return try {
             val palette = bitmap.generatePalette(coroutineContext, builder)
@@ -174,7 +183,6 @@ public abstract class PaletteState<T : Any>(
     }
 
     public companion object {
-
         public const val DEFAULT_CACHE_SIZE: Int = 6
     }
 }
