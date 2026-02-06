@@ -12,6 +12,8 @@ import org.jetbrains.compose.resources.rememberResourceEnvironment
 /**
  * A [ImageBitmapLoader] that loads [ImageBitmap]s from a [DrawableResource], by reading the
  * bytes from the resource.
+ *
+ * @param[environment] The [ResourceEnvironment] for loading resources.
  */
 public class ResourceLoader(
     private val environment: ResourceEnvironment,

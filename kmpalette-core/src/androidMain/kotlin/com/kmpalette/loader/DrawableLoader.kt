@@ -9,10 +9,19 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 
+/**
+ * A loader for Android drawable resources that converts them to [ImageBitmap] for palette generation.
+ *
+ * This loader uses the Android [Context] to decode drawable resource IDs into bitmaps.
+ *
+ * @param[context] The Android [Context] used for loading drawable resources.
+ */
 public class DrawableLoader(
     private val context: Context,
 ) : ImageBitmapLoader<Int> {
-    override suspend fun load(@DrawableRes input: Int): ImageBitmap {
+    override suspend fun load(
+        @DrawableRes input: Int,
+    ): ImageBitmap {
         val bitmap = BitmapFactory.decodeResource(context.resources, input)
         return bitmap.asImageBitmap()
     }
@@ -25,6 +34,4 @@ public class DrawableLoader(
  * @return A [DrawableLoader] for the current [LocalContext].
  */
 @Composable
-public fun rememberDrawableLoader(
-    context: Context = LocalContext.current
-): DrawableLoader = remember(context) { DrawableLoader(context) }
+public fun rememberDrawableLoader(context: Context = LocalContext.current): DrawableLoader = remember(context) { DrawableLoader(context) }

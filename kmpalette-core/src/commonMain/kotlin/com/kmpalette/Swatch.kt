@@ -13,12 +13,34 @@ import com.kmpalette.palette.graphics.Target
  * Mapped to [Target] in `androidx-palette`.
  */
 public sealed interface SwatchTarget {
-
+    /**
+     * Target for vibrant colors with high saturation.
+     */
     public data object Vibrant : SwatchTarget
+
+    /**
+     * Target for dark vibrant colors with high saturation and low lightness.
+     */
     public data object VibrantDark : SwatchTarget
+
+    /**
+     * Target for light vibrant colors with high saturation and high lightness.
+     */
     public data object VibrantLight : SwatchTarget
+
+    /**
+     * Target for muted colors with low saturation.
+     */
     public data object Muted : SwatchTarget
+
+    /**
+     * Target for dark muted colors with low saturation and low lightness.
+     */
     public data object MutedDark : SwatchTarget
+
+    /**
+     * Target for light muted colors with low saturation and high lightness.
+     */
     public data object MutedLight : SwatchTarget
 }
 
@@ -26,9 +48,11 @@ public sealed interface SwatchTarget {
  * Returns the selected swatch for the given target from the palette, or `null` if one
  * could not be found.
  *
+ * This operator function allows indexed access to palette swatches using bracket notation.
+ *
  * @see Palette.getSwatchForTarget
- * @param[target] The target selection.
- * @return The selected swatch for the given target from the palette, or `null`.
+ * @param[target] The [Target] selection.
+ * @return The selected [Swatch] for the given target from the palette, or `null` if not found.
  */
 public operator fun Palette.get(target: Target): Swatch? = getSwatchForTarget(target)
 
@@ -50,8 +74,8 @@ public operator fun Palette.get(target: SwatchTarget): Swatch? = getSwatch(targe
  * @param[target] The target selection.
  * @return The selected swatch for the given target from the palette, or `null`.
  */
-public fun Palette.getSwatch(target: SwatchTarget): Swatch? {
-    return when (target) {
+public fun Palette.getSwatch(target: SwatchTarget): Swatch? =
+    when (target) {
         SwatchTarget.Vibrant -> vibrantSwatch
         SwatchTarget.VibrantDark -> darkVibrantSwatch
         SwatchTarget.VibrantLight -> lightVibrantSwatch
@@ -59,7 +83,6 @@ public fun Palette.getSwatch(target: SwatchTarget): Swatch? {
         SwatchTarget.MutedDark -> darkMutedSwatch
         SwatchTarget.MutedLight -> lightMutedSwatch
     }
-}
 
 /**
  * Returns a color value in the RGB color space which represents the color of this [Swatch]
@@ -86,9 +109,7 @@ public val Swatch.onColor: Color
  * @see Swatch.titleTextColor
  * @return A [Color] to be used for text over the [Swatch]'s color.
  */
-public fun Swatch.titleTextColor(): Color {
-    return Color(titleTextColor)
-}
+public fun Swatch.titleTextColor(): Color = Color(titleTextColor)
 
 /**
  * Returns an appropriate color to use for any 'body' text which is displayed over this
@@ -97,6 +118,4 @@ public fun Swatch.titleTextColor(): Color {
  * @see Swatch.bodyTextColor
  * @return A [Color] to be used for text over the [Swatch]'s color.
  */
-public fun Swatch.bodyTextColor(): Color {
-    return Color(bodyTextColor)
-}
+public fun Swatch.bodyTextColor(): Color = Color(bodyTextColor)

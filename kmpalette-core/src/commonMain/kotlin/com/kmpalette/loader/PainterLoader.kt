@@ -11,16 +11,18 @@ import androidx.compose.ui.unit.LayoutDirection
 import com.kmpalette.internal.PainterImage
 
 /**
- * A default loader that takes an [Painter], draws it as an [ImageBitmap] and returns that.
+ * A default loader that converts a [Painter] to an [ImageBitmap] for palette generation.
+ *
+ * This loader draws the painter onto a bitmap using the provided density and layout direction.
+ *
+ * @param[density] The [Density] used for drawing the painter.
+ * @param[layoutDirection] The [LayoutDirection] used for drawing the painter.
  */
 public class PainterLoader(
     private val density: Density,
     private val layoutDirection: LayoutDirection,
 ) : ImageBitmapLoader<Painter> {
-
-    override suspend fun load(input: Painter): ImageBitmap {
-        return PainterImage(input, density, layoutDirection).asBitmap()
-    }
+    override suspend fun load(input: Painter): ImageBitmap = PainterImage(input, density, layoutDirection).asBitmap()
 }
 
 /**
@@ -35,6 +37,7 @@ public class PainterLoader(
 public fun rememberPainterLoader(
     density: Density = LocalDensity.current,
     layoutDirection: LayoutDirection = LocalLayoutDirection.current,
-): PainterLoader = remember(density, layoutDirection) {
-    PainterLoader(density, layoutDirection)
-}
+): PainterLoader =
+    remember(density, layoutDirection) {
+        PainterLoader(density, layoutDirection)
+    }
