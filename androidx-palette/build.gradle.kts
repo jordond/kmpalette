@@ -37,6 +37,12 @@ kotlin {
         binaries.library()
     }
 
+    @Suppress("OPT_IN_USAGE")
+    wasmJs {
+        browser()
+        binaries.library()
+    }
+
     macosX64()
     macosArm64()
 

@@ -15,6 +15,10 @@ kotlin {
     jvmToolchain(jdkVersion = 11)
     applyDefaultHierarchyTemplate()
 
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     androidLibrary {
         namespace = "${libs.versions.group.get()}.core"
         compileSdk =
@@ -34,6 +38,12 @@ kotlin {
     jvm()
 
     js(IR) {
+        browser()
+        binaries.library()
+    }
+
+    @Suppress("OPT_IN_USAGE")
+    wasmJs {
         browser()
         binaries.library()
     }
@@ -70,7 +80,7 @@ kotlin {
             }
         }
 
-        val nonJsMain by creating {
+        val nonWebMain by creating {
             dependsOn(commonMain.get())
             androidMain.get().dependsOn(this)
             jvmMain.get().dependsOn(this)
