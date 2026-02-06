@@ -36,7 +36,7 @@ rootProject.name = "kmpalette"
 include(
     ":kmpalette-core",
     ":androidx-palette",
-//    ":kmpalette-bitmap-loader",
+    ":kmpalette-loader",
 //    ":extensions-base64",
 //    ":extensions-bytearray",
 //    ":extensions-network",

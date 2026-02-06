@@ -16,7 +16,6 @@ androidx-test-rules = "1.7.0"
 androidx-test-espresso = "3.7.0"
 material3 = "1.9.0"
 robolectric = "4.16.1"
-korim = "4.0.10"
 junit = "4.13.2"
 binaryCompatibility = "0.18.1"
 dokka = "2.1.0"
@@ -43,7 +42,6 @@ compose-resources = { module = "org.jetbrains.compose.components:components-reso
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
-korim = { module = "com.soywiz.korlibs.korim:korim", version.ref = "korim" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

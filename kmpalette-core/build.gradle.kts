@@ -62,7 +62,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":androidx-palette"))
+            api(projects.androidxPalette)
+            api(projects.kmpaletteLoader)
             implementation(libs.compose.ui)
             implementation(libs.compose.material3)
             implementation(libs.compose.runtime)

@@ -64,5 +64,25 @@ kotlin {
             implementation(kotlin("test"))
             implementation(libs.kotlinx.coroutines.test)
         }
+
+        @Suppress("unused")
+        val skikoMain by creating {
+            dependsOn(commonMain.get())
+            nativeMain.get().dependsOn(this)
+            jvmMain.get().dependsOn(this)
+            webMain.get().dependsOn(this)
+        }
+
+//        val androidInstrumentedTest by getting {
+//            dependencies {
+// //                implementation(project(":extensions-base64"))
+//                implementation(kotlin("test"))
+//                implementation(compose.ui)
+//                implementation(libs.bundles.test.android)
+//                implementation(libs.androidx.core)
+//                implementation(libs.kotlinx.coroutines)
+//                implementation(libs.kotlinx.coroutines.test)
+//            }
+//        }
     }
 }
