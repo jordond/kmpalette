@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -32,7 +34,7 @@ develocity {
 rootProject.name = "kmpalette"
 
 include(
-//    ":kmpalette-core",
+    ":kmpalette-core",
     ":androidx-palette",
 //    ":kmpalette-bitmap-loader",
 //    ":extensions-base64",
