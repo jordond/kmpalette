@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class PowKtTest {
-
     @Test
     fun should_calculate_the_exponent_value() {
         assertTrue(pow(2.0, 1.0) == 2.0)

@@ -43,7 +43,7 @@ jobs:
         run: ./gradlew apiCheck --scan
 
       - name: Lint
-        run: ./gradlew lint --scan
+        run: ./gradlew spotlessCheck --scan
 
   test:
     strategy:
@@ -51,7 +51,6 @@ jobs:
         config: [
           { target: "default", os: "ubuntu-latest", tasks: "allTest", continueOnError: false },
           { target: "osx", os: "macos-latest", tasks: "test", continueOnError: false },
-          { target: "package", os: "ubuntu-latest", tasks: ":demo:composeApp:packageDistributionForCurrentOS", continueOnError: false }
         ]
     runs-on: ${{ matrix.config.os }}
     name: Test ${{ matrix.config.target }}

@@ -23,9 +23,10 @@ public fun rememberBase64PaletteState(
     cacheSize: Int = PaletteState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
-): PaletteState<String> = rememberPaletteState(
-    loader = Base64Loader,
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    builder = builder,
-)
+): PaletteState<String> =
+    rememberPaletteState(
+        loader = Base64Loader,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        builder = builder,
+    )

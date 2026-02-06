@@ -30,9 +30,10 @@ public fun rememberNetworkPaletteState(
     httpRequestBuilder: HttpRequestBuilder = HttpRequestBuilder(),
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
-): PaletteState<Url> = rememberPaletteState(
-    loader = NetworkLoader(httpClient, httpRequestBuilder),
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    builder = builder,
-)
+): PaletteState<Url> =
+    rememberPaletteState(
+        loader = NetworkLoader(httpClient, httpRequestBuilder),
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        builder = builder,
+    )

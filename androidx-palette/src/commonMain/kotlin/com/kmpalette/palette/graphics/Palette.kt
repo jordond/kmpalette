@@ -521,7 +521,8 @@ public class Palette internal constructor(
 
                 private fun isWhite(hslColor: FloatArray): Boolean = hslColor[2] >= WHITE_MIN_LIGHTNESS
 
-                private fun isNearRedILine(hslColor: FloatArray): Boolean = hslColor[0] in 10f..37f && hslColor[1] <= 0.82f
+                private fun isNearRedILine(hslColor: FloatArray): Boolean =
+                    hslColor[0] in 10f..37f && hslColor[1] <= 0.82f
             }
     }
 }

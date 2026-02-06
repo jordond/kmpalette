@@ -24,9 +24,10 @@ public fun rememberFilePaletteState(
     cacheSize: Int = PaletteState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
-): PaletteState<File> = rememberPaletteState(
-    loader = FileLoader,
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    builder = builder,
-)
+): PaletteState<File> =
+    rememberPaletteState(
+        loader = FileLoader,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        builder = builder,
+    )

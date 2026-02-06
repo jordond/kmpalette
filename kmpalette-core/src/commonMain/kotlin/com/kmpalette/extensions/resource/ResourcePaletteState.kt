@@ -24,9 +24,10 @@ public fun rememberResourcePaletteState(
     cacheSize: Int = PaletteState.DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
-): PaletteState<DrawableResource> = rememberPaletteState(
-    loader = rememberResourceLoader(),
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    builder = builder,
-)
+): PaletteState<DrawableResource> =
+    rememberPaletteState(
+        loader = rememberResourceLoader(),
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        builder = builder,
+    )

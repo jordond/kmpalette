@@ -3,12 +3,10 @@ package com.kmpalette.palette.internal.utils
 internal class PriorityQueue<T>(
     private val comparator: Comparator<in T>,
 ) : Collection<T> {
-
     private var array: Array<T?>? = null
     private var _size: Int = 0
 
-    fun peek(): T? =
-        array?.takeUnless { isEmpty() }?.get(0)
+    fun peek(): T? = array?.takeUnless { isEmpty() }?.get(0)
 
     fun offer(item: T) {
         var arr: Array<T?>? = array
@@ -49,17 +47,11 @@ internal class PriorityQueue<T>(
     override val size: Int
         get() = _size
 
-    override fun isEmpty(): Boolean {
-        return _size == 0
-    }
+    override fun isEmpty(): Boolean = _size == 0
 
-    override fun containsAll(elements: Collection<T>): Boolean {
-        return elements.all { array?.contains(it) ?: false }
-    }
+    override fun containsAll(elements: Collection<T>): Boolean = elements.all { array?.contains(it) ?: false }
 
-    override fun contains(element: T): Boolean {
-        return array?.contains(element) ?: false
-    }
+    override fun contains(element: T): Boolean = array?.contains(element) ?: false
 
     /**
      * The doc is derived from Java PriorityQueue.
@@ -84,13 +76,16 @@ internal class PriorityQueue<T>(
         }
 
     private companion object {
-
         private const val INITIAL_CAPACITY = 8
 
         @Suppress("UNCHECKED_CAST")
         private fun <T> newArray(): Array<T?> = arrayOfNulls<Any?>(INITIAL_CAPACITY) as Array<T?>
 
-        private fun <T> Array<T>.heapifyDown(index: Int, actualSize: Int, comparator: Comparator<in T>) {
+        private fun <T> Array<T>.heapifyDown(
+            index: Int,
+            actualSize: Int,
+            comparator: Comparator<in T>,
+        ) {
             val leftChildIndex = index * 2 + 1
             if (leftChildIndex >= actualSize) {
                 return
@@ -113,7 +108,10 @@ internal class PriorityQueue<T>(
             }
         }
 
-        private fun <T> Array<T>.heapifyUp(index: Int, comparator: Comparator<in T>) {
+        private fun <T> Array<T>.heapifyUp(
+            index: Int,
+            comparator: Comparator<in T>,
+        ) {
             val parentIndex = if (index % 2 == 0) index / 2 - 1 else index / 2
             if (parentIndex < 0) {
                 return
@@ -125,7 +123,10 @@ internal class PriorityQueue<T>(
             }
         }
 
-        private fun <T> Array<T>.swap(first: Int, second: Int) {
+        private fun <T> Array<T>.swap(
+            first: Int,
+            second: Int,
+        ) {
             val temp = get(first)
             set(first, get(second))
             set(second, temp)

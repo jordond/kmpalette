@@ -34,4 +34,5 @@ public class DrawableLoader(
  * @return A [DrawableLoader] for the current [LocalContext].
  */
 @Composable
-public fun rememberDrawableLoader(context: Context = LocalContext.current): DrawableLoader = remember(context) { DrawableLoader(context) }
+public fun rememberDrawableLoader(context: Context = LocalContext.current): DrawableLoader =
+    remember(context) { DrawableLoader(context) }

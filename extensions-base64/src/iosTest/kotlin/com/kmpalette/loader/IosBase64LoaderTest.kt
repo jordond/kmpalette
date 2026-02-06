@@ -8,11 +8,11 @@ import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class IosBase64LoaderTest : Base64LoaderTest() {
-
     @Test
-    fun `should load the base64 into a bitmap`() = runTest {
-        val bitmap = Base64Loader.load(Base64Utils.sample1)
-        assertTrue(bitmap.width > 0)
-        assertTrue(bitmap.height > 0)
-    }
+    fun `should load the base64 into a bitmap`() =
+        runTest {
+            val bitmap = Base64Loader.load(Base64Utils.sample1)
+            assertTrue(bitmap.width > 0)
+            assertTrue(bitmap.height > 0)
+        }
 }

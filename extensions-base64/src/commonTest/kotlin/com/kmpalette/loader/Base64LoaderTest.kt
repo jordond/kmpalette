@@ -5,7 +5,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal open class Base64LoaderTest {
-
     @Test
     fun should_strip_the_base64_prefix() {
         val result = Base64Utils.sample1.stripBase64Prefix()
@@ -18,4 +17,3 @@ internal open class Base64LoaderTest {
         assertEquals(result, Base64Utils.sample1Stripped)
     }
 }
-

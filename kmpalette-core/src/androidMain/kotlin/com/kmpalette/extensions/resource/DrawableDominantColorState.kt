@@ -36,13 +36,13 @@ public fun rememberDrawableDominantColorState(
     context: Context = LocalContext.current,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): DominantColorState<Int> = rememberDominantColorState(
-    loader = rememberDrawableLoader(context = context),
-    defaultColor = defaultColor,
-    defaultOnColor = defaultOnColor,
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    isSwatchValid = isSwatchValid,
-    builder = builder,
-)
-
+): DominantColorState<Int> =
+    rememberDominantColorState(
+        loader = rememberDrawableLoader(context = context),
+        defaultColor = defaultColor,
+        defaultOnColor = defaultOnColor,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        isSwatchValid = isSwatchValid,
+        builder = builder,
+    )
