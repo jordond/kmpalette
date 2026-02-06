@@ -1,8 +1,8 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.compose)
-    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.poko)
     alias(libs.plugins.dokka)
     alias(libs.plugins.publish)
@@ -11,92 +11,78 @@ plugins {
 
 kotlin {
     explicitApi()
-
+    jvmToolchain(jdkVersion = 11)
     applyDefaultHierarchyTemplate()
 
-    androidTarget {
-        publishAllLibraryVariants()
+    androidLibrary {
+        namespace = "${libs.versions.group.get()}.palette"
+        compileSdk =
+            libs.versions.sdk.compile
+                .get()
+                .toInt()
+        minSdk =
+            libs.versions.sdk.min
+                .get()
+                .toInt()
+
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
 
     jvm()
 
     js(IR) {
         browser()
+        binaries.library()
+    }
+
+    @Suppress("OPT_IN_USAGE")
+    wasmJs {
+        browser()
+        binaries.library()
     }
 
     macosX64()
     macosArm64()
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
-    ).forEach {
-        it.binaries.framework {
+    ).forEach { target ->
+        target.binaries.framework {
             baseName = "androidx-palette"
         }
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
-                implementation(libs.korim)
-            }
+        commonMain.dependencies {
+            implementation(libs.androidx.annotation)
         }
 
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(libs.kotlinx.coroutines.test)
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
         }
 
+        @Suppress("unused")
         val skikoMain by creating {
-            dependsOn(commonMain)
-            dependencies {
-                implementation(libs.korim)
-            }
+            dependsOn(commonMain.get())
+            nativeMain.get().dependsOn(this)
+            jvmMain.get().dependsOn(this)
+            webMain.get().dependsOn(this)
         }
 
-        val nativeMain by getting {
-            dependsOn(skikoMain)
-        }
-
-        val jsMain by getting {
-            dependsOn(skikoMain)
-        }
-
-        val androidInstrumentedTest by getting {
-            dependencies {
-                implementation(project(":extensions-base64"))
-                implementation(kotlin("test"))
-                implementation(compose.ui)
-                implementation(libs.bundles.test.android)
-                implementation(libs.androidx.core)
-                implementation(libs.kotlinx.coroutines)
-                implementation(libs.kotlinx.coroutines.test)
-            }
-        }
-    }
-}
-
-android {
-    namespace = "com.kmpalette.palette"
-
-    compileSdk = libs.versions.sdk.compile.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    sourceSets["main"].apply {
-        res.srcDirs("src/androidInstrumentedTest/res")
-    }
-
-    kotlin {
-        jvmToolchain(jdkVersion = 11)
+//        val androidInstrumentedTest by getting {
+//            dependencies {
+// //                implementation(projects.extensionsBase64)
+//                implementation(kotlin("test"))
+//                implementation(libs.compose.ui)
+//                implementation(libs.bundles.test.android)
+//                implementation(libs.androidx.core)
+//                implementation(libs.kotlinx.coroutines)
+//                implementation(libs.kotlinx.coroutines.test)
+//            }
+//        }
     }
 }

@@ -1,8 +1,8 @@
 package com.kmpalette.palette.internal.utils
 
-import com.kmpalette.palette.internal.annotation.ColorInt
-import com.kmpalette.palette.internal.annotation.FloatRange
-import com.kmpalette.palette.internal.annotation.IntRange
+import androidx.annotation.ColorInt
+import androidx.annotation.FloatRange
+import androidx.annotation.IntRange
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -13,17 +13,19 @@ private var TEMP_ARRAY: DoubleArray = DoubleArray(3)
 
 @OptIn(ExperimentalStdlibApi::class)
 internal object ColorUtils {
-
     private const val MIN_ALPHA_SEARCH_MAX_ITERATIONS = 10
     private const val MIN_ALPHA_SEARCH_PRECISION = 1
 
-    @ColorInt val BLACK = -0x1000000
-    @ColorInt val WHITE = -0x1
+    @ColorInt
+    val BLACK = -0x1000000
+
+    @ColorInt
+    val WHITE = -0x1
 
     /**
      * Convert RGB components to HSL (hue-saturation-lightness).
      *
-     *  * outHsl[0] is Hue [0, 360)
+     *  * outHsl[0] is Hue [0, 360]
      *  * outHsl[1] is Saturation [0, 1]
      *  * outHsl[2] is Lightness [0, 1]
      *
@@ -53,11 +55,12 @@ internal object ColorUtils {
             saturation = 0f
             hue = saturation
         } else {
-            hue = when (max) {
-                rf -> (gf - bf) / deltaMaxMin % 6f
-                gf -> (bf - rf) / deltaMaxMin + 2f
-                else -> (rf - gf) / deltaMaxMin + 4f
-            }
+            hue =
+                when (max) {
+                    rf -> (gf - bf) / deltaMaxMin % 6f
+                    gf -> (bf - rf) / deltaMaxMin + 2f
+                    else -> (rf - gf) / deltaMaxMin + 4f
+                }
             saturation = deltaMaxMin / (1f - abs(2f * lightness - 1f))
         }
         hue = hue * 60f % 360f
@@ -74,21 +77,26 @@ internal object ColorUtils {
         @ColorInt color: Int,
         @IntRange(from = 0x0, to = 0xFF) alpha: Int,
     ): Int {
-        if (alpha < 0 || alpha > 255) {
+        if (alpha !in 0..255) {
             throw IllegalArgumentException("alpha must be between 0 and 255.")
         }
         return color and 0x00ffffff or (alpha shl 24)
     }
 
     @FloatRange(from = 0.0, to = 1.0)
-    fun calculateLuminance(@ColorInt color: Int): Double {
+    fun calculateLuminance(
+        @ColorInt color: Int,
+    ): Double {
         val result: DoubleArray = TEMP_ARRAY
         colorToXYZ(color, result)
         // Luminance is the Y component
         return result[1] / 100
     }
 
-    private fun compositeColors(@ColorInt foreground: Int, @ColorInt background: Int): Int {
+    private fun compositeColors(
+        @ColorInt foreground: Int,
+        @ColorInt background: Int,
+    ): Int {
         val bgAlpha: Int = alpha(background)
         val fgAlpha: Int = alpha(foreground)
         val a: Int = compositeAlpha(fgAlpha, bgAlpha)
@@ -98,13 +106,18 @@ internal object ColorUtils {
         return argb(a, r, g, b)
     }
 
-    private fun compositeAlpha(foregroundAlpha: Int, backgroundAlpha: Int): Int {
-        return 0xFF - (0xFF - backgroundAlpha) * (0xFF - foregroundAlpha) / 0xFF
-    }
+    private fun compositeAlpha(
+        foregroundAlpha: Int,
+        backgroundAlpha: Int,
+    ): Int = 0xFF - (0xFF - backgroundAlpha) * (0xFF - foregroundAlpha) / 0xFF
 
-    private fun compositeComponent(fgC: Int, fgA: Int, bgC: Int, bgA: Int, a: Int): Int {
-        return if (a == 0) 0 else (0xFF * fgC * fgA + bgC * bgA * (0xFF - fgA)) / (a * 0xFF)
-    }
+    private fun compositeComponent(
+        fgC: Int,
+        fgA: Int,
+        bgC: Int,
+        bgA: Int,
+        a: Int,
+    ): Int = if (a == 0) 0 else (0xFF * fgC * fgA + bgC * bgA * (0xFF - fgA)) / (a * 0xFF)
 
     /**
      * Convert RGB components to its CIE XYZ representative components.
@@ -112,9 +125,9 @@ internal object ColorUtils {
      * The resulting XYZ representation will use the D65 illuminant and the CIE
      * 2° Standard Observer (1931).
      *
-     *  * outXyz[0] is X [0, 95.047)
-     *  * outXyz[1] is Y [0, 100)
-     *  * outXyz[2] is Z [0, 108.883)
+     *  * outXyz[0] is X [0, 95.04]
+     *  * outXyz[1] is Y [0, 100]
+     *  * outXyz[2] is Z [0, 108.88]
      *
      *
      * @param r red component value [0, 255]
@@ -150,24 +163,32 @@ internal object ColorUtils {
      * 2° Standard Observer (1931).
      *
      *
-     *  * outXyz[0] is X [0, 95.047)
-     *  * outXyz[1] is Y [0, 100)
-     *  * outXyz[2] is Z [0, 108.883)
+     *  * outXyz[0] is X [0, 95.047]
+     *  * outXyz[1] is Y [0, 100]
+     *  * outXyz[2] is Z [0, 108.883]
      *
      *
      * @param color the ARGB color to convert. The alpha component is ignored
      * @param outXyz 3-element array which holds the resulting LAB components
      */
-    private fun colorToXYZ(@ColorInt color: Int, outXyz: DoubleArray) {
+    private fun colorToXYZ(
+        @ColorInt color: Int,
+        outXyz: DoubleArray,
+    ) {
         convertRGBToXYZ(red(color), green(color), blue(color), outXyz)
     }
 
-    private fun calculateContrast(@ColorInt foreground: Int, @ColorInt background: Int): Double {
-        val modifiedForeground = if (alpha(foreground) >= 255) foreground
-        else {
-            // If the foreground is translucent, composite the foreground over the background
-            compositeColors(foreground, background)
-        }
+    private fun calculateContrast(
+        @ColorInt foreground: Int,
+        @ColorInt background: Int,
+    ): Double {
+        val modifiedForeground =
+            if (alpha(foreground) >= 255) {
+                foreground
+            } else {
+                // If the foreground is translucent, composite the foreground over the background
+                compositeColors(foreground, background)
+            }
 
         val luminance1: Double = calculateLuminance(modifiedForeground) + 0.05
         val luminance2: Double = calculateLuminance(background) + 0.05
@@ -184,11 +205,11 @@ internal object ColorUtils {
     ): Int {
         if (alpha(background) != 255) {
             throw IllegalArgumentException(
-                "background can not be translucent: #${background.toHexString()}"
+                "background can not be translucent: #${background.toHexString()}",
             )
         }
 
-        // First lets check that a fully opaque foreground has sufficient contrast
+        // First, let's check that a fully opaque foreground has sufficient contrast
         var testForeground: Int = setAlpha(foreground, 255)
         var testRatio: Double = calculateContrast(testForeground, background)
         if (testRatio < minContrastRatio) {
@@ -201,14 +222,17 @@ internal object ColorUtils {
         var minAlpha = 0
         var maxAlpha = 255
         while (
-            numIterations <= MIN_ALPHA_SEARCH_MAX_ITERATIONS
-            && maxAlpha - minAlpha > MIN_ALPHA_SEARCH_PRECISION
+            numIterations <= MIN_ALPHA_SEARCH_MAX_ITERATIONS &&
+            maxAlpha - minAlpha > MIN_ALPHA_SEARCH_PRECISION
         ) {
             val testAlpha = (minAlpha + maxAlpha) / 2
             testForeground = setAlpha(foreground, testAlpha)
             testRatio = calculateContrast(testForeground, background)
-            if (testRatio < minContrastRatio) minAlpha = testAlpha
-            else maxAlpha = testAlpha
+            if (testRatio < minContrastRatio) {
+                minAlpha = testAlpha
+            } else {
+                maxAlpha = testAlpha
+            }
 
             numIterations++
         }
@@ -217,7 +241,10 @@ internal object ColorUtils {
         return maxAlpha
     }
 
-    fun colorToHSL(@ColorInt color: Int, outHsl: FloatArray) {
+    fun colorToHSL(
+        @ColorInt color: Int,
+        outHsl: FloatArray,
+    ) {
         convertRGBToHSL(red(color), green(color), blue(color), outHsl)
     }
 
@@ -225,33 +252,33 @@ internal object ColorUtils {
      * Return the alpha component of a color int. This is the same as saying
      * color >>> 24
      */
-    fun alpha(@ColorInt color: Int): Int {
-        return color ushr 24
-    }
+    fun alpha(
+        @ColorInt color: Int,
+    ): Int = color ushr 24
 
     /**
      * Return the red component of a color int. This is the same as saying
      * (color >> 16) & 0xFF
      */
-    fun red(@ColorInt color: Int): Int {
-        return color shr 16 and 0xFF
-    }
+    fun red(
+        @ColorInt color: Int,
+    ): Int = color shr 16 and 0xFF
 
     /**
      * Return the green component of a color int. This is the same as saying
      * (color >> 8) & 0xFF
      */
-    fun green(@ColorInt color: Int): Int {
-        return color shr 8 and 0xFF
-    }
+    fun green(
+        @ColorInt color: Int,
+    ): Int = color shr 8 and 0xFF
 
     /**
      * Return the blue component of a color int. This is the same as saying
-     * color & 0xFF
+     * color and 0xFF
      */
-    fun blue(@ColorInt color: Int): Int {
-        return color and 0xFF
-    }
+    fun blue(
+        @ColorInt color: Int,
+    ): Int = color and 0xFF
 
     /**
      * Return a color-int from alpha, red, green, blue components.
@@ -270,9 +297,7 @@ internal object ColorUtils {
         red: Int,
         green: Int,
         blue: Int,
-    ): Int {
-        return alpha shl 24 or (red shl 16) or (green shl 8) or blue
-    }
+    ): Int = alpha shl 24 or (red shl 16) or (green shl 8) or blue
 
     /**
      * Return a color-int from red, green, blue components.
@@ -290,7 +315,5 @@ internal object ColorUtils {
         red: Int,
         green: Int,
         blue: Int,
-    ): Int {
-        return -0x1000000 or (red shl 16) or (green shl 8) or blue
-    }
+    ): Int = -0x1000000 or (red shl 16) or (green shl 8) or blue
 }

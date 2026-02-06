@@ -287,7 +287,7 @@ public class Target {
          * Set whether any color selected for this target is exclusive to this target only.
          * Defaults to true.
          *
-         * @param exclusive true if any the color is exclusive to this target, or false is the
+         * @param exclusive true if any the color is exclusive to this target, or false if the
          * color can be selected for other targets.
          */
         public fun setExclusive(exclusive: Boolean): Builder = apply {
@@ -333,7 +333,7 @@ public class Target {
         }
 
         /**
-         * A target which has the characteristics of a vibrant color which is neither light or dark.
+         * A target which has the characteristics of a vibrant color that is neither light nor dark.
          */
         public val VIBRANT: Target = Target().apply {
             setDefaultNormalLightnessValues()
@@ -357,7 +357,7 @@ public class Target {
         }
 
         /**
-         * A target which has the characteristics of a muted color which is neither light or dark.
+         * A target which has the characteristics of a muted color that is neither light nor dark.
          */
         public val MUTED: Target = Target().apply {
             setDefaultNormalLightnessValues()

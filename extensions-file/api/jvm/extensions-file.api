@@ -1,29 +1,15 @@
-public final class com/kmpalette/extensions/file/FilePathDominantColorStateKt {
-	public static final fun rememberFilePathDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
-	public static final fun rememberPathDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
+public final class com/kmpalette/extensions/file/PlatformFileDominantColorStateKt {
+	public static final fun rememberPlatformFileDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
 }
 
-public final class com/kmpalette/extensions/file/FilePathPaletteKt {
-	public static final fun rememberGeneratePalette (Ljava/lang/String;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteResult;
-	public static final fun rememberGeneratePalette (Lokio/Path;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteResult;
+public final class com/kmpalette/extensions/file/PlatformFilePaletteStateKt {
+	public static final fun rememberPlatformFilePaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
 }
 
-public final class com/kmpalette/extensions/file/FilePathPaletteStateKt {
-	public static final fun rememberFilePathPaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
-	public static final fun rememberPathPaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
-}
-
-public final class com/kmpalette/loader/FilePathLoader : com/kmpalette/loader/ImageBitmapLoader {
+public final class com/kmpalette/loader/PlatformFileLoader : com/kmpalette/loader/ImageBitmapLoader {
 	public static final field $stable I
-	public static final field INSTANCE Lcom/kmpalette/loader/FilePathLoader;
+	public static final field INSTANCE Lcom/kmpalette/loader/PlatformFileLoader;
+	public fun load (Lio/github/vinceglb/filekit/PlatformFile;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public synthetic fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun load (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class com/kmpalette/loader/PathLoader : com/kmpalette/loader/ImageBitmapLoader {
-	public static final field $stable I
-	public static final field INSTANCE Lcom/kmpalette/loader/PathLoader;
-	public synthetic fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun load (Lokio/Path;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 

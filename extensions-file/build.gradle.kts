@@ -1,72 +1,72 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.poko)
     alias(libs.plugins.dokka)
     alias(libs.plugins.publish)
 }
 
 kotlin {
     explicitApi()
-
+    jvmToolchain(jdkVersion = 11)
     applyDefaultHierarchyTemplate()
 
-    androidTarget {
-        publishAllLibraryVariants()
+    androidLibrary {
+        namespace = "${libs.versions.group.get()}.extensions.file"
+        compileSdk =
+            libs.versions.sdk.compile
+                .get()
+                .toInt()
+        minSdk =
+            libs.versions.sdk.min
+                .get()
+                .toInt()
+
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
 
     jvm()
+
+    js(IR) {
+        browser()
+        binaries.library()
+    }
+
+    @Suppress("OPT_IN_USAGE")
+    wasmJs {
+        browser()
+        binaries.library()
+    }
 
     macosX64()
     macosArm64()
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
-    ).forEach {
-        it.binaries.framework {
-            baseName = "extensions-file"
+    ).forEach { target ->
+        target.binaries.framework {
+            baseName = "kmpalette-extensions-file"
         }
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(project(":kmpalette-core"))
-                api(project(":kmpalette-bitmap-loader"))
-                implementation(project(":extensions-bytearray"))
-                implementation(compose.ui)
-                implementation(libs.kotlinx.coroutines)
-                implementation(libs.okio)
-            }
+        commonMain.dependencies {
+            implementation(projects.kmpaletteCore)
+            api(projects.kmpaletteLoader)
+            implementation(libs.compose.ui)
+            implementation(libs.kotlinx.coroutines)
+            implementation(libs.filekit)
         }
 
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.androidx.startup)
-                implementation(libs.androidx.core)
-            }
-        }
-    }
-}
-
-android {
-    namespace = "com.kmpalette.extensions.file"
-
-    compileSdk = libs.versions.sdk.compile.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
-    }
-
-    kotlin {
-        jvmToolchain(jdkVersion = 11)
     }
 }

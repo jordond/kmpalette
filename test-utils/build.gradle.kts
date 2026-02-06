@@ -1,100 +1,94 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.poko)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.publish)
 }
 
 kotlin {
+    explicitApi()
+    jvmToolchain(jdkVersion = 11)
     applyDefaultHierarchyTemplate()
 
-    androidTarget {
-        publishAllLibraryVariants()
+    androidLibrary {
+        namespace = "${libs.versions.group.get()}.test"
+        compileSdk =
+            libs.versions.sdk.compile
+                .get()
+                .toInt()
+        minSdk =
+            libs.versions.sdk.min
+                .get()
+                .toInt()
+
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
 
     jvm()
 
     js(IR) {
         browser()
+        binaries.library()
+    }
+
+    @Suppress("OPT_IN_USAGE")
+    wasmJs {
+        browser()
+        binaries.library()
     }
 
     macosX64()
     macosArm64()
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
-    ).forEach {
-        it.binaries.framework {
+    ).forEach { target ->
+        target.binaries.framework {
             baseName = "test-utils"
         }
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(project(":kmpalette-core"))
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
-                implementation(compose.ui)
-                implementation(libs.kotlinx.coroutines)
-            }
+        commonMain.dependencies {
+            implementation(projects.kmpaletteCore)
+            implementation(libs.compose.resources)
+            implementation(libs.compose.ui)
+            implementation(libs.kotlinx.coroutines)
         }
 
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(compose.ui)
-                implementation(libs.kotlinx.coroutines.test)
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.compose.ui)
+            implementation(libs.kotlinx.coroutines.test)
         }
 
+        @Suppress("unused")
         val skikoMain by creating {
-            dependsOn(commonMain)
+            dependsOn(commonMain.get())
+            nativeMain.get().dependsOn(this)
+            webMain.get().dependsOn(this)
+            jvmMain.get().dependsOn(this)
         }
 
-        val nativeMain by getting {
-            dependsOn(skikoMain)
+//        val androidInstrumentedTest by getting {
+//            dependencies {
+//                implementation(kotlin("test"))
+//                implementation(compose.ui)
+//                implementation(libs.kotlinx.coroutines.test)
+//                implementation(libs.bundles.test.android)
+//            }
+//        }
+
+        jvmTest.dependencies {
+            implementation(compose.desktop.currentOs)
         }
-
-        val jsMain by getting {
-            dependsOn(skikoMain)
-        }
-
-        val androidInstrumentedTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(compose.ui)
-                implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.bundles.test.android)
-            }
-        }
-
-        val jvmTest by getting {
-            dependencies {
-                implementation(compose.desktop.currentOs)
-            }
-        }
-    }
-}
-
-android {
-    namespace = "com.kmpalette.test"
-
-    compileSdk = libs.versions.sdk.compile.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    sourceSets["main"].apply {
-        res.srcDirs("src/androidMain/resources")
-        resources.srcDirs("src/commonMain/resources")
-    }
-
-    kotlin {
-        jvmToolchain(jdkVersion = 11)
     }
 }

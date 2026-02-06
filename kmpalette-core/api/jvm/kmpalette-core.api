@@ -22,6 +22,7 @@ public final class com/kmpalette/DominantColorStateKt {
 }
 
 public final class com/kmpalette/PaletteKt {
+	public static final fun from (Lcom/kmpalette/palette/graphics/Palette$Companion;Landroidx/compose/ui/graphics/ImageBitmap;)Lcom/kmpalette/palette/graphics/Palette$Builder;
 	public static final fun generatePalette (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun generatePalette$default (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public static final fun rememberGeneratePalette (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteResult;
@@ -29,7 +30,7 @@ public final class com/kmpalette/PaletteKt {
 }
 
 public abstract interface class com/kmpalette/PaletteResult {
-	public abstract fun getPaletteOrNull ()Lcom/kmpalette/palette/graphics/Palette;
+	public fun getPaletteOrNull ()Lcom/kmpalette/palette/graphics/Palette;
 }
 
 public final class com/kmpalette/PaletteResult$DefaultImpls {
@@ -155,6 +156,26 @@ public final class com/kmpalette/SwatchTarget$VibrantLight : com/kmpalette/Swatc
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/kmpalette/extensions/painter/PainterDominantColorStateKt {
+	public static final fun rememberPainterDominantColorState-n5X53cU (JJILkotlin/coroutines/CoroutineContext;Landroidx/compose/ui/unit/Density;Landroidx/compose/ui/unit/LayoutDirection;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
+}
+
+public final class com/kmpalette/extensions/painter/PainterPaletteStateKt {
+	public static final fun rememberPainterPaletteState (ILkotlin/coroutines/CoroutineContext;Landroidx/compose/ui/unit/Density;Landroidx/compose/ui/unit/LayoutDirection;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
+}
+
+public final class com/kmpalette/extensions/resource/ResourceDominantColorStateKt {
+	public static final fun rememberResourceDominantColorState-1Kfb2uI (JJILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/DominantColorState;
+}
+
+public final class com/kmpalette/extensions/resource/ResourcePaletteStateKt {
+	public static final fun rememberResourcePaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
+}
+
+public abstract interface class com/kmpalette/loader/ImageBitmapLoader {
+	public abstract fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com/kmpalette/loader/PainterLoader : com/kmpalette/loader/ImageBitmapLoader {
 	public static final field $stable I
 	public fun <init> (Landroidx/compose/ui/unit/Density;Landroidx/compose/ui/unit/LayoutDirection;)V
@@ -164,5 +185,16 @@ public final class com/kmpalette/loader/PainterLoader : com/kmpalette/loader/Ima
 
 public final class com/kmpalette/loader/PainterLoaderKt {
 	public static final fun rememberPainterLoader (Landroidx/compose/ui/unit/Density;Landroidx/compose/ui/unit/LayoutDirection;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/loader/PainterLoader;
+}
+
+public final class com/kmpalette/loader/ResourceLoader : com/kmpalette/loader/ImageBitmapLoader {
+	public static final field $stable I
+	public fun <init> (Lorg/jetbrains/compose/resources/ResourceEnvironment;)V
+	public synthetic fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun load (Lorg/jetbrains/compose/resources/DrawableResource;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/kmpalette/loader/ResourceLoaderKt {
+	public static final fun rememberResourceLoader (Landroidx/compose/runtime/Composer;I)Lcom/kmpalette/loader/ResourceLoader;
 }
 

@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import com.kmpalette.internal.LruCache
+import com.kmpalette.loader.DefaultImageBitmapLoader
 import com.kmpalette.loader.ImageBitmapLoader
 import com.kmpalette.loader.PainterLoader
 import com.kmpalette.palette.graphics.Palette
@@ -57,15 +58,16 @@ public fun rememberDominantColorState(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): DominantColorState<ImageBitmap> = rememberDominantColorState(
-    loader = ImageBitmapLoader,
-    defaultColor = defaultColor,
-    defaultOnColor = defaultOnColor,
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    isSwatchValid = isSwatchValid,
-    builder = builder,
-)
+): DominantColorState<ImageBitmap> =
+    rememberDominantColorState(
+        loader = DefaultImageBitmapLoader,
+        defaultColor = defaultColor,
+        defaultOnColor = defaultOnColor,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        isSwatchValid = isSwatchValid,
+        builder = builder,
+    )
 
 /**
  * Wrapper around [rememberDominantColorState] that uses [PainterLoader] to load the image.
@@ -92,15 +94,16 @@ public fun rememberPainterDominantColorState(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): DominantColorState<Painter> = rememberDominantColorState(
-    loader = PainterLoader(density, layoutDirection),
-    defaultColor = defaultColor,
-    defaultOnColor = defaultOnColor,
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    isSwatchValid = isSwatchValid,
-    builder = builder
-)
+): DominantColorState<Painter> =
+    rememberDominantColorState(
+        loader = PainterLoader(density, layoutDirection),
+        defaultColor = defaultColor,
+        defaultOnColor = defaultOnColor,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        isSwatchValid = isSwatchValid,
+        builder = builder,
+    )
 
 /**
  * Create a [DominantColorState] which will be remembered across compositions. Then can be used
@@ -126,19 +129,19 @@ public fun <T : Any> rememberDominantColorState(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): DominantColorState<T> = remember(defaultColor, defaultOnColor) {
-    object : DominantColorState<T>(
-        defaultColor = defaultColor,
-        defaultOnColor = defaultOnColor,
-        cacheSize = cacheSize,
-        coroutineContext = coroutineContext,
-        isSwatchValid = isSwatchValid,
-        builder = builder,
-    ) {
-        override val loader: ImageBitmapLoader<T> = loader
+): DominantColorState<T> =
+    remember(defaultColor, defaultOnColor) {
+        object : DominantColorState<T>(
+            defaultColor = defaultColor,
+            defaultOnColor = defaultOnColor,
+            cacheSize = cacheSize,
+            coroutineContext = coroutineContext,
+            isSwatchValid = isSwatchValid,
+            builder = builder,
+        ) {
+            override val loader: ImageBitmapLoader<T> = loader
+        }
     }
-}
-
 
 /**
  * A class which stores and caches the result of any calculated dominant colors.
@@ -165,7 +168,6 @@ public abstract class DominantColorState<T : Any>(
     private val isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     private val builder: Palette.Builder.() -> Unit = {},
 ) {
-
     protected abstract val loader: ImageBitmapLoader<T>
 
     /**
@@ -186,10 +188,11 @@ public abstract class DominantColorState<T : Any>(
     public var result: PaletteResult? by mutableStateOf(null)
         private set
 
-    private val cache = when {
-        cacheSize > 0 -> LruCache<T, DominantColors>(cacheSize)
-        else -> null
-    }
+    private val cache =
+        when {
+            cacheSize > 0 -> LruCache<T, DominantColors>(cacheSize)
+            else -> null
+        }
 
     /**
      * Update the dominant color from the given [input].
@@ -221,8 +224,7 @@ public abstract class DominantColorState<T : Any>(
                     color = Color(swatch.rgb),
                     onColor = Color(swatch.bodyTextColor).copy(alpha = 1f),
                 )
-            }
-            ?.also { result -> cache?.put(input, result) }
+            }?.also { result -> cache?.put(input, result) }
     }
 
     private suspend fun <T> calculateSwatchesInImage(
@@ -230,13 +232,14 @@ public abstract class DominantColorState<T : Any>(
         loader: ImageBitmapLoader<T>,
         block: Palette.Builder.() -> Unit,
     ): List<Palette.Swatch> {
-        val bitmap = try {
-            loader.load(input)
-        } catch (cause: Throwable) {
-            if (cause is CancellationException) throw cause
-            result = PaletteResult.Error(cause)
-            return emptyList()
-        }
+        val bitmap =
+            try {
+                loader.load(input)
+            } catch (cause: Throwable) {
+                if (cause is CancellationException) throw cause
+                result = PaletteResult.Error(cause)
+                return emptyList()
+            }
 
         return try {
             val palette = bitmap.generatePalette(coroutineContext, block)
@@ -259,7 +262,6 @@ public abstract class DominantColorState<T : Any>(
     }
 
     public companion object {
-
         public const val DEFAULT_CACHE_SIZE: Int = 5
     }
 }

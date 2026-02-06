@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
@@ -10,80 +12,89 @@ plugins {
 
 kotlin {
     explicitApi()
-
+    jvmToolchain(jdkVersion = 11)
     applyDefaultHierarchyTemplate()
 
-    androidTarget {
-        publishAllLibraryVariants()
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
+    androidLibrary {
+        namespace = "${libs.versions.group.get()}.core"
+        compileSdk =
+            libs.versions.sdk.compile
+                .get()
+                .toInt()
+        minSdk =
+            libs.versions.sdk.min
+                .get()
+                .toInt()
+
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
 
     jvm()
 
     js(IR) {
         browser()
+        binaries.library()
+    }
+
+    @Suppress("OPT_IN_USAGE")
+    wasmJs {
+        browser()
+        binaries.library()
     }
 
     macosX64()
     macosArm64()
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
-    ).forEach {
-        it.binaries.framework {
+    ).forEach { target ->
+        target.binaries.framework {
             baseName = "kmpalette-core"
         }
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(project(":androidx-palette"))
-                api(project(":kmpalette-bitmap-loader"))
-                implementation(compose.ui)
-                implementation(compose.material3)
-                implementation(compose.runtime)
-                implementation(libs.kotlinx.coroutines)
-            }
+        commonMain.dependencies {
+            api(projects.androidxPalette)
+            api(projects.kmpaletteLoader)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.resources)
+            implementation(libs.compose.runtime)
+            implementation(libs.kotlinx.coroutines)
         }
 
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
         }
 
-        val nonJsMain by creating {
-            dependsOn(commonMain)
+        jvmTest.dependencies {
+            implementation(compose.desktop.currentOs)
+        }
+
+        val nonWebMain by creating {
+            dependsOn(commonMain.get())
+            androidMain.get().dependsOn(this)
+            jvmMain.get().dependsOn(this)
+            nativeMain.get().dependsOn(this)
             dependencies {
                 implementation(libs.androidx.collection)
             }
         }
 
-        val androidMain by getting {
-            dependsOn(nonJsMain)
+        val skikoMain by creating {
+            dependsOn(commonMain.get())
+            jvmMain.get().dependsOn(this)
+            webMain.get().dependsOn(this)
+            nativeMain.get().dependsOn(this)
         }
-
-        val jvmMain by getting {
-            dependsOn(nonJsMain)
-        }
-
-        val nativeMain by getting {
-            dependsOn(nonJsMain)
-        }
-    }
-}
-
-android {
-    namespace = "com.kmpalette"
-
-    compileSdk = libs.versions.sdk.compile.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
-    }
-
-    kotlin {
-        jvmToolchain(jdkVersion = 11)
     }
 }
