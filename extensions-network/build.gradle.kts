@@ -61,7 +61,6 @@ kotlin {
             implementation(projects.kmpaletteCore)
             api(projects.kmpaletteLoader)
             implementation(libs.compose.ui)
-            implementation(libs.compose.resources)
             implementation(libs.kotlinx.coroutines)
             implementation(libs.ktor.client)
         }

@@ -23,6 +23,7 @@ publish = "0.34.0"
 kover = "0.9.6"
 poko = "0.21.1"
 okio = "3.16.4"
+filekit = "0.12.0"
 
 # These are pinned for Android instrumented tests
 kotlin-coroutines = "1.10.1"
@@ -48,6 +49,7 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 ktor-client = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+filekit = { module = "io.github.vinceglb:filekit-core", version.ref = "filekit" }
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

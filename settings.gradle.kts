@@ -39,6 +39,6 @@ include(
     ":kmpalette-loader",
     ":extensions-base64",
     ":extensions-network",
-//    ":extensions-file",
+    ":extensions-file",
 //    ":test-utils",
 )

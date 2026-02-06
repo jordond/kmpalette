@@ -1,13 +1,13 @@
 package com.kmpalette.loader
 
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.decodeToImageBitmap
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.client.statement.readRawBytes
 import io.ktor.http.Url
-import org.jetbrains.compose.resources.decodeToImageBitmap
 
 internal suspend fun Url.toImageBitmap(
     client: HttpClient = HttpClient(),
