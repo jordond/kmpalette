@@ -235,7 +235,7 @@ public abstract class DominantColorState<T : Any>(
         val bitmap =
             try {
                 loader.load(input)
-            } catch (cause: Throwable) {
+            } catch (cause: Exception) {
                 if (cause is CancellationException) throw cause
                 result = PaletteResult.Error(cause)
                 return emptyList()
@@ -245,7 +245,7 @@ public abstract class DominantColorState<T : Any>(
             val palette = bitmap.generatePalette(coroutineContext, block)
             this.result = PaletteResult.Success(palette)
             palette.swatches
-        } catch (cause: Throwable) {
+        } catch (cause: Exception) {
             if (cause is CancellationException) throw cause
             result = PaletteResult.Error(cause)
             return emptyList()

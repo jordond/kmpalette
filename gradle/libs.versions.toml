@@ -23,10 +23,9 @@ publish = "0.36.0"
 kover = "0.9.6"
 poko = "0.21.1"
 filekit = "0.12.0"
-
-# These are pinned for Android instrumented tests
-kotlin-coroutines = "1.10.1"
-androidx-core-ktx = "1.15.0"
+kotlin-coroutines = "1.10.2"
+androidx-core-ktx = "1.17.0"
+spotless = "8.2.1"
 
 [libraries]
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
@@ -60,6 +59,7 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+spotless = {id = "com.diffplug.spotless", version.ref = "spotless"}
 
 [bundles]
 test-android = ["junit", "androidx-test-junit", "androidx-test-runner", "androidx-test-rules", "androidx-test-espresso", "robolectric"]

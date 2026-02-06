@@ -36,6 +36,8 @@ public final class com/kmpalette/palette/graphics/Palette$Builder {
 	public final fun resizeBitmapArea (I)Lcom/kmpalette/palette/graphics/Palette$Builder;
 	public final fun scaling (Z)Lcom/kmpalette/palette/graphics/Palette$Builder;
 	public final fun setRegion (IIII)Lcom/kmpalette/palette/graphics/Palette$Builder;
+	public final fun setRegion (IIIIII)Lcom/kmpalette/palette/graphics/Palette$Builder;
+	public final fun setRegionCoordinateSpace (II)Lcom/kmpalette/palette/graphics/Palette$Builder;
 }
 
 public final class com/kmpalette/palette/graphics/Palette$Companion {

@@ -18,11 +18,6 @@ class PaletteTest {
         const val BLUE = 0xFF0000FF.toInt()
         const val WHITE = 0xFFFFFFFF.toInt()
         const val BLACK = 0xFF000000.toInt()
-        const val YELLOW = 0xFFFFFF00.toInt()
-        const val CYAN = 0xFF00FFFF.toInt()
-        const val MAGENTA = 0xFFFF00FF.toInt()
-        const val ORANGE = 0xFFFF8000.toInt()
-        const val PURPLE = 0xFF800080.toInt()
         const val GRAY = 0xFF808080.toInt()
         const val LIGHT_GRAY = 0xFFCCCCCC.toInt()
         const val DARK_GRAY = 0xFF333333.toInt()
@@ -55,8 +50,8 @@ class PaletteTest {
         val palette = Palette.from(swatches)
 
         assertNotNull(palette.dominantSwatch)
-        assertEquals(Colors.GREEN, palette.dominantSwatch!!.rgb)
-        assertEquals(500, palette.dominantSwatch!!.population)
+        assertEquals(Colors.GREEN, palette.dominantSwatch.rgb)
+        assertEquals(500, palette.dominantSwatch.population)
     }
 
     @Test
@@ -65,7 +60,7 @@ class PaletteTest {
         val palette = Palette.from(swatches)
 
         assertNotNull(palette.dominantSwatch)
-        assertEquals(Colors.BLUE, palette.dominantSwatch!!.rgb)
+        assertEquals(Colors.BLUE, palette.dominantSwatch.rgb)
     }
 
     // ==================== Get Color Tests ====================
@@ -298,7 +293,7 @@ class PaletteTest {
         assertEquals(100, palette.swatches.size)
         assertNotNull(palette.dominantSwatch)
         // Highest population should be last swatch (100 * 10 = 1000)
-        assertEquals(1000, palette.dominantSwatch!!.population)
+        assertEquals(1000, palette.dominantSwatch.population)
     }
 
     @Test

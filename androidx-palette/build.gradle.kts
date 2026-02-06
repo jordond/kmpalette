@@ -28,6 +28,10 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+
+        withDeviceTest {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
     }
 
     jvm()
@@ -73,16 +77,16 @@ kotlin {
             webMain.get().dependsOn(this)
         }
 
-//        val androidInstrumentedTest by getting {
-//            dependencies {
-// //                implementation(projects.extensionsBase64)
-//                implementation(kotlin("test"))
-//                implementation(libs.compose.ui)
-//                implementation(libs.bundles.test.android)
-//                implementation(libs.androidx.core)
-//                implementation(libs.kotlinx.coroutines)
-//                implementation(libs.kotlinx.coroutines.test)
-//            }
-//        }
+        getByName("androidDeviceTest").dependencies {
+            implementation(projects.extensionsBase64)
+            implementation(projects.kmpaletteCore)
+            implementation(projects.testUtils)
+            implementation(kotlin("test"))
+            implementation(libs.compose.ui)
+            implementation(libs.bundles.test.android)
+            implementation(libs.androidx.core)
+            implementation(libs.kotlinx.coroutines)
+            implementation(libs.kotlinx.coroutines.test)
+        }
     }
 }

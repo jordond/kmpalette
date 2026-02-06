@@ -114,4 +114,4 @@ jobs:
           ram-size: 4096M
           emulator-boot-timeout: 12000
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
-          script: ./gradlew connectedCheck --scan
+          script: ./gradlew :androidx-palette:connectedAndroidTest --scan

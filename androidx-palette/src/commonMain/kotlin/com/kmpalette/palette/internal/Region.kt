@@ -6,12 +6,12 @@ internal data class Region(
     val right: Int,
     val bottom: Int,
 ) {
-    val width: Int get() = right - left
-    val height: Int get() = bottom - top
+    val width: Int = right - left
+    val height: Int = bottom - top
 
     fun overlaps(other: Region): Boolean =
         left < other.right && right > other.left &&
-            top < other.bottom && bottom > other.top
+                top < other.bottom && bottom > other.top
 
     fun intersect(other: Region): Region =
         Region(

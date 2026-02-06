@@ -39,12 +39,12 @@ public final class com/kmpalette/PaletteResult$DefaultImpls {
 
 public final class com/kmpalette/PaletteResult$Error : com/kmpalette/PaletteResult {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/Throwable;)V
-	public final fun component1 ()Ljava/lang/Throwable;
-	public final fun copy (Ljava/lang/Throwable;)Lcom/kmpalette/PaletteResult$Error;
-	public static synthetic fun copy$default (Lcom/kmpalette/PaletteResult$Error;Ljava/lang/Throwable;ILjava/lang/Object;)Lcom/kmpalette/PaletteResult$Error;
+	public fun <init> (Ljava/lang/Exception;)V
+	public final fun component1 ()Ljava/lang/Exception;
+	public final fun copy (Ljava/lang/Exception;)Lcom/kmpalette/PaletteResult$Error;
+	public static synthetic fun copy$default (Lcom/kmpalette/PaletteResult$Error;Ljava/lang/Exception;ILjava/lang/Object;)Lcom/kmpalette/PaletteResult$Error;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getCause ()Ljava/lang/Throwable;
+	public final fun getCause ()Ljava/lang/Exception;
 	public fun getPaletteOrNull ()Lcom/kmpalette/palette/graphics/Palette;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -170,10 +170,6 @@ public final class com/kmpalette/extensions/resource/ResourceDominantColorStateK
 
 public final class com/kmpalette/extensions/resource/ResourcePaletteStateKt {
 	public static final fun rememberResourcePaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
-}
-
-public abstract interface class com/kmpalette/loader/ImageBitmapLoader {
-	public abstract fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/kmpalette/loader/PainterLoader : com/kmpalette/loader/ImageBitmapLoader {
