@@ -11,7 +11,6 @@ import kotlin.native.concurrent.ThreadLocal
 @ThreadLocal
 private var TEMP_ARRAY: DoubleArray = DoubleArray(3)
 
-@OptIn(ExperimentalStdlibApi::class)
 internal object ColorUtils {
     private const val MIN_ALPHA_SEARCH_MAX_ITERATIONS = 10
     private const val MIN_ALPHA_SEARCH_PRECISION = 1
@@ -197,7 +196,6 @@ internal object ColorUtils {
         return max(luminance1, luminance2) / min(luminance1, luminance2)
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     fun calculateMinimumAlpha(
         @ColorInt foreground: Int,
         @ColorInt background: Int,

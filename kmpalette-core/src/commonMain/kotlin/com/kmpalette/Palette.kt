@@ -16,7 +16,10 @@ import kotlin.coroutines.CoroutineContext
 
 public fun Palette.Companion.from(bitmap: ImageBitmap): Palette.Builder {
     val scaled = bitmap.extractScaledPixels(Palette.DEFAULT_RESIZE_BITMAP_AREA)
-    return Palette.from(scaled.pixels, scaled.width, scaled.height).scaling(false)
+    return Palette
+        .from(scaled.pixels, scaled.width, scaled.height)
+        .scaling(false)
+        .setRegionCoordinateSpace(bitmap.width, bitmap.height)
 }
 
 public suspend fun ImageBitmap.generatePalette(

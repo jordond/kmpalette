@@ -165,10 +165,10 @@ public class Palette internal constructor(
     ): Boolean {
         val hsl = swatch.hsl
         return hsl[1] >= target.minimumSaturation &&
-            hsl[1] <= target.maximumSaturation &&
-            hsl[2] >= target.minimumLightness &&
-            hsl[2] <= target.maximumLightness &&
-            usedColors[swatch.rgb]?.not() ?: true
+                hsl[1] <= target.maximumSaturation &&
+                hsl[2] >= target.minimumLightness &&
+                hsl[2] <= target.maximumLightness &&
+                usedColors[swatch.rgb]?.not() ?: true
     }
 
     private fun generateScore(
@@ -181,22 +181,15 @@ public class Palette internal constructor(
         var populationScore = 0f
         val maxPopulation = dominantSwatch?.population ?: 1
         if (target.saturationWeight > 0) {
-            saturationScore = (
-                target.saturationWeight
-                    * (1f - abs(hsl[1] - target.targetSaturation))
-            )
+            saturationScore = target.saturationWeight * (1f - abs(hsl[1] - target.targetSaturation))
         }
         if (target.lightnessWeight > 0) {
-            luminanceScore = (
-                target.lightnessWeight
-                    * (1f - abs(hsl[2] - target.targetLightness))
-            )
+            luminanceScore = target.lightnessWeight * (1f - abs(hsl[2] - target.targetLightness))
         }
         if (target.populationWeight > 0) {
-            populationScore = (
-                target.populationWeight
-                    * (swatch.population / maxPopulation.toFloat())
-            )
+            populationScore =
+                target.populationWeight * (swatch.population / maxPopulation.toFloat())
+
         }
         return saturationScore + luminanceScore + populationScore
     }
@@ -240,15 +233,15 @@ public class Palette internal constructor(
             if (!generatedTextColors) {
                 val lightBodyAlpha: Int =
                     ColorUtils.calculateMinimumAlpha(
-                        ColorUtils.WHITE,
-                        rgb,
-                        MIN_CONTRAST_BODY_TEXT,
+                        foreground = ColorUtils.WHITE,
+                        background = rgb,
+                        minContrastRatio = MIN_CONTRAST_BODY_TEXT,
                     )
                 val lightTitleAlpha: Int =
                     ColorUtils.calculateMinimumAlpha(
-                        ColorUtils.WHITE,
-                        rgb,
-                        MIN_CONTRAST_TITLE_TEXT,
+                        foreground = ColorUtils.WHITE,
+                        background = rgb,
+                        minContrastRatio = MIN_CONTRAST_TITLE_TEXT,
                     )
 
                 if (lightBodyAlpha != -1 && lightTitleAlpha != -1) {
@@ -260,15 +253,15 @@ public class Palette internal constructor(
 
                 val darkBodyAlpha: Int =
                     ColorUtils.calculateMinimumAlpha(
-                        ColorUtils.BLACK,
-                        rgb,
-                        MIN_CONTRAST_BODY_TEXT,
+                        foreground = ColorUtils.BLACK,
+                        background = rgb,
+                        minContrastRatio = MIN_CONTRAST_BODY_TEXT,
                     )
                 val darkTitleAlpha: Int =
                     ColorUtils.calculateMinimumAlpha(
-                        ColorUtils.BLACK,
-                        rgb,
-                        MIN_CONTRAST_TITLE_TEXT,
+                        foreground = ColorUtils.BLACK,
+                        background = rgb,
+                        minContrastRatio = MIN_CONTRAST_TITLE_TEXT,
                     )
                 if (darkBodyAlpha != -1 && darkTitleAlpha != -1) {
                     _bodyTextColor = ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
@@ -305,6 +298,9 @@ public class Palette internal constructor(
         private val width: Int
         private val height: Int
 
+        private var regionSourceWidth: Int
+        private var regionSourceHeight: Int
+
         private val targets: MutableList<Target> = mutableListOf()
         private var maxColors = DEFAULT_CALCULATE_NUMBER_COLORS
         private var resizeArea = DEFAULT_RESIZE_BITMAP_AREA
@@ -319,6 +315,8 @@ public class Palette internal constructor(
             this.pixels = pixels
             this.width = width
             this.height = height
+            this.regionSourceWidth = width
+            this.regionSourceHeight = height
             swatches = null
 
             targets.add(Target.LIGHT_VIBRANT)
@@ -338,6 +336,8 @@ public class Palette internal constructor(
             pixels = null
             width = 0
             height = 0
+            regionSourceWidth = 0
+            regionSourceHeight = 0
         }
 
         public fun maximumColorCount(colors: Int): Builder {
@@ -352,6 +352,15 @@ public class Palette internal constructor(
 
         public fun scaling(enabled: Boolean): Builder {
             resizeArea = if (enabled) DEFAULT_RESIZE_BITMAP_AREA else -1
+            return this
+        }
+
+        public fun setRegionCoordinateSpace(
+            width: Int,
+            height: Int,
+        ): Builder {
+            regionSourceWidth = width
+            regionSourceHeight = height
             return this
         }
 
@@ -370,16 +379,27 @@ public class Palette internal constructor(
             top: Int,
             right: Int,
             bottom: Int,
+        ): Builder = setRegion(left, top, right, bottom, regionSourceWidth, regionSourceHeight)
+
+        public fun setRegion(
+            left: Int,
+            top: Int,
+            right: Int,
+            bottom: Int,
+            sourceWidth: Int,
+            sourceHeight: Int,
         ): Builder {
             if (pixels != null) {
-                val bitmapRegion = Region(0, 0, width, height)
+                regionSourceWidth = sourceWidth
+                regionSourceHeight = sourceHeight
+                val sourceRegion = Region(0, 0, sourceWidth, sourceHeight)
                 val requestedRegion = Region(left, top, right, bottom)
-                if (!bitmapRegion.overlaps(requestedRegion)) {
+                if (!sourceRegion.overlaps(requestedRegion)) {
                     throw IllegalArgumentException(
                         "The given region must intersect with the image dimensions.",
                     )
                 }
-                region = requestedRegion.intersect(bitmapRegion)
+                region = requestedRegion.intersect(sourceRegion)
             }
             return this
         }
@@ -406,9 +426,13 @@ public class Palette internal constructor(
             if (pixels != null) {
                 val scaled: ScaledPixels = scalePixelsToArea(pixels, width, height, resizeArea)
                 var currentRegion = region
-                if (scaled.width != width && currentRegion != null) {
-                    val scale = scaled.width.toFloat() / width
-                    currentRegion = currentRegion.scale(scale).coerceIn(scaled.width, scaled.height)
+
+                if (currentRegion != null) {
+                    val scaleFromSource = scaled.width.toFloat() / regionSourceWidth
+                    currentRegion =
+                        currentRegion
+                            .scale(scaleFromSource)
+                            .coerceIn(scaled.width, scaled.height)
                 }
 
                 val pixelsToQuantize =
@@ -494,11 +518,14 @@ public class Palette internal constructor(
                     hsl: FloatArray,
                 ): Boolean = !isWhite(hsl) && !isBlack(hsl) && !isNearRedILine(hsl)
 
-                private fun isBlack(hslColor: FloatArray): Boolean = hslColor[2] <= BLACK_MAX_LIGHTNESS
+                private fun isBlack(hslColor: FloatArray): Boolean =
+                    hslColor[2] <= BLACK_MAX_LIGHTNESS
 
-                private fun isWhite(hslColor: FloatArray): Boolean = hslColor[2] >= WHITE_MIN_LIGHTNESS
+                private fun isWhite(hslColor: FloatArray): Boolean =
+                    hslColor[2] >= WHITE_MIN_LIGHTNESS
 
-                private fun isNearRedILine(hslColor: FloatArray): Boolean = hslColor[0] in 10f..37f && hslColor[1] <= 0.82f
+                private fun isNearRedILine(hslColor: FloatArray): Boolean =
+                    hslColor[0] in 10f..37f && hslColor[1] <= 0.82f
             }
     }
 }
