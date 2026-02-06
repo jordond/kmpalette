@@ -141,22 +141,18 @@ public class Palette internal constructor(
     }
 
     private fun getMaxScoredSwatchForTarget(target: Target): Swatch? {
-        var maxScore = 0f
-        var maxScoreSwatch: Swatch? = null
-        var i = 0
-        val count = swatches.size
-        while (i < count) {
-            val swatch = swatches[i]
+        var bestSwatch: Swatch? = null
+        var bestScore = Float.MIN_VALUE
+        for (swatch in swatches) {
             if (shouldBeScoredForTarget(swatch, target)) {
                 val score = generateScore(swatch, target)
-                if (maxScoreSwatch == null || score > maxScore) {
-                    maxScoreSwatch = swatch
-                    maxScore = score
+                if (score > bestScore) {
+                    bestScore = score
+                    bestSwatch = swatch
                 }
             }
-            i++
         }
-        return maxScoreSwatch
+        return bestSwatch
     }
 
     private fun shouldBeScoredForTarget(
@@ -205,90 +201,68 @@ public class Palette internal constructor(
         private val green: Int = ColorUtils.green(rgb)
         private val blue: Int = ColorUtils.blue(rgb)
 
-        private var generatedTextColors = false
-        private var _titleTextColor = 0
-        private var _bodyTextColor = 0
+        public val hsl: FloatArray =
+            FloatArray(3).apply { ColorUtils.convertRGBToHSL(red, green, blue, this) }
 
-        public var hsl: FloatArray =
-            FloatArray(3)
-                .apply { ColorUtils.convertRGBToHSL(red, green, blue, this) }
-            private set
+        private val textColors: Pair<Int, Int> by lazy(LazyThreadSafetyMode.NONE) {
+            val lightBodyAlpha = ColorUtils.calculateMinimumAlpha(
+                foreground = ColorUtils.WHITE,
+                background = rgb,
+                minContrastRatio = MIN_CONTRAST_BODY_TEXT,
+            )
+            val lightTitleAlpha = ColorUtils.calculateMinimumAlpha(
+                foreground = ColorUtils.WHITE,
+                background = rgb,
+                minContrastRatio = MIN_CONTRAST_TITLE_TEXT,
+            )
+
+            if (lightBodyAlpha != -1 && lightTitleAlpha != -1) {
+                return@lazy Pair(
+                    ColorUtils.setAlpha(ColorUtils.WHITE, lightTitleAlpha),
+                    ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha),
+                )
+            }
+
+            val darkBodyAlpha = ColorUtils.calculateMinimumAlpha(
+                foreground = ColorUtils.BLACK,
+                background = rgb,
+                minContrastRatio = MIN_CONTRAST_BODY_TEXT,
+            )
+            val darkTitleAlpha = ColorUtils.calculateMinimumAlpha(
+                foreground = ColorUtils.BLACK,
+                background = rgb,
+                minContrastRatio = MIN_CONTRAST_TITLE_TEXT,
+            )
+
+            if (darkBodyAlpha != -1 && darkTitleAlpha != -1) {
+                return@lazy Pair(
+                    ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha),
+                    ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha),
+                )
+            }
+
+            Pair(
+                calculateTextColor(lightTitleAlpha, darkTitleAlpha),
+                calculateTextColor(lightBodyAlpha, darkBodyAlpha),
+            )
+        }
 
         @get:ColorInt
         public val titleTextColor: Int
-            get() {
-                ensureTextColorsGenerated()
-                return _titleTextColor
-            }
+            get() = textColors.first
 
         @get:ColorInt
         public val bodyTextColor: Int
-            get() {
-                ensureTextColorsGenerated()
-                return _bodyTextColor
+            get() = textColors.second
+
+        private fun calculateTextColor(
+            lightAlpha: Int,
+            darkAlpha: Int,
+        ): Int =
+            when {
+                lightAlpha != -1 -> ColorUtils.setAlpha(ColorUtils.WHITE, lightAlpha)
+                else -> ColorUtils.setAlpha(ColorUtils.BLACK, darkAlpha)
             }
-
-        private fun ensureTextColorsGenerated() {
-            if (!generatedTextColors) {
-                val lightBodyAlpha: Int =
-                    ColorUtils.calculateMinimumAlpha(
-                        foreground = ColorUtils.WHITE,
-                        background = rgb,
-                        minContrastRatio = MIN_CONTRAST_BODY_TEXT,
-                    )
-                val lightTitleAlpha: Int =
-                    ColorUtils.calculateMinimumAlpha(
-                        foreground = ColorUtils.WHITE,
-                        background = rgb,
-                        minContrastRatio = MIN_CONTRAST_TITLE_TEXT,
-                    )
-
-                if (lightBodyAlpha != -1 && lightTitleAlpha != -1) {
-                    _bodyTextColor = ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha)
-                    _titleTextColor = ColorUtils.setAlpha(ColorUtils.WHITE, lightTitleAlpha)
-                    generatedTextColors = true
-                    return
-                }
-
-                val darkBodyAlpha: Int =
-                    ColorUtils.calculateMinimumAlpha(
-                        foreground = ColorUtils.BLACK,
-                        background = rgb,
-                        minContrastRatio = MIN_CONTRAST_BODY_TEXT,
-                    )
-                val darkTitleAlpha: Int =
-                    ColorUtils.calculateMinimumAlpha(
-                        foreground = ColorUtils.BLACK,
-                        background = rgb,
-                        minContrastRatio = MIN_CONTRAST_TITLE_TEXT,
-                    )
-                if (darkBodyAlpha != -1 && darkTitleAlpha != -1) {
-                    _bodyTextColor = ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
-                    _titleTextColor = ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha)
-                    generatedTextColors = true
-                    return
-                }
-
-                _bodyTextColor =
-                    if (lightBodyAlpha != -1) {
-                        ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha)
-                    } else {
-                        ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
-                    }
-
-                _titleTextColor =
-                    if (lightTitleAlpha != -1) {
-                        ColorUtils.setAlpha(
-                            ColorUtils.WHITE,
-                            lightTitleAlpha,
-                        )
-                    } else {
-                        ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha)
-                    }
-
-                generatedTextColors = true
-            }
-        }
     }
 
     public class Builder {
@@ -421,39 +395,43 @@ public class Palette internal constructor(
         }
 
         public fun generate(): Palette {
-            val swatches: List<Swatch>
-            if (pixels != null) {
-                val scaled: ScaledPixels = scalePixelsToArea(pixels, width, height, resizeArea)
-                var currentRegion = region
+            val swatches: List<Swatch> =
+                when {
+                    pixels != null -> {
+                        val scaled: ScaledPixels = scalePixelsToArea(pixels, width, height, resizeArea)
+                        var currentRegion = region
 
-                if (currentRegion != null && regionSourceWidth > 0) {
-                    val scaleFromSource = scaled.width.toFloat() / regionSourceWidth
-                    currentRegion =
-                        currentRegion
-                            .scale(scaleFromSource)
-                            .coerceIn(scaled.width, scaled.height)
+                        if (currentRegion != null && regionSourceWidth > 0) {
+                            val scaleFromSource = scaled.width.toFloat() / regionSourceWidth
+                            currentRegion =
+                                currentRegion
+                                    .scale(scaleFromSource)
+                                    .coerceIn(scaled.width, scaled.height)
+                        }
+
+                        val pixelsToQuantize =
+                            getPixelsFromRegion(
+                                scaled.pixels,
+                                scaled.width,
+                                scaled.height,
+                                currentRegion,
+                            )
+
+                        val quantizer =
+                            ColorCutQuantizer(
+                                pixels = pixelsToQuantize,
+                                maxColors = maxColors,
+                                filters = if (filters.isEmpty()) null else filters.toTypedArray(),
+                            )
+                        quantizer.quantizedColors
+                    }
+                    this.swatches != null -> {
+                        this.swatches
+                    }
+                    else -> {
+                        throw AssertionError()
+                    }
                 }
-
-                val pixelsToQuantize =
-                    getPixelsFromRegion(
-                        scaled.pixels,
-                        scaled.width,
-                        scaled.height,
-                        currentRegion,
-                    )
-
-                val quantizer =
-                    ColorCutQuantizer(
-                        pixels = pixelsToQuantize,
-                        maxColors = maxColors,
-                        filters = if (filters.isEmpty()) null else filters.toTypedArray(),
-                    )
-                swatches = quantizer.quantizedColors
-            } else if (this.swatches != null) {
-                swatches = this.swatches
-            } else {
-                throw AssertionError()
-            }
 
             val p = Palette(swatches, targets)
             p.generate()
@@ -474,7 +452,7 @@ public class Palette internal constructor(
             val regionHeight = region.height
             val subsetPixels = IntArray(regionWidth * regionHeight)
 
-            for (row in 0 until regionHeight) {
+            repeat(regionHeight) { row ->
                 pixels.copyInto(
                     destination = subsetPixels,
                     destinationOffset = row * regionWidth,
