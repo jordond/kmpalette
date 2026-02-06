@@ -71,15 +71,13 @@ kotlin {
             implementation(libs.kotlinx.coroutines.test)
         }
 
-//        val androidInstrumentedTest by getting {
-//            dependencies {
-//                implementation(projects.testUtils)
-//                implementation(kotlin("test"))
-//                implementation(libs.compose.ui)
-//                implementation(libs.kotlinx.coroutines.test)
-//                implementation(libs.bundles.test.android)
-//            }
-//        }
+        androidInstrumentedTest.dependencies {
+            implementation(projects.testUtils)
+            implementation(kotlin("test"))
+            implementation(libs.compose.ui)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.bundles.test.android)
+        }
 
         jvmTest.dependencies {
             implementation(compose.desktop.currentOs)

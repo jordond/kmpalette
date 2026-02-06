@@ -78,14 +78,12 @@ kotlin {
             jvmMain.get().dependsOn(this)
         }
 
-//        val androidInstrumentedTest by getting {
-//            dependencies {
-//                implementation(kotlin("test"))
-//                implementation(compose.ui)
-//                implementation(libs.kotlinx.coroutines.test)
-//                implementation(libs.bundles.test.android)
-//            }
-//        }
+        androidInstrumentedTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.compose.ui)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.bundles.test.android)
+        }
 
         jvmTest.dependencies {
             implementation(compose.desktop.currentOs)

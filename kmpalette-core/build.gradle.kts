@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {

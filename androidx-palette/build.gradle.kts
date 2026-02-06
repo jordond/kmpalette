@@ -73,16 +73,14 @@ kotlin {
             webMain.get().dependsOn(this)
         }
 
-//        val androidInstrumentedTest by getting {
-//            dependencies {
-// //                implementation(projects.extensionsBase64)
-//                implementation(kotlin("test"))
-//                implementation(libs.compose.ui)
-//                implementation(libs.bundles.test.android)
-//                implementation(libs.androidx.core)
-//                implementation(libs.kotlinx.coroutines)
-//                implementation(libs.kotlinx.coroutines.test)
-//            }
-//        }
+        androidInstrumentedTest.dependencies {
+            implementation(projects.extensionsBase64)
+            implementation(kotlin("test"))
+            implementation(libs.compose.ui)
+            implementation(libs.bundles.test.android)
+            implementation(libs.androidx.core)
+            implementation(libs.kotlinx.coroutines)
+            implementation(libs.kotlinx.coroutines.test)
+        }
     }
 }
