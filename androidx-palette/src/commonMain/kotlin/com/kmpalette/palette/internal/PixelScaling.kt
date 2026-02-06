@@ -58,7 +58,7 @@ internal fun scalePixelsToArea(
     maxArea: Int,
 ): ScaledPixels {
     val currentArea = width * height
-    if (currentArea <= maxArea || maxArea <= 0) {
+    if (maxArea !in 1..<currentArea) {
         return ScaledPixels(pixels, width, height)
     }
 

@@ -168,7 +168,7 @@ public abstract class PaletteState<T : Any>(
         val bitmap =
             try {
                 loader.load(input)
-            } catch (cause: Throwable) {
+            } catch (cause: Exception) {
                 if (cause is CancellationException) throw cause
                 return PaletteResult.Error(cause)
             }
@@ -176,7 +176,7 @@ public abstract class PaletteState<T : Any>(
         return try {
             val palette = bitmap.generatePalette(coroutineContext, builder)
             PaletteResult.Success(palette)
-        } catch (cause: Throwable) {
+        } catch (cause: Exception) {
             if (cause is CancellationException) throw cause
             PaletteResult.Error(cause)
         }

@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.toPixelMap
+import com.kmpalette.internal.extractScaledPixels
 import com.kmpalette.palette.graphics.Palette
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -15,9 +15,8 @@ import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 public fun Palette.Companion.from(bitmap: ImageBitmap): Palette.Builder {
-    val pixels = IntArray(bitmap.width * bitmap.height)
-    bitmap.readPixels(pixels)
-    return Palette.from(pixels, bitmap.width, bitmap.height)
+    val scaled = bitmap.extractScaledPixels(Palette.DEFAULT_RESIZE_BITMAP_AREA)
+    return Palette.from(scaled.pixels, scaled.width, scaled.height).scaling(false)
 }
 
 public suspend fun ImageBitmap.generatePalette(

@@ -212,6 +212,34 @@ class PaletteTest {
         assertNotNull(Palette.DEFAULT_FILTER)
     }
 
+    // ==================== Builder Configuration Tests ====================
+
+    @Test
+    fun `scaling false disables internal scaling`() {
+        val pixels = IntArray(10 * 10) { Colors.RED }
+        val palette =
+            Palette
+                .from(pixels, 10, 10)
+                .scaling(false)
+                .clearFilters()
+                .generate()
+
+        assertTrue(palette.swatches.isNotEmpty())
+    }
+
+    @Test
+    fun `scaling true enables internal scaling`() {
+        val pixels = IntArray(10 * 10) { Colors.BLUE }
+        val palette =
+            Palette
+                .from(pixels, 10, 10)
+                .scaling(true)
+                .clearFilters()
+                .generate()
+
+        assertTrue(palette.swatches.isNotEmpty())
+    }
+
     // ==================== Population-Based Selection Tests ====================
 
     @Test

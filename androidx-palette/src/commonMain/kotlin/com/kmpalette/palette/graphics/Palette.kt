@@ -165,10 +165,10 @@ public class Palette internal constructor(
     ): Boolean {
         val hsl = swatch.hsl
         return hsl[1] >= target.minimumSaturation &&
-                hsl[1] <= target.maximumSaturation &&
-                hsl[2] >= target.minimumLightness &&
-                hsl[2] <= target.maximumLightness &&
-                usedColors[swatch.rgb]?.not() ?: true
+            hsl[1] <= target.maximumSaturation &&
+            hsl[2] >= target.minimumLightness &&
+            hsl[2] <= target.maximumLightness &&
+            usedColors[swatch.rgb]?.not() ?: true
     }
 
     private fun generateScore(
@@ -182,21 +182,21 @@ public class Palette internal constructor(
         val maxPopulation = dominantSwatch?.population ?: 1
         if (target.saturationWeight > 0) {
             saturationScore = (
-                    target.saturationWeight
-                            * (1f - abs(hsl[1] - target.targetSaturation))
-                    )
+                target.saturationWeight
+                    * (1f - abs(hsl[1] - target.targetSaturation))
+            )
         }
         if (target.lightnessWeight > 0) {
             luminanceScore = (
-                    target.lightnessWeight
-                            * (1f - abs(hsl[2] - target.targetLightness))
-                    )
+                target.lightnessWeight
+                    * (1f - abs(hsl[2] - target.targetLightness))
+            )
         }
         if (target.populationWeight > 0) {
             populationScore = (
-                    target.populationWeight
-                            * (swatch.population / maxPopulation.toFloat())
-                    )
+                target.populationWeight
+                    * (swatch.population / maxPopulation.toFloat())
+            )
         }
         return saturationScore + luminanceScore + populationScore
     }
@@ -350,6 +350,11 @@ public class Palette internal constructor(
             return this
         }
 
+        public fun scaling(enabled: Boolean): Builder {
+            resizeArea = if (enabled) DEFAULT_RESIZE_BITMAP_AREA else -1
+            return this
+        }
+
         public fun clearFilters(): Builder {
             filters.clear()
             return this
@@ -489,14 +494,11 @@ public class Palette internal constructor(
                     hsl: FloatArray,
                 ): Boolean = !isWhite(hsl) && !isBlack(hsl) && !isNearRedILine(hsl)
 
-                private fun isBlack(hslColor: FloatArray): Boolean =
-                    hslColor[2] <= BLACK_MAX_LIGHTNESS
+                private fun isBlack(hslColor: FloatArray): Boolean = hslColor[2] <= BLACK_MAX_LIGHTNESS
 
-                private fun isWhite(hslColor: FloatArray): Boolean =
-                    hslColor[2] >= WHITE_MIN_LIGHTNESS
+                private fun isWhite(hslColor: FloatArray): Boolean = hslColor[2] >= WHITE_MIN_LIGHTNESS
 
-                private fun isNearRedILine(hslColor: FloatArray): Boolean =
-                    hslColor[0] in 10f..37f && hslColor[1] <= 0.82f
+                private fun isNearRedILine(hslColor: FloatArray): Boolean = hslColor[0] in 10f..37f && hslColor[1] <= 0.82f
             }
     }
 }
