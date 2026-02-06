@@ -100,7 +100,7 @@ public fun rememberGeneratePalette(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     block: Palette.Builder.() -> Unit = {},
 ): PaletteResult {
-    var result: PaletteResult by remember(loader) { mutableStateOf(PaletteResult.Loading) }
+    var loaderState: PaletteResult by remember(loader) { mutableStateOf(PaletteResult.Loading) }
     var bitmap: ImageBitmap? by remember(loader) { mutableStateOf(null) }
 
     LaunchedEffect(loader) {
@@ -108,15 +108,13 @@ public fun rememberGeneratePalette(
             bitmap = loader()
         } catch (cause: Exception) {
             if (cause is CancellationException) throw cause
-            result = PaletteResult.Error(cause)
+            loaderState = PaletteResult.Error(cause)
         }
     }
 
-    bitmap?.let { imageBitmap ->
-        result = imageBitmap.rememberGeneratePalette(coroutineContext, block)
-    }
+    val paletteResult = bitmap?.rememberGeneratePalette(coroutineContext, block)
 
-    return result
+    return paletteResult ?: loaderState
 }
 
 /**

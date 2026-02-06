@@ -165,10 +165,10 @@ public class Palette internal constructor(
     ): Boolean {
         val hsl = swatch.hsl
         return hsl[1] >= target.minimumSaturation &&
-                hsl[1] <= target.maximumSaturation &&
-                hsl[2] >= target.minimumLightness &&
-                hsl[2] <= target.maximumLightness &&
-                usedColors[swatch.rgb]?.not() ?: true
+            hsl[1] <= target.maximumSaturation &&
+            hsl[2] >= target.minimumLightness &&
+            hsl[2] <= target.maximumLightness &&
+            usedColors[swatch.rgb]?.not() ?: true
     }
 
     private fun generateScore(
@@ -189,7 +189,6 @@ public class Palette internal constructor(
         if (target.populationWeight > 0) {
             populationScore =
                 target.populationWeight * (swatch.population / maxPopulation.toFloat())
-
         }
         return saturationScore + luminanceScore + populationScore
     }
@@ -427,7 +426,7 @@ public class Palette internal constructor(
                 val scaled: ScaledPixels = scalePixelsToArea(pixels, width, height, resizeArea)
                 var currentRegion = region
 
-                if (currentRegion != null) {
+                if (currentRegion != null && regionSourceWidth > 0) {
                     val scaleFromSource = scaled.width.toFloat() / regionSourceWidth
                     currentRegion =
                         currentRegion
@@ -518,14 +517,11 @@ public class Palette internal constructor(
                     hsl: FloatArray,
                 ): Boolean = !isWhite(hsl) && !isBlack(hsl) && !isNearRedILine(hsl)
 
-                private fun isBlack(hslColor: FloatArray): Boolean =
-                    hslColor[2] <= BLACK_MAX_LIGHTNESS
+                private fun isBlack(hslColor: FloatArray): Boolean = hslColor[2] <= BLACK_MAX_LIGHTNESS
 
-                private fun isWhite(hslColor: FloatArray): Boolean =
-                    hslColor[2] >= WHITE_MIN_LIGHTNESS
+                private fun isWhite(hslColor: FloatArray): Boolean = hslColor[2] >= WHITE_MIN_LIGHTNESS
 
-                private fun isNearRedILine(hslColor: FloatArray): Boolean =
-                    hslColor[0] in 10f..37f && hslColor[1] <= 0.82f
+                private fun isNearRedILine(hslColor: FloatArray): Boolean = hslColor[0] in 10f..37f && hslColor[1] <= 0.82f
             }
     }
 }
