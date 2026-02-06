@@ -1,10 +1,8 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         google()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -13,13 +11,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven { url = uri("https://jitpack.io") }
     }
 }
 
 plugins {
-    id("com.gradle.develocity") version "3.19.1"
+    id("com.gradle.develocity") version "4.3.2"
 }
 
 develocity {
@@ -36,14 +32,12 @@ develocity {
 rootProject.name = "kmpalette"
 
 include(
-    ":kmpalette-core",
+//    ":kmpalette-core",
     ":androidx-palette",
-    ":kmpalette-bitmap-loader",
-    ":extensions-base64",
-    ":extensions-bytearray",
-    ":extensions-network",
-    ":extensions-file",
-    ":test-utils",
+//    ":kmpalette-bitmap-loader",
+//    ":extensions-base64",
+//    ":extensions-bytearray",
+//    ":extensions-network",
+//    ":extensions-file",
+//    ":test-utils",
 )
-
-include(":demo:composeApp")
