@@ -25,7 +25,11 @@ class ScaledBitmapPixelsTest {
         val scaledArea = width * height
         val targetArea = 112 * 112
 
-        assertEquals(true, scaledArea <= targetArea + 200, "Scaled area $scaledArea should be close to target $targetArea")
+        assertEquals(
+            true,
+            scaledArea <= targetArea + 200,
+            "Scaled area $scaledArea should be close to target $targetArea",
+        )
         assertEquals(true, width > 0)
         assertEquals(true, height > 0)
     }
@@ -40,7 +44,11 @@ class ScaledBitmapPixelsTest {
         val scaledRatio = width.toDouble() / height
 
         val ratioDiff = kotlin.math.abs(originalRatio - scaledRatio)
-        assertEquals(true, ratioDiff < 0.1, "Aspect ratio should be preserved. Original: $originalRatio, Scaled: $scaledRatio")
+        assertEquals(
+            true,
+            ratioDiff < 0.1,
+            "Aspect ratio should be preserved. Original: $originalRatio, Scaled: $scaledRatio",
+        )
     }
 
     @Test

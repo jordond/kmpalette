@@ -34,9 +34,10 @@ public fun rememberPainterPaletteState(
     density: Density = LocalDensity.current,
     layoutDirection: LayoutDirection = LocalLayoutDirection.current,
     builder: Palette.Builder.() -> Unit = {},
-): PaletteState<Painter> = rememberPaletteState(
-    loader = rememberPainterLoader(density, layoutDirection),
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    builder = builder,
-)
+): PaletteState<Painter> =
+    rememberPaletteState(
+        loader = rememberPainterLoader(density, layoutDirection),
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        builder = builder,
+    )

@@ -41,12 +41,13 @@ public fun rememberNetworkDominantColorState(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): DominantColorState<Url> = rememberDominantColorState(
-    loader = NetworkLoader(httpClient, httpRequestBuilder),
-    defaultColor = defaultColor,
-    defaultOnColor = defaultOnColor,
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    isSwatchValid = isSwatchValid,
-    builder = builder,
-)
+): DominantColorState<Url> =
+    rememberDominantColorState(
+        loader = NetworkLoader(httpClient, httpRequestBuilder),
+        defaultColor = defaultColor,
+        defaultOnColor = defaultOnColor,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        isSwatchValid = isSwatchValid,
+        builder = builder,
+    )

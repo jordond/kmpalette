@@ -33,12 +33,13 @@ public fun rememberPlatformFileDominantColorState(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): DominantColorState<PlatformFile> = rememberDominantColorState(
-    loader = PlatformFileLoader,
-    defaultColor = defaultColor,
-    defaultOnColor = defaultOnColor,
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    isSwatchValid = isSwatchValid,
-    builder = builder,
-)
+): DominantColorState<PlatformFile> =
+    rememberDominantColorState(
+        loader = PlatformFileLoader,
+        defaultColor = defaultColor,
+        defaultOnColor = defaultOnColor,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        isSwatchValid = isSwatchValid,
+        builder = builder,
+    )

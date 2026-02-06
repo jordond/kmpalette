@@ -7,7 +7,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class ColorUtilsTest {
-
     @Test
     fun should_convert_the_Color_int_to_an_HSL_FloatArray() {
         val color: Int = 0x80ABCDEF.toInt()
@@ -137,7 +136,5 @@ class ColorUtilsTest {
         assertEquals(0xFFABCDEF.toInt(), color, "color should be 0xFFABCDEF")
     }
 
-    private fun Double.roundTo(n: Int): Double {
-        return (this * 10.0.pow(n)).roundToInt() / 10.0.pow(n)
-    }
+    private fun Double.roundTo(n: Int): Double = (this * 10.0.pow(n)).roundToInt() / 10.0.pow(n)
 }

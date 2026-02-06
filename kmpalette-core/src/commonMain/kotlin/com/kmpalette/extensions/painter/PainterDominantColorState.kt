@@ -41,12 +41,13 @@ public fun rememberPainterDominantColorState(
     layoutDirection: LayoutDirection = LocalLayoutDirection.current,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): DominantColorState<Painter> = rememberDominantColorState(
-    loader = rememberPainterLoader(density, layoutDirection),
-    defaultColor = defaultColor,
-    defaultOnColor = defaultOnColor,
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    isSwatchValid = isSwatchValid,
-    builder = builder,
-)
+): DominantColorState<Painter> =
+    rememberDominantColorState(
+        loader = rememberPainterLoader(density, layoutDirection),
+        defaultColor = defaultColor,
+        defaultOnColor = defaultOnColor,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        isSwatchValid = isSwatchValid,
+        builder = builder,
+    )

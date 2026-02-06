@@ -24,7 +24,6 @@ package com.kmpalette.palette.graphics
  */
 @Suppress("MemberVisibilityCanBePrivate")
 public class Target {
-
     public val saturationTargets: FloatArray = FloatArray(3)
     public val lightnessTargets: FloatArray = FloatArray(3)
     public val weights: FloatArray = FloatArray(3)
@@ -169,66 +168,71 @@ public class Target {
     public class Builder(
         private val target: Target = Target(),
     ) {
-
         /**
          * Set the minimum saturation value for this target.
          *
          * Valid range is 0..1
          */
-        public fun setMinimumSaturation(value: Float): Builder = apply {
-            require(value in 0.0..1.0) { "Minimum saturation value must be between 0..1" }
-            target.saturationTargets[INDEX_MIN] = value
-        }
+        public fun setMinimumSaturation(value: Float): Builder =
+            apply {
+                require(value in 0.0..1.0) { "Minimum saturation value must be between 0..1" }
+                target.saturationTargets[INDEX_MIN] = value
+            }
 
         /**
          * Set the target/ideal saturation value for this target.
          *
          * Valid range is 0..1
          */
-        public fun setTargetSaturation(value: Float): Builder = apply {
-            require(value in 0.0..1.0) { "Maximum saturation value must be between 0..1" }
-            target.saturationTargets[INDEX_TARGET] = value
-        }
+        public fun setTargetSaturation(value: Float): Builder =
+            apply {
+                require(value in 0.0..1.0) { "Maximum saturation value must be between 0..1" }
+                target.saturationTargets[INDEX_TARGET] = value
+            }
 
         /**
          * Set the maximum saturation value for this target.
          *
          * Valid range is 0..1
          */
-        public fun setMaximumSaturation(value: Float): Builder = apply {
-            require(value in 0.0..1.0) { "Saturation value must be between 0..1" }
-            target.saturationTargets[INDEX_MAX] = value
-        }
+        public fun setMaximumSaturation(value: Float): Builder =
+            apply {
+                require(value in 0.0..1.0) { "Saturation value must be between 0..1" }
+                target.saturationTargets[INDEX_MAX] = value
+            }
 
         /**
          * Set the minimum lightness value for this target.
          *
          * Valid range is 0..1
          */
-        public fun setMinimumLightness(value: Float): Builder = apply {
-            require(value in 0.0..1.0) { "Min lightness value must be in the range 0..1" }
-            target.lightnessTargets[INDEX_MIN] = value
-        }
+        public fun setMinimumLightness(value: Float): Builder =
+            apply {
+                require(value in 0.0..1.0) { "Min lightness value must be in the range 0..1" }
+                target.lightnessTargets[INDEX_MIN] = value
+            }
 
         /**
          * Set the target/ideal lightness value for this target.
          *
          * Valid range is 0..1
          */
-        public fun setTargetLightness(value: Float): Builder = apply {
-            require(value in 0.0..1.0) { "Target lightness value must be in the range 0..1" }
-            target.lightnessTargets[INDEX_TARGET] = value
-        }
+        public fun setTargetLightness(value: Float): Builder =
+            apply {
+                require(value in 0.0..1.0) { "Target lightness value must be in the range 0..1" }
+                target.lightnessTargets[INDEX_TARGET] = value
+            }
 
         /**
          * Set the maximum lightness value for this target.
          *
          * Valid range is 0..1
          */
-        public fun setMaximumLightness(value: Float): Builder = apply {
-            require(value in 0.0..1.0) { "Max lightness value must be in the range 0..1" }
-            target.lightnessTargets[INDEX_MAX] = value
-        }
+        public fun setMaximumLightness(value: Float): Builder =
+            apply {
+                require(value in 0.0..1.0) { "Max lightness value must be in the range 0..1" }
+                target.lightnessTargets[INDEX_MAX] = value
+            }
 
         /**
          * Set the weight of importance that this target will place on saturation values.
@@ -243,10 +247,11 @@ public class Target {
          *
          * @see setTargetSaturation
          */
-        public fun setSaturationWeight(weight: Float): Builder = apply {
-            require(weight >= 0) { "Saturation weight must be non negative" }
-            target.weights[INDEX_WEIGHT_SAT] = weight
-        }
+        public fun setSaturationWeight(weight: Float): Builder =
+            apply {
+                require(weight >= 0) { "Saturation weight must be non negative" }
+                target.weights[INDEX_WEIGHT_SAT] = weight
+            }
 
         /**
          * Set the weight of importance that this target will place on lightness values.
@@ -261,10 +266,11 @@ public class Target {
          *
          * @see .setTargetLightness
          */
-        public fun setLightnessWeight(weight: Float): Builder = apply {
-            require(weight >= 0) { "Lightness weight must be non negative" }
-            target.weights[INDEX_WEIGHT_LUMA] = weight
-        }
+        public fun setLightnessWeight(weight: Float): Builder =
+            apply {
+                require(weight >= 0) { "Lightness weight must be non negative" }
+                target.weights[INDEX_WEIGHT_LUMA] = weight
+            }
 
         /**
          * Set the weight of importance that this target will place on a color's population within
@@ -278,10 +284,11 @@ public class Target {
          * A weight of 0 means that it has no weight, and thus has no
          * bearing on the selection.
          */
-        public fun setPopulationWeight(weight: Float): Builder = apply {
-            require(weight >= 0) { "Population weight must be non negative" }
-            target.weights[INDEX_WEIGHT_POP] = weight
-        }
+        public fun setPopulationWeight(weight: Float): Builder =
+            apply {
+                require(weight >= 0) { "Population weight must be non negative" }
+                target.weights[INDEX_WEIGHT_POP] = weight
+            }
 
         /**
          * Set whether any color selected for this target is exclusive to this target only.
@@ -290,9 +297,10 @@ public class Target {
          * @param exclusive true if any the color is exclusive to this target, or false if the
          * color can be selected for other targets.
          */
-        public fun setExclusive(exclusive: Boolean): Builder = apply {
-            target.isExclusive = exclusive
-        }
+        public fun setExclusive(exclusive: Boolean): Builder =
+            apply {
+                target.isExclusive = exclusive
+            }
 
         /**
          * Builds and returns the resulting [Target].
@@ -301,7 +309,6 @@ public class Target {
     }
 
     public companion object {
-
         private const val TARGET_DARK_LUMA = 0.26f
         private const val MAX_DARK_LUMA = 0.45f
         private const val MIN_LIGHT_LUMA = 0.55f

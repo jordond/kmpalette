@@ -7,14 +7,15 @@ internal typealias LockObject = Any
 /**
  * Modified from [this](https://github.com/qdsfdhvh/compose-imageloader/blob/7a12a122be95043fe2a9cbf2f560b60228e5cf79/image-loader/src/jsMain/kotlin/com/seiko/imageloader/util/LruCache.kt).
  */
-internal actual open class LruCache<K : Any, V : Any> actual constructor(maxSize: Int) {
-
-    private var _maxSize = 0
-    private var _size = 0
-    private var _putCount = 0
-    private var _evictionCount = 0
-    private var _hitCount = 0
-    private var _missCount = 0
+internal actual open class LruCache<K : Any, V : Any> actual constructor(
+    maxSize: Int,
+) {
+    private var cacheMaxSize = 0
+    private var cacheSize = 0
+    private var putCount = 0
+    private var evictionCount = 0
+    private var hitCount = 0
+    private var missCount = 0
 
     private val map: LinkedHashMap<K, V>
 
@@ -22,7 +23,7 @@ internal actual open class LruCache<K : Any, V : Any> actual constructor(maxSize
 
     init {
         require(maxSize > 0) { "maxSize <= 0" }
-        this._maxSize = maxSize
+        this.cacheMaxSize = maxSize
         this.map = LinkedHashMap(0, 0.75f)
     }
 
@@ -31,25 +32,27 @@ internal actual open class LruCache<K : Any, V : Any> actual constructor(maxSize
         synchronized(syncObject) {
             mapValue = map[key]
             if (mapValue != null) {
-                _hitCount++
-
+                hitCount++
             }
-            _missCount++
+            missCount++
             return mapValue
         }
     }
 
-    actual fun put(key: K, value: V): V? {
+    actual fun put(
+        key: K,
+        value: V,
+    ): V? {
         var previous: V? = null
         synchronized(syncObject) {
-            _putCount++
-            _size += 1
+            putCount++
+            cacheSize += 1
             previous = map.put(key, value)
             previous?.let {
-                _size -= 1
+                cacheSize -= 1
             }
         }
-        trimToSize(_maxSize)
+        trimToSize(cacheMaxSize)
         return previous
     }
 
@@ -57,16 +60,16 @@ internal actual open class LruCache<K : Any, V : Any> actual constructor(maxSize
         while (true) {
             lateinit var key: K
             synchronized(syncObject) {
-                check(!(_size < 0 || map.isEmpty() && _size != 0)) {
+                check(!(cacheSize < 0 || map.isEmpty() && cacheSize != 0)) {
                     this::class.simpleName + ".sizeOf() is reporting inconsistent results!"
                 }
-                if (_size <= maxSize || map.isEmpty()) return
+                if (cacheSize <= maxSize || map.isEmpty()) return
 
                 val (key1, _) = map.entries.iterator().next()
                 key = key1
                 map.remove(key)
-                _size -= 1
-                _evictionCount++
+                cacheSize -= 1
+                evictionCount++
             }
         }
     }

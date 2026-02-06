@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.internal.builtins.StandardNames.FqNames.target
+
 plugins {
     alias(libs.plugins.multiplatform) apply false
     alias(libs.plugins.compose) apply false
@@ -9,6 +11,7 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.binaryCompatibility)
     alias(libs.plugins.kover)
+    alias(libs.plugins.spotless)
 }
 
 apiValidation {
@@ -19,7 +22,32 @@ apiValidation {
     )
 }
 
+subprojects {
+    apply {
+        plugin(rootProject.libs.plugins.spotless.get().pluginId)
+    }
+
+    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        kotlin {
+            ktlint(libs.versions.ktlint.get()).setEditorConfigPath("${project.rootDir}/.editorconfig")
+            target("**/*.kt")
+            targetExclude(
+                "${layout.buildDirectory}/**/*.kt",
+            )
+            toggleOffOn()
+            endWithNewline()
+        }
+    }
+}
+
 dependencies {
+    dokka(project(":androidx-palette"))
+    dokka(project(":kmpalette-core"))
+    dokka(project(":kmpalette-loader"))
+    dokka(project(":extensions-base64"))
+    dokka(project(":extensions-file"))
+    dokka(project(":extensions-network"))
+
     kover(project(":androidx-palette"))
 }
 

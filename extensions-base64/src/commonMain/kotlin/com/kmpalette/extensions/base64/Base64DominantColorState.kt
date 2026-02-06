@@ -32,12 +32,13 @@ public fun rememberBase64DominantColorState(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
-): DominantColorState<String> = rememberDominantColorState(
-    loader = Base64Loader,
-    defaultColor = defaultColor,
-    defaultOnColor = defaultOnColor,
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    isSwatchValid = isSwatchValid,
-    builder = builder,
-)
+): DominantColorState<String> =
+    rememberDominantColorState(
+        loader = Base64Loader,
+        defaultColor = defaultColor,
+        defaultOnColor = defaultOnColor,
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        isSwatchValid = isSwatchValid,
+        builder = builder,
+    )

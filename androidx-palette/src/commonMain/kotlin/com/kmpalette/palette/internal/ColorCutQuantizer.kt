@@ -43,7 +43,6 @@ internal class ColorCutQuantizer(
     maxColors: Int,
     private val filters: Array<Palette.Filter>?,
 ) {
-
     val colors: IntArray
     val histogram: IntArray = IntArray(1 shl (QUANTIZE_WORD_WIDTH * 3))
 
@@ -126,7 +125,10 @@ internal class ColorCutQuantizer(
      * @param queue [PriorityQueue] to poll for boxes
      * @param maxSize Maximum number of boxes to split
      */
-    private fun splitBoxes(queue: PriorityQueue<Vbox>, maxSize: Int) {
+    private fun splitBoxes(
+        queue: PriorityQueue<Vbox>,
+        maxSize: Int,
+    ) {
         while (queue.size < maxSize) {
             val vbox: Vbox? = queue.poll()
             if (vbox != null && vbox.canSplit()) {
@@ -179,9 +181,7 @@ internal class ColorCutQuantizer(
         val volume: Int
             get() = ((maxRed - minRed + 1) * (maxGreen - minGreen + 1) * (maxBlue - minBlue + 1))
 
-        fun canSplit(): Boolean {
-            return colorCount > 1
-        }
+        fun canSplit(): Boolean = colorCount > 1
 
         val colorCount: Int
             get() = 1 + upperIndex - lowerIndex
@@ -339,7 +339,7 @@ internal class ColorCutQuantizer(
                 val blueMean: Int = round(blueSum / totalPopulation.toFloat()).toInt()
                 return Palette.Swatch(
                     approximateToRgb888(redMean, greenMean, blueMean),
-                    totalPopulation
+                    totalPopulation,
                 )
             }
     }
@@ -350,11 +350,12 @@ internal class ColorCutQuantizer(
         return shouldIgnoreColor(rgb, tempHsl)
     }
 
-    private fun shouldIgnoreColor(color: Palette.Swatch): Boolean {
-        return shouldIgnoreColor(color.rgb, color.hsl)
-    }
+    private fun shouldIgnoreColor(color: Palette.Swatch): Boolean = shouldIgnoreColor(color.rgb, color.hsl)
 
-    private fun shouldIgnoreColor(rgb: Int, hsl: FloatArray): Boolean {
+    private fun shouldIgnoreColor(
+        rgb: Int,
+        hsl: FloatArray,
+    ): Boolean {
         if (!filters.isNullOrEmpty()) {
             var i = 0
             val count: Int = filters.size
@@ -369,7 +370,6 @@ internal class ColorCutQuantizer(
     }
 
     companion object {
-
         const val COMPONENT_RED: Int = -3
         const val COMPONENT_GREEN: Int = -2
         const val COMPONENT_BLUE: Int = -1
@@ -396,9 +396,11 @@ internal class ColorCutQuantizer(
                     while (i <= upper) {
                         val color: Int = a[i]
                         val values =
-                            (quantizedGreen(color) shl (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
-                                    ) or (quantizedRed(color) shl QUANTIZE_WORD_WIDTH
-                                    ) or quantizedBlue(color)
+                            (
+                                quantizedGreen(color) shl (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
+                            ) or (
+                                quantizedRed(color) shl QUANTIZE_WORD_WIDTH
+                            ) or quantizedBlue(color)
 
                         a[i] = values
                         i++
@@ -410,9 +412,11 @@ internal class ColorCutQuantizer(
                     var i: Int = lower
                     while (i <= upper) {
                         val color: Int = a[i]
-                        a[i] = (quantizedBlue(color) shl (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
-                                ) or (quantizedGreen(color) shl QUANTIZE_WORD_WIDTH
-                                ) or quantizedRed(color)
+                        a[i] = (
+                            quantizedBlue(color) shl (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
+                        ) or (
+                            quantizedGreen(color) shl QUANTIZE_WORD_WIDTH
+                        ) or quantizedRed(color)
                         i++
                     }
                 }
@@ -438,44 +442,45 @@ internal class ColorCutQuantizer(
         /**
          * Quantized RGB888 values to have a word width of {@value #QUANTIZE_WORD_WIDTH}.
          */
-        fun approximateToRgb888(r: Int, g: Int, b: Int): Int {
-            return ColorUtils.rgb(
+        fun approximateToRgb888(
+            r: Int,
+            g: Int,
+            b: Int,
+        ): Int =
+            ColorUtils.rgb(
                 modifyWordWidth(r, QUANTIZE_WORD_WIDTH, 8),
                 modifyWordWidth(g, QUANTIZE_WORD_WIDTH, 8),
-                modifyWordWidth(b, QUANTIZE_WORD_WIDTH, 8)
+                modifyWordWidth(b, QUANTIZE_WORD_WIDTH, 8),
             )
-        }
 
-        private fun approximateToRgb888(color: Int): Int {
-            return approximateToRgb888(
+        private fun approximateToRgb888(color: Int): Int =
+            approximateToRgb888(
                 quantizedRed(color),
                 quantizedGreen(color),
-                quantizedBlue(color)
+                quantizedBlue(color),
             )
-        }
 
         /**
          * @return red component of the quantized color
          */
-        fun quantizedRed(color: Int): Int {
-            return (color shr (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)) and QUANTIZE_WORD_MASK
-        }
+        fun quantizedRed(color: Int): Int =
+            (color shr (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)) and QUANTIZE_WORD_MASK
 
         /**
          * @return green component of a quantized color
          */
-        fun quantizedGreen(color: Int): Int {
-            return (color shr QUANTIZE_WORD_WIDTH) and QUANTIZE_WORD_MASK
-        }
+        fun quantizedGreen(color: Int): Int = (color shr QUANTIZE_WORD_WIDTH) and QUANTIZE_WORD_MASK
 
         /**
          * @return blue component of a quantized color
          */
-        fun quantizedBlue(color: Int): Int {
-            return color and QUANTIZE_WORD_MASK
-        }
+        fun quantizedBlue(color: Int): Int = color and QUANTIZE_WORD_MASK
 
-        private fun modifyWordWidth(value: Int, currentWidth: Int, targetWidth: Int): Int {
+        private fun modifyWordWidth(
+            value: Int,
+            currentWidth: Int,
+            targetWidth: Int,
+        ): Int {
             val newValue: Int = if (targetWidth > currentWidth) {
                 // If we're approximating up in word width, we'll shift up
                 value shl (targetWidth - currentWidth)

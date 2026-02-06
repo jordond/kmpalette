@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.ImageBitmap
  * A loader that can load an [ImageBitmap] from a given input <T>.
  */
 public interface ImageBitmapLoader<T> {
-
     /**
      * Loads an [ImageBitmap] from the given input [T].
      *

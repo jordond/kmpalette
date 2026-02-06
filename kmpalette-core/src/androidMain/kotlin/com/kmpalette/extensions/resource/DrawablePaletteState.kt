@@ -27,9 +27,10 @@ public fun rememberDrawablePaletteState(
     coroutineContext: CoroutineContext = Dispatchers.Default,
     context: Context = LocalContext.current,
     builder: Palette.Builder.() -> Unit = {},
-): PaletteState<Int> = rememberPaletteState(
-    loader = rememberDrawableLoader(context = context),
-    cacheSize = cacheSize,
-    coroutineContext = coroutineContext,
-    builder = builder,
-)
+): PaletteState<Int> =
+    rememberPaletteState(
+        loader = rememberDrawableLoader(context = context),
+        cacheSize = cacheSize,
+        coroutineContext = coroutineContext,
+        builder = builder,
+    )

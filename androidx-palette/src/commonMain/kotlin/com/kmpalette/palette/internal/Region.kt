@@ -10,8 +10,10 @@ internal data class Region(
     val height: Int = bottom - top
 
     fun overlaps(other: Region): Boolean =
-        left < other.right && right > other.left &&
-                top < other.bottom && bottom > other.top
+        left < other.right &&
+            right > other.left &&
+            top < other.bottom &&
+            bottom > other.top
 
     fun intersect(other: Region): Region =
         Region(

@@ -12,11 +12,11 @@ import kotlin.math.roundToInt
 internal class PainterImage(
     private val painter: Painter,
     private val density: Density,
-    private val layoutDirection: LayoutDirection
+    private val layoutDirection: LayoutDirection,
 ) {
     fun asBitmap(
         width: Int = painter.intrinsicSize.width.roundToInt(),
-        height: Int = painter.intrinsicSize.height.roundToInt()
+        height: Int = painter.intrinsicSize.height.roundToInt(),
     ): ImageBitmap {
         val bitmap = ImageBitmap(width, height)
         val canvas = Canvas(bitmap)
@@ -28,7 +28,7 @@ internal class PainterImage(
             density = density,
             layoutDirection = layoutDirection,
             canvas = canvas,
-            size = floatSize
+            size = floatSize,
         ) {
             with(painter) {
                 draw(floatSize)

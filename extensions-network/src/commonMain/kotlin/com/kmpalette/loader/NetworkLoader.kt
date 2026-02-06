@@ -19,16 +19,12 @@ public class NetworkLoader(
     private val httpClient: HttpClient = HttpClient(),
     private val requestBuilder: HttpRequestBuilder = HttpRequestBuilder(),
 ) : ImageBitmapLoader<Url> {
-
     /**
      * Loads an [ImageBitmap] from a [Url].
      */
-    override suspend fun load(input: Url): ImageBitmap {
-        return input.toImageBitmap(httpClient, requestBuilder)
-    }
+    override suspend fun load(input: Url): ImageBitmap = input.toImageBitmap(httpClient, requestBuilder)
 
     public companion object {
-
         private val httpClient: HttpClient = HttpClient()
         private val requestBuilder: HttpRequestBuilder = HttpRequestBuilder()
 
@@ -51,6 +47,7 @@ public class NetworkLoader(
 public fun rememberNetworkLoader(
     httpClient: HttpClient = HttpClient(),
     requestBuilder: HttpRequestBuilder = HttpRequestBuilder(),
-): NetworkLoader = remember(httpClient, requestBuilder) {
-    NetworkLoader(httpClient, requestBuilder)
-}
+): NetworkLoader =
+    remember(httpClient, requestBuilder) {
+        NetworkLoader(httpClient, requestBuilder)
+    }
