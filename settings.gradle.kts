@@ -38,7 +38,7 @@ include(
     ":androidx-palette",
     ":kmpalette-loader",
     ":extensions-base64",
-//    ":extensions-network",
+    ":extensions-network",
 //    ":extensions-file",
 //    ":test-utils",
 )

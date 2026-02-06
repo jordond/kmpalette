@@ -52,14 +52,14 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach { target ->
         target.binaries.framework {
-            baseName = "kmpalette-base64"
+            baseName = "kmpalette-extensions-base64"
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":kmpalette-core"))
-            api(project(":kmpalette-loader"))
+            implementation(projects.kmpaletteCore)
+            api(projects.kmpaletteLoader)
             implementation(libs.compose.ui)
             implementation(libs.kotlinx.coroutines)
         }

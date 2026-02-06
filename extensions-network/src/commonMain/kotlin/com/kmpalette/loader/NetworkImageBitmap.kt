@@ -5,8 +5,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.request
 import io.ktor.client.request.url
-import io.ktor.client.statement.readBytes
+import io.ktor.client.statement.readRawBytes
 import io.ktor.http.Url
+import org.jetbrains.compose.resources.decodeToImageBitmap
 
 internal suspend fun Url.toImageBitmap(
     client: HttpClient = HttpClient(),
@@ -21,5 +22,5 @@ internal suspend fun Url.toImageBitmap(
         url(this@toImageBitmap)
     }
 
-    return ByteArrayLoader.load(response.readBytes())
+    return response.readRawBytes().decodeToImageBitmap()
 }
