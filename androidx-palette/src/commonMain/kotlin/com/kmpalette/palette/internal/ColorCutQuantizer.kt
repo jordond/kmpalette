@@ -58,8 +58,8 @@ internal class ColorCutQuantizer(
 
     init {
         val hist: IntArray = histogram
-        for (i in pixels.indices) {
-            val quantizedColor: Int = quantizeFromRgb888(pixels[i])
+        pixels.forEachIndexed { i, pixel ->
+            val quantizedColor = quantizeFromRgb888(pixel)
             // Now update the pixel value to the quantized value
             pixels[i] = quantizedColor
             // And update the histogram
@@ -67,17 +67,13 @@ internal class ColorCutQuantizer(
         }
 
         // Now let's count the number of distinct colors
-        var distinctColorCount = 0
-        for (color in hist.indices) {
-            if (hist[color] > 0 && shouldIgnoreColor(color)) {
+        hist.forEachIndexed { color, count ->
+            if (count > 0 && shouldIgnoreColor(color)) {
                 // If we should ignore the color, set the population to 0
                 hist[color] = 0
             }
-            if (hist[color] > 0) {
-                // If the color has population, increase the distinct color count
-                distinctColorCount++
-            }
         }
+        val distinctColorCount = hist.count { it > 0 }
 
         // Now let's go through create an array consisting of only distinct colors
         colors = IntArray(distinctColorCount)
@@ -90,10 +86,10 @@ internal class ColorCutQuantizer(
         }
         if (distinctColorCount <= maxColors) {
             // The image has fewer colors than the maximum requested, so just return the colors
-            _quantizedColors = mutableListOf()
-            for (color: Int in colors) {
-                _quantizedColors.add(Palette.Swatch(approximateToRgb888(color), hist[color]))
-            }
+            _quantizedColors = colors
+                .map { color ->
+                    Palette.Swatch(approximateToRgb888(color), hist[color])
+                }.toMutableList()
         } else {
             // We need to use quantization to reduce the number of colors
             _quantizedColors = quantizePixels(maxColors)
@@ -143,18 +139,13 @@ internal class ColorCutQuantizer(
         }
     }
 
-    private fun generateAverageColors(vboxes: Collection<Vbox>): MutableList<Palette.Swatch> {
-        val colors = mutableListOf<Palette.Swatch>()
-        for (vbox: Vbox in vboxes) {
-            val swatch: Palette.Swatch = vbox.averageColor
-            if (!shouldIgnoreColor(swatch)) {
+    private fun generateAverageColors(vboxes: Collection<Vbox>): MutableList<Palette.Swatch> =
+        vboxes
+            .mapNotNull { vbox ->
                 // As we're averaging a color box, we can still get colors which we do not want, so
                 // we check again here
-                colors.add(swatch)
-            }
-        }
-        return colors
-    }
+                vbox.averageColor.takeUnless { shouldIgnoreColor(it) }
+            }.toMutableList()
 
     /**
      * Represents a tightly fitting box around a color space.
@@ -207,30 +198,18 @@ internal class ColorCutQuantizer(
             maxGreen = maxBlue
             maxRed = maxGreen
             var count = 0
-            for (i in lowerIndex..upperIndex) {
+            (lowerIndex..upperIndex).forEach { i ->
                 val color: Int = colors[i]
                 count += hist[color]
                 val r: Int = quantizedRed(color)
                 val g: Int = quantizedGreen(color)
                 val b: Int = quantizedBlue(color)
-                if (r > maxRed) {
-                    maxRed = r
-                }
-                if (r < minRed) {
-                    minRed = r
-                }
-                if (g > maxGreen) {
-                    maxGreen = g
-                }
-                if (g < minGreen) {
-                    minGreen = g
-                }
-                if (b > maxBlue) {
-                    maxBlue = b
-                }
-                if (b < minBlue) {
-                    minBlue = b
-                }
+                minRed = minOf(minRed, r)
+                maxRed = maxOf(maxRed, r)
+                minGreen = minOf(minGreen, g)
+                maxGreen = maxOf(maxGreen, g)
+                minBlue = minOf(minBlue, b)
+                maxBlue = maxOf(maxBlue, b)
             }
             this.minRed = minRed
             this.maxRed = maxRed
@@ -301,16 +280,14 @@ internal class ColorCutQuantizer(
             // Now revert all the colors so that they are packed as RGB again
             modifySignificantOctet(colors, longestDimension, lowerIndex, upperIndex)
             val midPoint: Int = population / 2
-            var i: Int = lowerIndex
             var count = 0
-            while (i <= upperIndex) {
+            for (i in lowerIndex..upperIndex) {
                 count += hist[colors[i]]
                 if (count >= midPoint) {
                     // we never want to split on the upperIndex, as this will result in the same
                     // box
                     return min(upperIndex - 1, i)
                 }
-                i++
             }
             return lowerIndex
         }
@@ -355,19 +332,7 @@ internal class ColorCutQuantizer(
     private fun shouldIgnoreColor(
         rgb: Int,
         hsl: FloatArray,
-    ): Boolean {
-        if (!filters.isNullOrEmpty()) {
-            var i = 0
-            val count: Int = filters.size
-            while (i < count) {
-                if (!filters[i].isAllowed(rgb, hsl)) {
-                    return true
-                }
-                i++
-            }
-        }
-        return false
-    }
+    ): Boolean = filters?.any { !it.isAllowed(rgb, hsl) } == true
 
     companion object {
         const val COMPONENT_RED: Int = -3
@@ -392,8 +357,7 @@ internal class ColorCutQuantizer(
                 COMPONENT_RED -> {}
                 COMPONENT_GREEN -> {
                     // We need to do an RGB to GRB swap, or vice versa
-                    var i: Int = lower
-                    while (i <= upper) {
+                    (lower..upper).forEach { i ->
                         val color: Int = a[i]
                         val values =
                             (
@@ -403,21 +367,17 @@ internal class ColorCutQuantizer(
                             ) or quantizedBlue(color)
 
                         a[i] = values
-                        i++
                     }
                 }
-
                 COMPONENT_BLUE -> {
                     // We need to do an RGB to BGR swap, or vice versa
-                    var i: Int = lower
-                    while (i <= upper) {
+                    (lower..upper).forEach { i ->
                         val color: Int = a[i]
                         a[i] = (
                             quantizedBlue(color) shl (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
                         ) or (
                             quantizedGreen(color) shl QUANTIZE_WORD_WIDTH
                         ) or quantizedRed(color)
-                        i++
                     }
                 }
             }

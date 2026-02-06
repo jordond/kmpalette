@@ -140,24 +140,10 @@ public class Palette internal constructor(
         return maxScoreSwatch
     }
 
-    private fun getMaxScoredSwatchForTarget(target: Target): Swatch? {
-        var maxScore = 0f
-        var maxScoreSwatch: Swatch? = null
-        var i = 0
-        val count = swatches.size
-        while (i < count) {
-            val swatch = swatches[i]
-            if (shouldBeScoredForTarget(swatch, target)) {
-                val score = generateScore(swatch, target)
-                if (maxScoreSwatch == null || score > maxScore) {
-                    maxScoreSwatch = swatch
-                    maxScore = score
-                }
-            }
-            i++
-        }
-        return maxScoreSwatch
-    }
+    private fun getMaxScoredSwatchForTarget(target: Target): Swatch? =
+        swatches
+            .filter { shouldBeScoredForTarget(it, target) }
+            .maxByOrNull { generateScore(it, target) }
 
     private fun shouldBeScoredForTarget(
         swatch: Swatch,
@@ -269,26 +255,21 @@ public class Palette internal constructor(
                     return
                 }
 
-                _bodyTextColor =
-                    if (lightBodyAlpha != -1) {
-                        ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha)
-                    } else {
-                        ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
-                    }
-
-                _titleTextColor =
-                    if (lightTitleAlpha != -1) {
-                        ColorUtils.setAlpha(
-                            ColorUtils.WHITE,
-                            lightTitleAlpha,
-                        )
-                    } else {
-                        ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha)
-                    }
+                _bodyTextColor = calculateTextColor(lightBodyAlpha, darkBodyAlpha)
+                _titleTextColor = calculateTextColor(lightTitleAlpha, darkTitleAlpha)
 
                 generatedTextColors = true
             }
         }
+
+        private fun calculateTextColor(
+            lightAlpha: Int,
+            darkAlpha: Int,
+        ): Int =
+            when {
+                lightAlpha != -1 -> ColorUtils.setAlpha(ColorUtils.WHITE, lightAlpha)
+                else -> ColorUtils.setAlpha(ColorUtils.BLACK, darkAlpha)
+            }
     }
 
     public class Builder {
@@ -421,39 +402,43 @@ public class Palette internal constructor(
         }
 
         public fun generate(): Palette {
-            val swatches: List<Swatch>
-            if (pixels != null) {
-                val scaled: ScaledPixels = scalePixelsToArea(pixels, width, height, resizeArea)
-                var currentRegion = region
+            val swatches: List<Swatch> =
+                when {
+                    pixels != null -> {
+                        val scaled: ScaledPixels = scalePixelsToArea(pixels, width, height, resizeArea)
+                        var currentRegion = region
 
-                if (currentRegion != null && regionSourceWidth > 0) {
-                    val scaleFromSource = scaled.width.toFloat() / regionSourceWidth
-                    currentRegion =
-                        currentRegion
-                            .scale(scaleFromSource)
-                            .coerceIn(scaled.width, scaled.height)
+                        if (currentRegion != null && regionSourceWidth > 0) {
+                            val scaleFromSource = scaled.width.toFloat() / regionSourceWidth
+                            currentRegion =
+                                currentRegion
+                                    .scale(scaleFromSource)
+                                    .coerceIn(scaled.width, scaled.height)
+                        }
+
+                        val pixelsToQuantize =
+                            getPixelsFromRegion(
+                                scaled.pixels,
+                                scaled.width,
+                                scaled.height,
+                                currentRegion,
+                            )
+
+                        val quantizer =
+                            ColorCutQuantizer(
+                                pixels = pixelsToQuantize,
+                                maxColors = maxColors,
+                                filters = if (filters.isEmpty()) null else filters.toTypedArray(),
+                            )
+                        quantizer.quantizedColors
+                    }
+                    this.swatches != null -> {
+                        this.swatches
+                    }
+                    else -> {
+                        throw AssertionError()
+                    }
                 }
-
-                val pixelsToQuantize =
-                    getPixelsFromRegion(
-                        scaled.pixels,
-                        scaled.width,
-                        scaled.height,
-                        currentRegion,
-                    )
-
-                val quantizer =
-                    ColorCutQuantizer(
-                        pixels = pixelsToQuantize,
-                        maxColors = maxColors,
-                        filters = if (filters.isEmpty()) null else filters.toTypedArray(),
-                    )
-                swatches = quantizer.quantizedColors
-            } else if (this.swatches != null) {
-                swatches = this.swatches
-            } else {
-                throw AssertionError()
-            }
 
             val p = Palette(swatches, targets)
             p.generate()
@@ -474,7 +459,7 @@ public class Palette internal constructor(
             val regionHeight = region.height
             val subsetPixels = IntArray(regionWidth * regionHeight)
 
-            for (row in 0 until regionHeight) {
+            repeat(regionHeight) { row ->
                 pixels.copyInto(
                     destination = subsetPixels,
                     destinationOffset = row * regionWidth,

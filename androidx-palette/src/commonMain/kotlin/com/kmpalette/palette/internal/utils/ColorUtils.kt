@@ -46,22 +46,24 @@ internal object ColorUtils {
         val max: Float = max(rf, max(gf, bf))
         val min: Float = min(rf, min(gf, bf))
         val deltaMaxMin = max - min
-        var hue: Float
-        val saturation: Float
         val lightness = (max + min) / 2f
-        if (max == min) {
-            // Monochromatic
-            saturation = 0f
-            hue = saturation
+
+        val isMonochromatic = max == min
+        var hue: Float = if (isMonochromatic) {
+            0f
         } else {
-            hue =
-                when (max) {
-                    rf -> (gf - bf) / deltaMaxMin % 6f
-                    gf -> (bf - rf) / deltaMaxMin + 2f
-                    else -> (rf - gf) / deltaMaxMin + 4f
-                }
-            saturation = deltaMaxMin / (1f - abs(2f * lightness - 1f))
+            when (max) {
+                rf -> (gf - bf) / deltaMaxMin % 6f
+                gf -> (bf - rf) / deltaMaxMin + 2f
+                else -> (rf - gf) / deltaMaxMin + 4f
+            }
         }
+        val saturation: Float = if (isMonochromatic) {
+            0f
+        } else {
+            deltaMaxMin / (1f - abs(2f * lightness - 1f))
+        }
+
         hue = hue * 60f % 360f
         if (hue < 0) {
             hue += 360f

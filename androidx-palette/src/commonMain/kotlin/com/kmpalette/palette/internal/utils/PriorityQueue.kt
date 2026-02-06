@@ -6,7 +6,7 @@ internal class PriorityQueue<T>(
     private var array: Array<T?>? = null
     private var _size: Int = 0
 
-    fun peek(): T? = array?.takeUnless { isEmpty() }?.get(0)
+    fun peek(): T? = if (!isEmpty()) array?.get(0) else null
 
     fun offer(item: T) {
         var arr: Array<T?>? = array
@@ -69,7 +69,8 @@ internal class PriorityQueue<T>(
 
             @Suppress("UNCHECKED_CAST")
             override fun next(): T {
-                val arr = array?.takeIf { index < _size } ?: throw NoSuchElementException()
+                if (index >= _size) throw NoSuchElementException()
+                val arr = array ?: throw NoSuchElementException()
 
                 return arr[index++] as T
             }
