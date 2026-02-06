@@ -191,76 +191,59 @@ public class Palette internal constructor(
         private val green: Int = ColorUtils.green(rgb)
         private val blue: Int = ColorUtils.blue(rgb)
 
-        private var generatedTextColors = false
-        private var _titleTextColor = 0
-        private var _bodyTextColor = 0
+        public val hsl: FloatArray =
+            FloatArray(3).apply { ColorUtils.convertRGBToHSL(red, green, blue, this) }
 
-        public var hsl: FloatArray =
-            FloatArray(3)
-                .apply { ColorUtils.convertRGBToHSL(red, green, blue, this) }
-            private set
+        private val textColors: Pair<Int, Int> by lazy {
+            val lightBodyAlpha = ColorUtils.calculateMinimumAlpha(
+                foreground = ColorUtils.WHITE,
+                background = rgb,
+                minContrastRatio = MIN_CONTRAST_BODY_TEXT,
+            )
+            val lightTitleAlpha = ColorUtils.calculateMinimumAlpha(
+                foreground = ColorUtils.WHITE,
+                background = rgb,
+                minContrastRatio = MIN_CONTRAST_TITLE_TEXT,
+            )
+
+            if (lightBodyAlpha != -1 && lightTitleAlpha != -1) {
+                return@lazy Pair(
+                    ColorUtils.setAlpha(ColorUtils.WHITE, lightTitleAlpha),
+                    ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha),
+                )
+            }
+
+            val darkBodyAlpha = ColorUtils.calculateMinimumAlpha(
+                foreground = ColorUtils.BLACK,
+                background = rgb,
+                minContrastRatio = MIN_CONTRAST_BODY_TEXT,
+            )
+            val darkTitleAlpha = ColorUtils.calculateMinimumAlpha(
+                foreground = ColorUtils.BLACK,
+                background = rgb,
+                minContrastRatio = MIN_CONTRAST_TITLE_TEXT,
+            )
+
+            if (darkBodyAlpha != -1 && darkTitleAlpha != -1) {
+                return@lazy Pair(
+                    ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha),
+                    ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha),
+                )
+            }
+
+            Pair(
+                calculateTextColor(lightTitleAlpha, darkTitleAlpha),
+                calculateTextColor(lightBodyAlpha, darkBodyAlpha),
+            )
+        }
 
         @get:ColorInt
         public val titleTextColor: Int
-            get() {
-                ensureTextColorsGenerated()
-                return _titleTextColor
-            }
+            get() = textColors.first
 
         @get:ColorInt
         public val bodyTextColor: Int
-            get() {
-                ensureTextColorsGenerated()
-                return _bodyTextColor
-            }
-
-        private fun ensureTextColorsGenerated() {
-            if (!generatedTextColors) {
-                val lightBodyAlpha: Int =
-                    ColorUtils.calculateMinimumAlpha(
-                        foreground = ColorUtils.WHITE,
-                        background = rgb,
-                        minContrastRatio = MIN_CONTRAST_BODY_TEXT,
-                    )
-                val lightTitleAlpha: Int =
-                    ColorUtils.calculateMinimumAlpha(
-                        foreground = ColorUtils.WHITE,
-                        background = rgb,
-                        minContrastRatio = MIN_CONTRAST_TITLE_TEXT,
-                    )
-
-                if (lightBodyAlpha != -1 && lightTitleAlpha != -1) {
-                    _bodyTextColor = ColorUtils.setAlpha(ColorUtils.WHITE, lightBodyAlpha)
-                    _titleTextColor = ColorUtils.setAlpha(ColorUtils.WHITE, lightTitleAlpha)
-                    generatedTextColors = true
-                    return
-                }
-
-                val darkBodyAlpha: Int =
-                    ColorUtils.calculateMinimumAlpha(
-                        foreground = ColorUtils.BLACK,
-                        background = rgb,
-                        minContrastRatio = MIN_CONTRAST_BODY_TEXT,
-                    )
-                val darkTitleAlpha: Int =
-                    ColorUtils.calculateMinimumAlpha(
-                        foreground = ColorUtils.BLACK,
-                        background = rgb,
-                        minContrastRatio = MIN_CONTRAST_TITLE_TEXT,
-                    )
-                if (darkBodyAlpha != -1 && darkTitleAlpha != -1) {
-                    _bodyTextColor = ColorUtils.setAlpha(ColorUtils.BLACK, darkBodyAlpha)
-                    _titleTextColor = ColorUtils.setAlpha(ColorUtils.BLACK, darkTitleAlpha)
-                    generatedTextColors = true
-                    return
-                }
-
-                _bodyTextColor = calculateTextColor(lightBodyAlpha, darkBodyAlpha)
-                _titleTextColor = calculateTextColor(lightTitleAlpha, darkTitleAlpha)
-
-                generatedTextColors = true
-            }
-        }
+            get() = textColors.second
 
         private fun calculateTextColor(
             lightAlpha: Int,

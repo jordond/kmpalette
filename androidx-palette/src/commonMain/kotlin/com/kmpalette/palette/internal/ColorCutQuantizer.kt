@@ -48,13 +48,10 @@ internal class ColorCutQuantizer(
 
     private val tempHsl: FloatArray = FloatArray(3)
 
-    private var _quantizedColors: MutableList<Palette.Swatch> = mutableListOf()
-
     /**
-     * @return the list of quantized colors
+     * The list of quantized colors
      */
     val quantizedColors: List<Palette.Swatch>
-        get() = _quantizedColors
 
     init {
         val hist: IntArray = histogram
@@ -84,19 +81,16 @@ internal class ColorCutQuantizer(
                 colors[distinctColorIndex++] = color
             }
         }
-        if (distinctColorCount <= maxColors) {
-            // The image has fewer colors than the maximum requested, so just return the colors
-            _quantizedColors = colors
-                .map { color ->
-                    Palette.Swatch(approximateToRgb888(color), hist[color])
-                }.toMutableList()
+        quantizedColors = if (distinctColorCount <= maxColors) {
+            colors.map { color ->
+                Palette.Swatch(approximateToRgb888(color), hist[color])
+            }
         } else {
-            // We need to use quantization to reduce the number of colors
-            _quantizedColors = quantizePixels(maxColors)
+            quantizePixels(maxColors)
         }
     }
 
-    private fun quantizePixels(maxColors: Int): MutableList<Palette.Swatch> {
+    private fun quantizePixels(maxColors: Int): List<Palette.Swatch> {
         // Create the priority queue which is sorted by volume descending. This means we always
         // split the largest box in the queue
         val pq: PriorityQueue<Vbox> = PriorityQueue(VBOX_COMPARATOR_VOLUME)
@@ -139,13 +133,10 @@ internal class ColorCutQuantizer(
         }
     }
 
-    private fun generateAverageColors(vboxes: Collection<Vbox>): MutableList<Palette.Swatch> =
-        vboxes
-            .mapNotNull { vbox ->
-                // As we're averaging a color box, we can still get colors which we do not want, so
-                // we check again here
-                vbox.averageColor.takeUnless { shouldIgnoreColor(it) }
-            }.toMutableList()
+    private fun generateAverageColors(vboxes: Collection<Vbox>): List<Palette.Swatch> =
+        vboxes.mapNotNull { vbox ->
+            vbox.averageColor.takeUnless { shouldIgnoreColor(it) }
+        }
 
     /**
      * Represents a tightly fitting box around a color space.
