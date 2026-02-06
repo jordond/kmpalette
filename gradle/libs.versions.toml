@@ -19,10 +19,9 @@ robolectric = "4.16.1"
 junit = "4.13.2"
 binaryCompatibility = "0.18.1"
 dokka = "2.1.0"
-publish = "0.34.0"
+publish = "0.36.0"
 kover = "0.9.6"
 poko = "0.21.1"
-okio = "3.16.4"
 filekit = "0.12.0"
 
 # These are pinned for Android instrumented tests
@@ -38,7 +37,6 @@ androidx-test-runner = { module = "androidx.test:runner", version.ref = "android
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-rules" }
 androidx-test-junit = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-junit" }
 androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
 compose-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
@@ -46,7 +44,6 @@ compose-material3 = { module = "org.jetbrains.compose.material3:material3", vers
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 ktor-client = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 filekit = { module = "io.github.vinceglb:filekit-core", version.ref = "filekit" }
