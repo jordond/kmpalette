@@ -140,7 +140,10 @@ public class Target {
     }
 
     public fun normalizeWeights() {
-        val sum = weights.filter { it > 0 }.sum()
+        var sum = 0f
+        for (weight in weights) {
+            if (weight > 0) sum += weight
+        }
         if (sum != 0f) {
             for (i in weights.indices) {
                 if (weights[i] > 0) {

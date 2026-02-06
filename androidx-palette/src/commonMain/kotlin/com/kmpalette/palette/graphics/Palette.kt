@@ -140,10 +140,20 @@ public class Palette internal constructor(
         return maxScoreSwatch
     }
 
-    private fun getMaxScoredSwatchForTarget(target: Target): Swatch? =
-        swatches
-            .filter { shouldBeScoredForTarget(it, target) }
-            .maxByOrNull { generateScore(it, target) }
+    private fun getMaxScoredSwatchForTarget(target: Target): Swatch? {
+        var bestSwatch: Swatch? = null
+        var bestScore = Float.MIN_VALUE
+        for (swatch in swatches) {
+            if (shouldBeScoredForTarget(swatch, target)) {
+                val score = generateScore(swatch, target)
+                if (score > bestScore) {
+                    bestScore = score
+                    bestSwatch = swatch
+                }
+            }
+        }
+        return bestSwatch
+    }
 
     private fun shouldBeScoredForTarget(
         swatch: Swatch,
@@ -194,7 +204,7 @@ public class Palette internal constructor(
         public val hsl: FloatArray =
             FloatArray(3).apply { ColorUtils.convertRGBToHSL(red, green, blue, this) }
 
-        private val textColors: Pair<Int, Int> by lazy {
+        private val textColors: Pair<Int, Int> by lazy(LazyThreadSafetyMode.NONE) {
             val lightBodyAlpha = ColorUtils.calculateMinimumAlpha(
                 foreground = ColorUtils.WHITE,
                 background = rgb,

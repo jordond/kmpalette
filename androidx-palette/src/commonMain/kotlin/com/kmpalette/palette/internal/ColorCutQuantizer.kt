@@ -63,14 +63,18 @@ internal class ColorCutQuantizer(
             hist[quantizedColor]++
         }
 
-        // Now let's count the number of distinct colors
-        hist.forEachIndexed { color, count ->
-            if (count > 0 && shouldIgnoreColor(color)) {
-                // If we should ignore the color, set the population to 0
-                hist[color] = 0
+        // Filter ignored colors and count distinct colors in a single pass
+        var distinctColorCount = 0
+        for (color in hist.indices) {
+            val count = hist[color]
+            if (count > 0) {
+                if (shouldIgnoreColor(color)) {
+                    hist[color] = 0
+                } else {
+                    distinctColorCount++
+                }
             }
         }
-        val distinctColorCount = hist.count { it > 0 }
 
         // Now let's go through create an array consisting of only distinct colors
         colors = IntArray(distinctColorCount)
