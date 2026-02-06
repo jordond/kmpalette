@@ -78,12 +78,13 @@ kotlin {
             jvmMain.get().dependsOn(this)
         }
 
-        androidInstrumentedTest.dependencies {
-            implementation(kotlin("test"))
-            implementation(libs.compose.ui)
-            implementation(libs.kotlinx.coroutines.test)
-            implementation(libs.bundles.test.android)
-        }
+        // test-utils is a support module - no device tests needed
+        // androidInstrumentedTest.dependencies {
+        //     implementation(kotlin("test"))
+        //     implementation(libs.compose.ui)
+        //     implementation(libs.kotlinx.coroutines.test)
+        //     implementation(libs.bundles.test.android)
+        // }
 
         jvmTest.dependencies {
             implementation(compose.desktop.currentOs)

@@ -19,6 +19,7 @@ package com.kmpalette.palette.graphics
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.kmpalette.from
 import com.kmpalette.palette.graphics.TestUtils.loadSampleBitmap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -28,7 +29,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class MaxColorsTest {
-
     @Test
     @SmallTest
     fun testMaxColorCount32() {
@@ -47,10 +47,13 @@ class MaxColorsTest {
         testMaxColorCount(15)
     }
 
-    private fun testMaxColorCount(colorCount: Int) = runTest {
-        val newPalette = Palette.from(loadSampleBitmap())
-            .maximumColorCount(colorCount)
-            .generate()
-        Assert.assertTrue(newPalette.swatches.size <= colorCount)
-    }
+    private fun testMaxColorCount(colorCount: Int) =
+        runTest {
+            val newPalette =
+                Palette
+                    .from(loadSampleBitmap())
+                    .maximumColorCount(colorCount)
+                    .generate()
+            Assert.assertTrue(newPalette.swatches.size <= colorCount)
+        }
 }

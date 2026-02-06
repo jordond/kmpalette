@@ -22,6 +22,7 @@ import android.graphics.Color
 import androidx.core.graphics.ColorUtils
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.kmpalette.from
 import com.kmpalette.palette.graphics.Palette.Swatch
 import com.kmpalette.palette.graphics.TestUtils.loadSampleBitmap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,33 +33,35 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SwatchTests {
+    @Test
+    @SmallTest
+    fun testTextColorContrasts() =
+        runTest {
+            val p = Palette.from(loadSampleBitmap()).generate()
+            for (swatch in p.swatches) {
+                testSwatchTextColorContrasts(swatch)
+            }
+        }
 
     @Test
     @SmallTest
-    fun testTextColorContrasts() = runTest {
-        val p = Palette.from(loadSampleBitmap()).generate()
-        for (swatch in p.swatches) {
-            testSwatchTextColorContrasts(swatch)
+    fun testHslNotNull() =
+        runTest {
+            val p = Palette.from(loadSampleBitmap()).generate()
+            for (swatch in p.swatches) {
+                Assert.assertNotNull(swatch.hsl)
+            }
         }
-    }
 
     @Test
     @SmallTest
-    fun testHslNotNull() = runTest {
-        val p = Palette.from(loadSampleBitmap()).generate()
-        for (swatch in p.swatches) {
-            Assert.assertNotNull(swatch.hsl)
+    fun testHslIsRgb() =
+        runTest {
+            val p = Palette.from(loadSampleBitmap()).generate()
+            for (swatch in p.swatches) {
+                Assert.assertEquals(ColorUtils.HSLToColor(swatch.hsl).toLong(), swatch.rgb.toLong())
+            }
         }
-    }
-
-    @Test
-    @SmallTest
-    fun testHslIsRgb() = runTest {
-        val p = Palette.from(loadSampleBitmap()).generate()
-        for (swatch in p.swatches) {
-            Assert.assertEquals(ColorUtils.HSLToColor(swatch.hsl).toLong(), swatch.rgb.toLong())
-        }
-    }
 
     private fun testSwatchTextColorContrasts(swatch: Swatch) {
         val bodyTextColor = swatch.bodyTextColor
@@ -100,9 +103,7 @@ class SwatchTests {
     }
 
     companion object {
-
         private const val MIN_CONTRAST_TITLE_TEXT = 3.0f
         private const val MIN_CONTRAST_BODY_TEXT = 4.5f
     }
 }
-

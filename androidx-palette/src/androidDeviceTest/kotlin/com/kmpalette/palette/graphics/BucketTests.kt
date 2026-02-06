@@ -22,6 +22,7 @@ import android.graphics.Paint
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.kmpalette.from
 import com.kmpalette.palette.graphics.TestUtils.assertCloseColors
 import com.kmpalette.palette.graphics.TestUtils.loadSampleBitmap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,7 +34,6 @@ import org.junit.runner.RunWith
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class BucketTests {
-
     @Test
     @SmallTest
     fun testSwatchesBuilder() {
@@ -47,45 +47,53 @@ class BucketTests {
 
     @Test
     @SmallTest
-    fun testRegionWhole() = runTest {
-        val sample = loadSampleBitmap()
-        val b: Palette.Builder = Palette.Builder(sample)
-        b.setRegion(0, 0, sample.width, sample.height)
-        b.generate()
-    }
+    fun testRegionWhole() =
+        runTest {
+            val sample = loadSampleBitmap()
+            val b: Palette.Builder = Palette.from(sample)
+            b.setRegion(0, 0, sample.width, sample.height)
+            b.generate()
+        }
 
     @Test
     @SmallTest
-    fun testRegionUpperLeft() = runTest {
-        val sample = loadSampleBitmap()
-        val b: Palette.Builder = Palette.Builder(sample)
-        b.setRegion(0, 0, sample.width / 2, sample.height / 2)
-        b.generate()
-    }
+    fun testRegionUpperLeft() =
+        runTest {
+            val sample = loadSampleBitmap()
+            val b: Palette.Builder = Palette.from(sample)
+            b.setRegion(0, 0, sample.width / 2, sample.height / 2)
+            b.generate()
+        }
 
     @Test
     @SmallTest
-    fun testRegionBottomRight() = runTest {
-        val sample = loadSampleBitmap()
-        val b: Palette.Builder = Palette.Builder(sample)
-        b.setRegion(sample.width / 2, sample.height / 2,
-            sample.width, sample.height)
-        b.generate()
-    }
+    fun testRegionBottomRight() =
+        runTest {
+            val sample = loadSampleBitmap()
+            val b: Palette.Builder = Palette.from(sample)
+            b.setRegion(
+                sample.width / 2,
+                sample.height / 2,
+                sample.width,
+                sample.height,
+            )
+            b.generate()
+        }
 
     @Test
     @SmallTest
-    fun testOnePixelTallBitmap() = runTest {
-        val bitmap = Bitmap.createBitmap(1000, 1, Bitmap.Config.ARGB_8888).asImageBitmap()
-        val b: Palette.Builder = Palette.Builder(bitmap)
-        b.generate()
-    }
+    fun testOnePixelTallBitmap() =
+        runTest {
+            val bitmap = Bitmap.createBitmap(1000, 1, Bitmap.Config.ARGB_8888).asImageBitmap()
+            val b: Palette.Builder = Palette.from(bitmap)
+            b.generate()
+        }
 
     @Test
     @SmallTest
     fun testOnePixelWideBitmap() {
         val bitmap = Bitmap.createBitmap(1, 1000, Bitmap.Config.ARGB_8888).asImageBitmap()
-        val b: Palette.Builder = Palette.Builder(bitmap)
+        val b: Palette.Builder = Palette.from(bitmap)
         b.generate()
     }
 
@@ -107,9 +115,11 @@ class BucketTests {
         val bitmap = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.drawColor(Color.BLUE)
-        val palette: Palette = Palette.from(bitmap.asImageBitmap())
-            .setRegion(0, bitmap.height / 2, bitmap.width, bitmap.height)
-            .generate()
+        val palette: Palette =
+            Palette
+                .from(bitmap.asImageBitmap())
+                .setRegion(0, bitmap.height / 2, bitmap.width, bitmap.height)
+                .generate()
         Assert.assertEquals(1, palette.swatches.size.toLong())
         val swatch = palette.swatches[0]
         assertCloseColors(Color.BLUE, swatch.rgb)

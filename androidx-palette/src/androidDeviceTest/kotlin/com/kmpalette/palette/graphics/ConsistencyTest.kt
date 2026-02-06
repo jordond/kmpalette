@@ -20,6 +20,7 @@ package com.kmpalette.palette.graphics
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.kmpalette.from
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -28,26 +29,28 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ConsistencyTest {
-
     @Test
     @SmallTest
-    fun testConsistency() = runTest {
-        var lastPalette: Palette? = null
-        val bitmap: ImageBitmap = TestUtils.loadSampleBitmap()
-        for (i in 0 until NUMBER_TRIALS) {
-            val newPalette: Palette = Palette.from(bitmap).generate()
-            if (lastPalette != null) {
-                assetPalettesEqual(lastPalette, newPalette)
+    fun testConsistency() =
+        runTest {
+            var lastPalette: Palette? = null
+            val bitmap: ImageBitmap = TestUtils.loadSampleBitmap()
+            for (i in 0 until NUMBER_TRIALS) {
+                val newPalette: Palette = Palette.from(bitmap).generate()
+                if (lastPalette != null) {
+                    assetPalettesEqual(lastPalette, newPalette)
+                }
+                lastPalette = newPalette
             }
-            lastPalette = newPalette
         }
-    }
 
     companion object {
-
         private const val NUMBER_TRIALS = 10
 
-        private fun assetPalettesEqual(p1: Palette, p2: Palette) {
+        private fun assetPalettesEqual(
+            p1: Palette,
+            p2: Palette,
+        ) {
             Assert.assertEquals(p1.vibrantSwatch, p2.vibrantSwatch)
             Assert.assertEquals(p1.lightVibrantSwatch, p2.lightVibrantSwatch)
             Assert.assertEquals(p1.darkVibrantSwatch, p2.darkVibrantSwatch)
