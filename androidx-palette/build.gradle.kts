@@ -3,8 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.compose)
-    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.poko)
     alias(libs.plugins.dokka)
     alias(libs.plugins.publish)
@@ -53,8 +51,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.compose.runtime)
-            implementation(libs.compose.ui)
             implementation(libs.androidx.annotation)
         }
 
@@ -62,27 +58,5 @@ kotlin {
             implementation(kotlin("test"))
             implementation(libs.kotlinx.coroutines.test)
         }
-
-        val skikoMain by creating {
-            dependsOn(commonMain.get())
-            nativeMain.get().dependsOn(this)
-            jvmMain.get().dependsOn(this)
-            jsMain.get().dependsOn(this)
-            dependencies {
-                implementation(libs.korim)
-            }
-        }
-
-//        val androidInstrumentedTest by getting {
-//            dependencies {
-// //                implementation(project(":extensions-base64"))
-//                implementation(kotlin("test"))
-//                implementation(compose.ui)
-//                implementation(libs.bundles.test.android)
-//                implementation(libs.androidx.core)
-//                implementation(libs.kotlinx.coroutines)
-//                implementation(libs.kotlinx.coroutines.test)
-//            }
-//        }
     }
 }

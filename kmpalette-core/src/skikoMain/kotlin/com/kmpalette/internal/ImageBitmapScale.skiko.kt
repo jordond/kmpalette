@@ -1,4 +1,4 @@
-package com.kmpalette.palette.internal
+package com.kmpalette.internal
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asSkiaBitmap
@@ -8,6 +8,11 @@ import org.jetbrains.skia.Rect
 import org.jetbrains.skia.SamplingMode
 import org.jetbrains.skia.Surface
 
+/**
+ * Scales this [ImageBitmap] to the specified [width] and [height] using nearest-neighbor sampling.
+ *
+ * Uses Skia's [SamplingMode.DEFAULT] which is nearest-neighbor (FilterMode.NEAREST).
+ */
 internal actual fun ImageBitmap.scale(
     width: Int,
     height: Int,

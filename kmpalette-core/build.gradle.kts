@@ -61,6 +61,13 @@ kotlin {
 
         commonTest.dependencies {
             implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
+        }
+
+        val jvmTest by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
         }
 
         val nonJsMain by creating {
@@ -72,5 +79,14 @@ kotlin {
                 implementation(libs.androidx.collection)
             }
         }
+
+        // skikoMain is for all Skia-based platforms (JVM, JS, Native)
+        // Used for ImageBitmap.scale() implementation
+        val skikoMain by creating {
+            dependsOn(commonMain.get())
+        }
+        jvmMain.get().dependsOn(skikoMain)
+        jsMain.get().dependsOn(skikoMain)
+        nativeMain.get().dependsOn(skikoMain)
     }
 }
