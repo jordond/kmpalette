@@ -68,10 +68,5 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
-
-        androidMain.dependencies {
-            implementation(libs.androidx.startup)
-            implementation(libs.androidx.core)
-        }
     }
 }

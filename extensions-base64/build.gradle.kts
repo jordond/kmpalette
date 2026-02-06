@@ -65,7 +65,7 @@ kotlin {
         }
 
         commonTest.dependencies {
-//                implementation(project(":test-utils"))
+            implementation(projects.testUtils)
             implementation(kotlin("test"))
             implementation(libs.compose.ui)
             implementation(libs.kotlinx.coroutines.test)
@@ -73,9 +73,9 @@ kotlin {
 
 //        val androidInstrumentedTest by getting {
 //            dependencies {
-//                implementation(project(":test-utils"))
+//                implementation(projects.testUtils)
 //                implementation(kotlin("test"))
-//                implementation(compose.ui)
+//                implementation(libs.compose.ui)
 //                implementation(libs.kotlinx.coroutines.test)
 //                implementation(libs.bundles.test.android)
 //            }

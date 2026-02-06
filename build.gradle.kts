@@ -14,7 +14,7 @@ plugins {
 apiValidation {
     ignoredProjects.addAll(
         listOf(
-//            "test-utils",
+            "test-utils",
         ),
     )
 }

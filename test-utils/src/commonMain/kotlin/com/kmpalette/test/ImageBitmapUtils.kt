@@ -2,21 +2,19 @@ package com.kmpalette.test
 
 import androidx.compose.ui.graphics.ImageBitmap
 import kotlin.io.encoding.Base64
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 internal expect fun loadBitmap(): ImageBitmap
 
-object ImageBitmapUtils {
+public object ImageBitmapUtils {
 
-    val bitmapHeight = 24
-    val bitmapWith = 24
+    public val bitmapHeight: Int = 24
+    public val bitmapWidth: Int = 24
 
-    @OptIn(ExperimentalEncodingApi::class)
-    fun sampleBitmapBytes(): ByteArray {
+    public fun sampleBitmapBytes(): ByteArray {
         return Base64.decode(Base64Utils.sample1Stripped)
     }
 
-    fun sampleBitmap(): ImageBitmap {
+    public fun sampleBitmap(): ImageBitmap {
         return loadBitmap()
     }
 }

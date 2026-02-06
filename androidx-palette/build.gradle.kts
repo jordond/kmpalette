@@ -75,9 +75,9 @@ kotlin {
 
 //        val androidInstrumentedTest by getting {
 //            dependencies {
-// //                implementation(project(":extensions-base64"))
+// //                implementation(projects.extensionsBase64)
 //                implementation(kotlin("test"))
-//                implementation(compose.ui)
+//                implementation(libs.compose.ui)
 //                implementation(libs.bundles.test.android)
 //                implementation(libs.androidx.core)
 //                implementation(libs.kotlinx.coroutines)

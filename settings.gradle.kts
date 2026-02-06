@@ -40,5 +40,5 @@ include(
     ":extensions-base64",
     ":extensions-network",
     ":extensions-file",
-//    ":test-utils",
+    ":test-utils",
 )

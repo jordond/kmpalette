@@ -76,10 +76,8 @@ kotlin {
             implementation(libs.kotlinx.coroutines.test)
         }
 
-        val jvmTest by getting {
-            dependencies {
-                implementation(compose.desktop.currentOs)
-            }
+        jvmTest.dependencies {
+            implementation(compose.desktop.currentOs)
         }
 
         val nonWebMain by creating {
