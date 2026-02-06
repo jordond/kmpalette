@@ -1,11 +1,9 @@
 public final class com/kmpalette/palette/graphics/Palette {
-	public static final field $stable I
 	public static final field Companion Lcom/kmpalette/palette/graphics/Palette$Companion;
 	public static final field DEFAULT_CALCULATE_NUMBER_COLORS I
 	public static final field DEFAULT_RESIZE_BITMAP_AREA I
 	public static final field MIN_CONTRAST_BODY_TEXT F
 	public static final field MIN_CONTRAST_TITLE_TEXT F
-	public final fun generate ()V
 	public final fun getColorForTarget (Lcom/kmpalette/palette/graphics/Target;I)I
 	public final fun getDarkMutedColor (I)I
 	public final fun getDarkMutedSwatch ()Lcom/kmpalette/palette/graphics/Palette$Swatch;
@@ -26,9 +24,8 @@ public final class com/kmpalette/palette/graphics/Palette {
 }
 
 public final class com/kmpalette/palette/graphics/Palette$Builder {
-	public static final field $stable I
-	public fun <init> (Landroidx/compose/ui/graphics/ImageBitmap;)V
 	public fun <init> (Ljava/util/List;)V
+	public fun <init> ([III)V
 	public final fun addFilter (Lcom/kmpalette/palette/graphics/Palette$Filter;)Lcom/kmpalette/palette/graphics/Palette$Builder;
 	public final fun addTarget (Lcom/kmpalette/palette/graphics/Target;)Lcom/kmpalette/palette/graphics/Palette$Builder;
 	public final fun clearFilters ()Lcom/kmpalette/palette/graphics/Palette$Builder;
@@ -37,12 +34,13 @@ public final class com/kmpalette/palette/graphics/Palette$Builder {
 	public final fun generate ()Lcom/kmpalette/palette/graphics/Palette;
 	public final fun maximumColorCount (I)Lcom/kmpalette/palette/graphics/Palette$Builder;
 	public final fun resizeBitmapArea (I)Lcom/kmpalette/palette/graphics/Palette$Builder;
+	public final fun scaling (Z)Lcom/kmpalette/palette/graphics/Palette$Builder;
 	public final fun setRegion (IIII)Lcom/kmpalette/palette/graphics/Palette$Builder;
 }
 
 public final class com/kmpalette/palette/graphics/Palette$Companion {
-	public final fun from (Landroidx/compose/ui/graphics/ImageBitmap;)Lcom/kmpalette/palette/graphics/Palette$Builder;
 	public final fun from (Ljava/util/List;)Lcom/kmpalette/palette/graphics/Palette;
+	public final fun from ([III)Lcom/kmpalette/palette/graphics/Palette$Builder;
 	public final fun getDEFAULT_FILTER ()Lcom/kmpalette/palette/graphics/Palette$Filter;
 }
 
@@ -51,7 +49,6 @@ public abstract interface class com/kmpalette/palette/graphics/Palette$Filter {
 }
 
 public final class com/kmpalette/palette/graphics/Palette$Swatch {
-	public static final field $stable I
 	public fun <init> (II)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBodyTextColor ()I
@@ -64,7 +61,6 @@ public final class com/kmpalette/palette/graphics/Palette$Swatch {
 }
 
 public final class com/kmpalette/palette/graphics/Target {
-	public static final field $stable I
 	public static final field Companion Lcom/kmpalette/palette/graphics/Target$Companion;
 	public final fun getLightnessTargets ()[F
 	public final fun getLightnessWeight ()F
@@ -84,7 +80,6 @@ public final class com/kmpalette/palette/graphics/Target {
 }
 
 public final class com/kmpalette/palette/graphics/Target$Builder {
-	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Lcom/kmpalette/palette/graphics/Target;)V
 	public synthetic fun <init> (Lcom/kmpalette/palette/graphics/Target;ILkotlin/jvm/internal/DefaultConstructorMarker;)V

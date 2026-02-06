@@ -92,13 +92,11 @@ kotlin {
             }
         }
 
-        // skikoMain is for all Skia-based platforms (JVM, JS, Native)
-        // Used for ImageBitmap.scale() implementation
         val skikoMain by creating {
             dependsOn(commonMain.get())
+            jvmMain.get().dependsOn(this)
+            webMain.get().dependsOn(this)
+            nativeMain.get().dependsOn(this)
         }
-        jvmMain.get().dependsOn(skikoMain)
-        jsMain.get().dependsOn(skikoMain)
-        nativeMain.get().dependsOn(skikoMain)
     }
 }
