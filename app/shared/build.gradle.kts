@@ -10,15 +10,12 @@ plugins {
 
 kotlin {
     androidLibrary {
-        namespace = "${libs.versions.group.get()}.shared"
+        namespace = libs.versions.group.get()
         compileSdk =
             libs.versions.sdk.compile
                 .get()
                 .toInt()
-        minSdk =
-            libs.versions.sdk.min
-                .get()
-                .toInt()
+        minSdk = 23
 
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
@@ -27,8 +24,9 @@ kotlin {
 
     jvm()
 
-    js { browser() }
+    @Suppress("OPT_IN_USAGE")
     wasmJs { browser() }
+    js { browser() }
 
     iosArm64()
     iosSimulatorArm64()

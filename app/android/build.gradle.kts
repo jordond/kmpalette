@@ -13,10 +13,7 @@ android {
             .toInt()
 
     defaultConfig {
-        minSdk =
-            libs.versions.sdk.min
-                .get()
-                .toInt()
+        minSdk = 23
 
         targetSdk = libs.versions.sdk.target
             .get()
