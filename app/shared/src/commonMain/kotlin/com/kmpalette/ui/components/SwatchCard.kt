@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.kmpalette.ui.util.toHexString
 
 /**
  * A card displaying a single color swatch with its label and hex code.
@@ -102,15 +103,3 @@ fun SwatchCard(
         }
     }
 }
-
-/**
- * Converts a Color to its hex string representation.
- */
-private fun Color.toHexString(): String {
-    val red = (this.red * 255).toInt()
-    val green = (this.green * 255).toInt()
-    val blue = (this.blue * 255).toInt()
-    return "#${red.toHexComponent()}${green.toHexComponent()}${blue.toHexComponent()}"
-}
-
-private fun Int.toHexComponent(): String = this.toString(16).padStart(2, '0').uppercase()

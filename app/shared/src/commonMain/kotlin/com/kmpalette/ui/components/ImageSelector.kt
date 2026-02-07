@@ -56,7 +56,6 @@ fun ImageSelector(
             fontWeight = FontWeight.Bold,
         )
 
-        // Preset images horizontal scroll
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,7 +73,6 @@ fun ImageSelector(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        // Custom image picker button
         FilledTonalButton(
             onClick = onCustomImageClick,
             modifier = Modifier.fillMaxWidth(),
@@ -130,7 +128,7 @@ private fun PresetThumbnail(
     ) {
         Image(
             painter = painterResource(preset.resource),
-            contentDescription = preset.name,
+            contentDescription = "Preset image",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .matchParentSize()

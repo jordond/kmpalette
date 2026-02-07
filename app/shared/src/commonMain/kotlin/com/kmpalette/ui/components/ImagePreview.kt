@@ -64,7 +64,7 @@ fun ImagePreview(
                     preset != null -> {
                         Image(
                             painter = painterResource(preset.resource),
-                            contentDescription = preset.name,
+                            contentDescription = "Preset",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .fillMaxSize()

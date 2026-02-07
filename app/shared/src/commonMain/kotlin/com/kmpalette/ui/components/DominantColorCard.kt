@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -26,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.kmpalette.ui.util.toHexString
 
 /**
  * A prominent card displaying the dominant color extracted from an image.
@@ -53,7 +55,7 @@ fun DominantColorCard(
     val contrastTextColor = if (animatedColor.luminance() > 0.5f) Color.Black else Color.White
 
     Surface(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.widthIn(max = 400.dp),
         shape = RoundedCornerShape(20.dp),
         tonalElevation = 4.dp,
         shadowElevation = 4.dp,
@@ -61,7 +63,6 @@ fun DominantColorCard(
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            // Color preview area
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -89,7 +90,6 @@ fun DominantColorCard(
                 }
             }
 
-            // Contrast demonstration
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,7 +110,6 @@ fun DominantColorCard(
                     )
                 }
 
-                // Color swatches showing the pair
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -148,15 +147,3 @@ fun DominantColorCard(
         }
     }
 }
-
-/**
- * Converts a Color to its hex string representation.
- */
-private fun Color.toHexString(): String {
-    val red = (this.red * 255).toInt()
-    val green = (this.green * 255).toInt()
-    val blue = (this.blue * 255).toInt()
-    return "#${red.toHexComponent()}${green.toHexComponent()}${blue.toHexComponent()}"
-}
-
-private fun Int.toHexComponent(): String = this.toString(16).padStart(2, '0').uppercase()

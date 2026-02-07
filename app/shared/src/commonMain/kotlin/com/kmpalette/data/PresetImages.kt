@@ -3,28 +3,31 @@ package com.kmpalette.data
 import androidx.compose.runtime.Immutable
 import kmpalette.app.shared.generated.resources.Res
 import kmpalette.app.shared.generated.resources.img_preset_1
+import kmpalette.app.shared.generated.resources.img_preset_10
+import kmpalette.app.shared.generated.resources.img_preset_2
+import kmpalette.app.shared.generated.resources.img_preset_3
+import kmpalette.app.shared.generated.resources.img_preset_4
+import kmpalette.app.shared.generated.resources.img_preset_5
+import kmpalette.app.shared.generated.resources.img_preset_6
+import kmpalette.app.shared.generated.resources.img_preset_7
+import kmpalette.app.shared.generated.resources.img_preset_8
+import kmpalette.app.shared.generated.resources.img_preset_9
 import org.jetbrains.compose.resources.DrawableResource
 
-/**
- * Data class representing a preset image for palette generation.
- */
 @Immutable
 data class PresetImage(
     val resource: DrawableResource,
-    val name: String,
 )
 
-/**
- * List of preset images included in the app.
- * Users can select from these to generate palettes, or pick their own image.
- */
 val presetImages: List<PresetImage> = listOf(
-    PresetImage(Res.drawable.img_preset_1, "Coastal Sunset"),
-    PresetImage(Res.drawable.img_preset_1, "Mountain Dawn"),
-    PresetImage(Res.drawable.img_preset_1, "Forest Lake"),
-    PresetImage(Res.drawable.img_preset_1, "Desert Dunes"),
-    PresetImage(Res.drawable.img_preset_1, "Ocean Waves"),
-    PresetImage(Res.drawable.img_preset_1, "Autumn Leaves"),
-    PresetImage(Res.drawable.img_preset_1, "City Lights"),
-    PresetImage(Res.drawable.img_preset_1, "Northern Lights"),
+    PresetImage(Res.drawable.img_preset_1),
+    PresetImage(Res.drawable.img_preset_2),
+    PresetImage(Res.drawable.img_preset_3),
+    PresetImage(Res.drawable.img_preset_4),
+    PresetImage(Res.drawable.img_preset_5),
+    PresetImage(Res.drawable.img_preset_6),
+    PresetImage(Res.drawable.img_preset_7),
+    PresetImage(Res.drawable.img_preset_8),
+    PresetImage(Res.drawable.img_preset_9),
+    PresetImage(Res.drawable.img_preset_10),
 )

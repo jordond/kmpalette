@@ -30,6 +30,7 @@ import com.kmpalette.data.presetImages
 import com.kmpalette.extensions.file.rememberPlatformFilePaletteState
 import com.kmpalette.extensions.resource.rememberResourcePaletteState
 import com.kmpalette.palette.graphics.Palette
+import com.kmpalette.ui.components.AboutBlurb
 import com.kmpalette.ui.components.DominantColorCard
 import com.kmpalette.ui.components.ImagePreview
 import com.kmpalette.ui.components.ImageSelector
@@ -51,6 +52,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun PaletteScreen(
     onDominantColorChanged: (Color?) -> Unit,
+    onShowMessage: (String) -> Unit,
     modifier: Modifier = Modifier,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
@@ -72,6 +74,19 @@ fun PaletteScreen(
         filePaletteState.state == PaletteResult.Loading
     } else {
         resourcePaletteState.state == PaletteResult.Loading
+    }
+
+    // Handle palette generation errors
+    val currentError = if (customImageFile != null) {
+        (filePaletteState.state as? PaletteResult.Error)?.cause
+    } else {
+        (resourcePaletteState.state as? PaletteResult.Error)?.cause
+    }
+
+    LaunchedEffect(currentError) {
+        currentError?.let { error ->
+            onShowMessage("Failed to generate palette: ${error.message ?: "Unknown error"}")
+        }
     }
 
     val dominantColor = currentPalette?.dominantSwatch?.let { Color(it.rgb) }
@@ -106,7 +121,7 @@ fun PaletteScreen(
                     customImageBitmap = decodeImageBitmapFromFile(file)
                 } catch (cause: Exception) {
                     if (cause is CancellationException) throw cause
-                    // TODO: Use a snackbar to display the error
+                    onShowMessage("Failed to load image: ${cause.message ?: "Unknown error"}")
                     customImageBitmap = null
                 }
             }
@@ -132,6 +147,7 @@ fun PaletteScreen(
             onCustomImageClick = { filePicker.launch() },
             selectedSeedColor = selectedSeedColor,
             onSeedColorSelected = { selectedSeedColor = it },
+            onShowMessage = onShowMessage,
             modifier = modifier,
         )
     } else {
@@ -149,6 +165,9 @@ fun PaletteScreen(
                 customImageBitmap = null
             },
             onCustomImageClick = { filePicker.launch() },
+            selectedSeedColor = selectedSeedColor,
+            onSeedColorSelected = { selectedSeedColor = it },
+            onShowMessage = onShowMessage,
             modifier = modifier,
         )
     }
@@ -165,6 +184,9 @@ private fun SingleColumnLayout(
     isLoading: Boolean,
     onPresetSelected: (Int) -> Unit,
     onCustomImageClick: () -> Unit,
+    selectedSeedColor: Color?,
+    onSeedColorSelected: (Color) -> Unit,
+    onShowMessage: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -174,6 +196,8 @@ private fun SingleColumnLayout(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
+        AboutBlurb()
+
         ImagePreview(
             presetImage = if (customImageBitmap == null) presets.getOrNull(selectedPresetIndex) else null,
             customImage = customImageBitmap,
@@ -195,7 +219,16 @@ private fun SingleColumnLayout(
 
         PaletteDisplay(
             palette = currentPalette,
+            selectedColor = selectedSeedColor,
+            onColorSelected = onSeedColorSelected,
         )
+
+        selectedSeedColor?.let { seed ->
+            ThemePreviewSection(
+                seedColor = seed,
+                onColorCopied = onShowMessage,
+            )
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
     }
@@ -214,6 +247,7 @@ private fun TwoPaneLayout(
     onCustomImageClick: () -> Unit,
     selectedSeedColor: Color?,
     onSeedColorSelected: (Color) -> Unit,
+    onShowMessage: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -224,11 +258,13 @@ private fun TwoPaneLayout(
     ) {
         Column(
             modifier = Modifier
-                .weight(0.45f)
+                .weight(1f)
                 .fillMaxHeight()
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
+            AboutBlurb()
+
             ImagePreview(
                 presetImage = if (customImageBitmap == null) presets.getOrNull(selectedPresetIndex) else null,
                 customImage = customImageBitmap,
@@ -246,7 +282,7 @@ private fun TwoPaneLayout(
 
         Column(
             modifier = Modifier
-                .weight(0.55f)
+                .weight(2f)
                 .fillMaxHeight()
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -266,6 +302,7 @@ private fun TwoPaneLayout(
             selectedSeedColor?.let { seed ->
                 ThemePreviewSection(
                     seedColor = seed,
+                    onColorCopied = onShowMessage,
                 )
             }
         }
