@@ -33,12 +33,19 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            api(projects.kmpaletteCore)
+            api(projects.extensionsFile)
+            api(projects.extensionsNetwork)
+            api(projects.extensionsBase64)
+
             api(libs.compose.runtime)
             api(libs.compose.ui)
             api(libs.compose.foundation)
             api(libs.compose.resources)
             api(libs.compose.ui.tooling.preview)
             api(libs.compose.material3)
+            implementation(libs.material3.adaptive)
+            implementation(libs.material3.adaptive.navigation)
             implementation(libs.kermit)
             implementation(libs.ktor.client)
             implementation(libs.ktor.client.content.negotiation)
@@ -49,6 +56,7 @@ kotlin {
             implementation(libs.coil)
             implementation(libs.coil.network.ktor)
             implementation(libs.materialKolor)
+            implementation(libs.filekit.dialogs)
         }
 
         commonTest.dependencies {
@@ -69,7 +77,6 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
-
     }
 
     targets

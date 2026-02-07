@@ -10,6 +10,7 @@ kotlin {
         binaries.executable()
     }
 
+    @Suppress("OPT_IN_USAGE")
     wasmJs {
         browser()
         binaries.executable()
