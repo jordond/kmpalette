@@ -1,8 +1,8 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
+    alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.jvm)
 }
 
@@ -27,7 +27,7 @@ compose.desktop {
             }
             macOS {
                 iconFile.set(project.file("appIcons/MacosIcon.icns"))
-                bundleID = "com.kmpalette.desktopApp"
+                bundleID = "${libs.versions.group.get()}.desktop"
             }
         }
     }

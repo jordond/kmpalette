@@ -46,4 +46,6 @@ include(
 include(
     ":app:shared",
     ":app:android",
+    ":app:desktop",
+    ":app:web",
 )

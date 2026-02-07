@@ -2,7 +2,7 @@
 sdk-target = "36"
 sdk-compile = "36"
 sdk-min = "21"
-group = "dev.jordond.kmpalette"
+group = "com.kmpalette"
 agp = "9.0.0"
 kotlin = "2.3.0"
 ktor = "3.4.0"

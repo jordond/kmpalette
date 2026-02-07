@@ -1,4 +1,4 @@
-package com.kmpalette.androidApp
+package com.kmpalette.android
 
 import android.app.Activity
 import android.os.Bundle
@@ -15,8 +15,8 @@ class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent { 
-            App(onThemeChanged = { ThemeChanged(it) }) 
+        setContent {
+            App(onThemeChanged = { ThemeChanged(it) })
         }
     }
 }
