@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.internal.builtins.StandardNames.FqNames.target
-
 plugins {
     alias(libs.plugins.multiplatform) apply false
     alias(libs.plugins.compose) apply false
@@ -7,6 +5,7 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.poko) apply false
     alias(libs.plugins.dokka)
     alias(libs.plugins.binaryCompatibility)
@@ -18,6 +17,10 @@ apiValidation {
     ignoredProjects.addAll(
         listOf(
             "test-utils",
+            "shared",
+            "android",
+            "desktop",
+            "web",
         ),
     )
 }

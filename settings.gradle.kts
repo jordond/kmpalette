@@ -42,3 +42,10 @@ include(
     ":extensions-file",
     ":test-utils",
 )
+
+include(
+    ":app:shared",
+    ":app:android",
+    ":app:desktop",
+    ":app:web",
+)

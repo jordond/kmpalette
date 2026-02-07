@@ -15,10 +15,26 @@
         "org.jetbrains.kotlin",
         "org.jetbrains.kotlinx:binary-compatibility-validator"
       ]
+    },
+    {
+      "description": "Ignore demo app-only dependencies",
+      "matchManagers": ["gradle"],
+      "matchPackageNames": [
+        "androidx.activity:activity-compose",
+        "co.touchlab:kermit",
+        "com.materialkolor:material-kolor",
+        "io.coil-kt.coil3:*",
+        "io.github.vinceglb:filekit-dialogs-compose",
+        "io.ktor:ktor-client-content-negotiation",
+        "io.ktor:ktor-client-darwin",
+        "io.ktor:ktor-client-logging",
+        "io.ktor:ktor-client-okhttp",
+        "org.jetbrains.androidx.lifecycle:*",
+        "org.jetbrains.androidx.navigation3:*",
+        "org.jetbrains.compose.material3.adaptive:*",
+        "org.jetbrains.kotlinx:kotlinx-serialization-json"
+      ],
+      "enabled": false
     }
   ]
 }
-
-
-
-
