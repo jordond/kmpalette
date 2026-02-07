@@ -32,6 +32,7 @@ androidx-core-ktx = "1.17.0"
 coil = "3.3.0"
 materialKolor = "4.1.1"
 kermit = "2.0.8"
+kotlinx-serialization = "1.7.3"
 spotless = "8.2.1"
 ktlint = "1.5.0"
 
@@ -75,9 +76,11 @@ materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "ma
 material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "material3-adaptive" }
 material3-adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation-suite", version.ref = "material3-adaptive" }
 filekit-dialogs = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekit" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -44,8 +45,8 @@ kotlin {
             api(libs.compose.resources)
             api(libs.compose.ui.tooling.preview)
             api(libs.compose.material3)
+            api(compose.materialIconsExtended)
             implementation(libs.material3.adaptive)
-            implementation(libs.material3.adaptive.navigation)
             implementation(libs.kermit)
             implementation(libs.ktor.client)
             implementation(libs.ktor.client.content.negotiation)
@@ -57,6 +58,7 @@ kotlin {
             implementation(libs.coil.network.ktor)
             implementation(libs.materialKolor)
             implementation(libs.filekit.dialogs)
+            implementation(libs.kotlinx.serialization.json)
         }
 
         commonTest.dependencies {

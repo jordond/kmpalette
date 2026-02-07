@@ -51,6 +51,7 @@ import kotlin.math.abs
  * ```
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
+@Poko
 public class Palette internal constructor(
     public val swatches: List<Swatch>,
     private val targets: List<Target>,

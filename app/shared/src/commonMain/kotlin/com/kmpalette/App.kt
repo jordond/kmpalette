@@ -1,142 +1,135 @@
 package com.kmpalette
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
+import com.kmpalette.navigation.AppDestination
 import com.kmpalette.theme.AppTheme
-import com.kmpalette.theme.LocalThemeIsDark
-import kmpalette.app.shared.generated.resources.IndieFlower_Regular
-import kmpalette.app.shared.generated.resources.Res
-import kmpalette.app.shared.generated.resources.cyclone
-import kmpalette.app.shared.generated.resources.ic_cyclone
-import kmpalette.app.shared.generated.resources.ic_dark_mode
-import kmpalette.app.shared.generated.resources.ic_light_mode
-import kmpalette.app.shared.generated.resources.ic_rotate_right
-import kmpalette.app.shared.generated.resources.open_github
-import kmpalette.app.shared.generated.resources.run
-import kmpalette.app.shared.generated.resources.stop
-import kmpalette.app.shared.generated.resources.theme
-import kotlinx.coroutines.isActive
-import org.jetbrains.compose.resources.Font
-import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.resources.vectorResource
+import com.kmpalette.theme.Seed
+import com.kmpalette.ui.screens.PaletteScreen
+import com.kmpalette.ui.screens.SettingsScreen
 
 @Preview
 @Composable
-fun App(onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}) =
-    AppTheme(onThemeChanged) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .windowInsetsPadding(WindowInsets.safeDrawing)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                text = stringResource(Res.string.cyclone),
-                fontFamily = FontFamily(Font(Res.font.IndieFlower_Regular)),
-                style = MaterialTheme.typography.displayLarge,
-            )
+fun App(onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}) {
+    var dominantColor by remember { mutableStateOf<Color?>(null) }
+    var selectedDestination by remember { mutableStateOf(AppDestination.Palette) }
 
-            var isRotating by remember { mutableStateOf(false) }
+    AppTheme(
+        seed = dominantColor ?: Seed,
+    ) {
+        val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+        val useNavigationRail = windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND)
 
-            val rotate = remember { Animatable(0f) }
-            val target = 360f
-            if (isRotating) {
-                LaunchedEffect(Unit) {
-                    while (isActive) {
-                        val remaining = (target - rotate.value) / target
-                        rotate.animateTo(
-                            targetValue = target,
-                            animationSpec = tween(
-                                durationMillis = (1_000 * remaining).toInt(),
-                                easing = LinearEasing,
-                            ),
+        if (useNavigationRail) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .windowInsetsPadding(WindowInsets.safeDrawing),
+            ) {
+                NavigationRail(
+                    modifier = Modifier.fillMaxHeight(),
+                ) {
+                    AppDestination.entries.forEach { destination ->
+                        NavigationRailItem(
+                            icon = {
+                                Icon(
+                                    imageVector = if (selectedDestination == destination) {
+                                        destination.selectedIcon
+                                    } else {
+                                        destination.unselectedIcon
+                                    },
+                                    contentDescription = destination.label,
+                                )
+                            },
+                            label = { Text(destination.label) },
+                            selected = selectedDestination == destination,
+                            onClick = { selectedDestination = destination },
                         )
-                        rotate.snapTo(0f)
                     }
                 }
+
+                AppContent(
+                    selectedDestination = selectedDestination,
+                    onDominantColorChanged = { dominantColor = it },
+                    modifier = Modifier.weight(1f),
+                )
             }
-
-            Image(
+        } else {
+            Scaffold(
                 modifier = Modifier
-                    .size(250.dp)
-                    .padding(16.dp)
-                    .run { rotate(rotate.value) },
-                imageVector = vectorResource(Res.drawable.ic_cyclone),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
-                contentDescription = null,
-            )
-
-            ElevatedButton(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                    .widthIn(min = 200.dp),
-                onClick = { isRotating = !isRotating },
-                content = {
-                    Icon(vectorResource(Res.drawable.ic_rotate_right), contentDescription = null)
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                    Text(
-                        stringResource(if (isRotating) Res.string.stop else Res.string.run),
-                    )
+                    .fillMaxSize()
+                    .windowInsetsPadding(WindowInsets.safeDrawing),
+                bottomBar = {
+                    NavigationBar {
+                        AppDestination.entries.forEach { destination ->
+                            NavigationBarItem(
+                                icon = {
+                                    Icon(
+                                        imageVector = if (selectedDestination == destination) {
+                                            destination.selectedIcon
+                                        } else {
+                                            destination.unselectedIcon
+                                        },
+                                        contentDescription = destination.label,
+                                    )
+                                },
+                                label = { Text(destination.label) },
+                                selected = selectedDestination == destination,
+                                onClick = { selectedDestination = destination },
+                            )
+                        }
+                    }
                 },
-            )
-
-            var isDark by LocalThemeIsDark.current
-            val icon = remember(isDark) {
-                if (isDark) {
-                    Res.drawable.ic_light_mode
-                } else {
-                    Res.drawable.ic_dark_mode
-                }
-            }
-
-            ElevatedButton(
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).widthIn(min = 200.dp),
-                onClick = { isDark = !isDark },
-                content = {
-                    Icon(vectorResource(icon), contentDescription = null)
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                    Text(stringResource(Res.string.theme))
-                },
-            )
-
-            val uriHandler = LocalUriHandler.current
-            TextButton(
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).widthIn(min = 200.dp),
-                onClick = { uriHandler.openUri("https://github.com/terrakok") },
-            ) {
-                Text(stringResource(Res.string.open_github))
+            ) { paddingValues ->
+                AppContent(
+                    selectedDestination = selectedDestination,
+                    onDominantColorChanged = { dominantColor = it },
+                    modifier = Modifier.padding(paddingValues),
+                )
             }
         }
     }
+}
+
+@Composable
+private fun AppContent(
+    selectedDestination: AppDestination,
+    onDominantColorChanged: (Color?) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    when (selectedDestination) {
+        AppDestination.Palette -> {
+            PaletteScreen(
+                onDominantColorChanged = onDominantColorChanged,
+                modifier = modifier.fillMaxSize(),
+            )
+        }
+        AppDestination.Settings -> {
+            SettingsScreen(
+                modifier = modifier.fillMaxSize(),
+            )
+        }
+    }
+}
