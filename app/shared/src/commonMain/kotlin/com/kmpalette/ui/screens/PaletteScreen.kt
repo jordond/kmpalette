@@ -51,7 +51,7 @@ import kotlinx.coroutines.launch
 fun PaletteScreen(
     onDominantColorChanged: (Color?) -> Unit,
     modifier: Modifier = Modifier,
-    scope: CoroutineScope = rememberCoroutineScope()
+    scope: CoroutineScope = rememberCoroutineScope(),
 ) {
     var selectedPresetIndex by remember { mutableStateOf(0) }
     var customImageFile by remember { mutableStateOf<PlatformFile?>(null) }

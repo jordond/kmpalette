@@ -40,6 +40,5 @@ fun AppTheme(
             colorScheme = dynamicColorScheme,
             content = { Surface(content = content) },
         )
-
     }
 }
