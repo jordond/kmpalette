@@ -10,9 +10,10 @@ dependencies {
     implementation(projects.app.shared)
     implementation(libs.filekit.dialogs)
 
-    // Force correct Skiko runtime version to match Compose 1.10.0's Skiko API
+    // Force the correct Skiko runtime version to match Compose 1.10.0's Skiko API
     // Fixes: UnsatisfiedLinkError: 'int org.jetbrains.skiko.MetalApiKt.getAdapterMaxTextureSize(long)'
-    runtimeOnly("org.jetbrains.skiko:skiko-awt-runtime-macos-arm64:0.9.40")
+    //noinspection UseTomlInstead
+    runtimeOnly("org.jetbrains.skiko:skiko-awt-runtime-macos-arm64:0.9.41")
 }
 
 compose.desktop {
@@ -21,17 +22,10 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "Kmpalette"
+            packageName = "KMPalette"
             packageVersion = "1.0.0"
 
-            linux {
-                iconFile.set(project.file("appIcons/LinuxIcon.png"))
-            }
-            windows {
-                iconFile.set(project.file("appIcons/WindowsIcon.ico"))
-            }
             macOS {
-                iconFile.set(project.file("appIcons/MacosIcon.icns"))
                 bundleID = "${libs.versions.group.get()}.desktop"
             }
         }
