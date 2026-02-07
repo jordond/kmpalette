@@ -17,7 +17,10 @@ apiValidation {
     ignoredProjects.addAll(
         listOf(
             "test-utils",
-            // ":app:shared",
+            "shared",
+            "android",
+            "desktop",
+            "web",
         ),
     )
 }
