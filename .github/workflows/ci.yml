@@ -42,6 +42,9 @@ jobs:
       - name: Binary Compatibility Validation
         run: ./gradlew apiCheck --scan
 
+      - name: Check lock files
+        run: ./gradlew kotlinStoreYarnLock --scan
+
       - name: Lint
         run: ./gradlew spotlessCheck --scan
 
