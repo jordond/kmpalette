@@ -34,6 +34,7 @@ import com.kmpalette.ui.components.DominantColorCard
 import com.kmpalette.ui.components.ImagePreview
 import com.kmpalette.ui.components.ImageSelector
 import com.kmpalette.ui.components.PaletteDisplay
+import com.kmpalette.ui.components.ThemePreviewSection
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.dialogs.FileKitMode
 import io.github.vinceglb.filekit.dialogs.FileKitType
@@ -56,6 +57,7 @@ fun PaletteScreen(
     var selectedPresetIndex by remember { mutableStateOf(0) }
     var customImageFile by remember { mutableStateOf<PlatformFile?>(null) }
     var customImageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+    var selectedSeedColor by remember { mutableStateOf<Color?>(null) }
 
     val resourcePaletteState = rememberResourcePaletteState()
     val filePaletteState = rememberPlatformFilePaletteState()
@@ -77,6 +79,12 @@ fun PaletteScreen(
 
     LaunchedEffect(dominantColor) {
         onDominantColorChanged(dominantColor)
+    }
+
+    LaunchedEffect(currentPalette) {
+        if (selectedSeedColor == null || currentPalette != null) {
+            selectedSeedColor = currentPalette?.dominantSwatch?.let { Color(it.rgb) }
+        }
     }
 
     LaunchedEffect(selectedPresetIndex, customImageFile) {
@@ -122,6 +130,8 @@ fun PaletteScreen(
                 customImageBitmap = null
             },
             onCustomImageClick = { filePicker.launch() },
+            selectedSeedColor = selectedSeedColor,
+            onSeedColorSelected = { selectedSeedColor = it },
             modifier = modifier,
         )
     } else {
@@ -202,6 +212,8 @@ private fun TwoPaneLayout(
     isLoading: Boolean,
     onPresetSelected: (Int) -> Unit,
     onCustomImageClick: () -> Unit,
+    selectedSeedColor: Color?,
+    onSeedColorSelected: (Color) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -246,7 +258,16 @@ private fun TwoPaneLayout(
 
             PaletteDisplay(
                 palette = currentPalette,
+                isHorizontal = true,
+                selectedColor = selectedSeedColor,
+                onColorSelected = onSeedColorSelected,
             )
+
+            selectedSeedColor?.let { seed ->
+                ThemePreviewSection(
+                    seedColor = seed,
+                )
+            }
         }
     }
 }

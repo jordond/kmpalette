@@ -4,10 +4,10 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -35,6 +35,8 @@ fun SwatchCard(
     color: Color?,
     label: String,
     modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
+    onClick: (() -> Unit)? = null,
 ) {
     val animatedColor by animateColorAsState(
         targetValue = color ?: MaterialTheme.colorScheme.surfaceVariant,
@@ -47,8 +49,8 @@ fun SwatchCard(
 
     Surface(
         modifier = modifier
-            .aspectRatio(1f)
-            .clip(RoundedCornerShape(16.dp)),
+            .clip(RoundedCornerShape(16.dp))
+            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier),
         tonalElevation = 2.dp,
         shadowElevation = 2.dp,
         shape = RoundedCornerShape(16.dp),
@@ -58,7 +60,13 @@ fun SwatchCard(
                 .fillMaxSize()
                 .background(animatedColor)
                 .then(
-                    if (color == null) {
+                    if (isSelected) {
+                        Modifier.border(
+                            width = 3.dp,
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(16.dp),
+                        )
+                    } else if (color == null) {
                         Modifier.border(
                             width = 1.dp,
                             color = MaterialTheme.colorScheme.outline,
