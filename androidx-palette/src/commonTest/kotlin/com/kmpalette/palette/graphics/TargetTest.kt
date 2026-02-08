@@ -222,7 +222,10 @@ class TargetTest {
 
     // FloatArray maps to Float32Array on JS, so round-tripping through it
     // can introduce small precision differences vs double-precision literals.
-    private fun assertFloatEquals(expected: Float, actual: Float) {
+    private fun assertFloatEquals(
+        expected: Float,
+        actual: Float,
+    ) {
         assertTrue(
             abs(expected - actual) < 1e-5f,
             "Expected <$expected> but was <$actual>",
