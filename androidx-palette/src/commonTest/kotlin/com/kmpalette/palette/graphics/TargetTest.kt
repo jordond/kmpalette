@@ -1,7 +1,7 @@
 package com.kmpalette.palette.graphics
 
+import kotlin.math.abs
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -175,12 +175,12 @@ class TargetTest {
                 .setMaximumLightness(0.7f)
                 .build()
 
-        assertEquals(0.2f, customTarget.minimumSaturation)
-        assertEquals(0.6f, customTarget.targetSaturation)
-        assertEquals(0.9f, customTarget.maximumSaturation)
-        assertEquals(0.3f, customTarget.minimumLightness)
-        assertEquals(0.5f, customTarget.targetLightness)
-        assertEquals(0.7f, customTarget.maximumLightness)
+        assertFloatEquals(0.2f, customTarget.minimumSaturation)
+        assertFloatEquals(0.6f, customTarget.targetSaturation)
+        assertFloatEquals(0.9f, customTarget.maximumSaturation)
+        assertFloatEquals(0.3f, customTarget.minimumLightness)
+        assertFloatEquals(0.5f, customTarget.targetLightness)
+        assertFloatEquals(0.7f, customTarget.maximumLightness)
     }
 
     @Test
@@ -193,9 +193,9 @@ class TargetTest {
                 .setPopulationWeight(0.2f)
                 .build()
 
-        assertEquals(0.5f, customTarget.saturationWeight)
-        assertEquals(0.3f, customTarget.lightnessWeight)
-        assertEquals(0.2f, customTarget.populationWeight)
+        assertFloatEquals(0.5f, customTarget.saturationWeight)
+        assertFloatEquals(0.3f, customTarget.lightnessWeight)
+        assertFloatEquals(0.2f, customTarget.populationWeight)
     }
 
     @Test
@@ -218,5 +218,17 @@ class TargetTest {
                 .build()
 
         assertTrue(!nonExclusiveTarget.isExclusive, "Target should not be exclusive")
+    }
+
+    // FloatArray maps to Float32Array on JS, so round-tripping through it
+    // can introduce small precision differences vs double-precision literals.
+    private fun assertFloatEquals(
+        expected: Float,
+        actual: Float,
+    ) {
+        assertTrue(
+            abs(expected - actual) < 1e-5f,
+            "Expected <$expected> but was <$actual>",
+        )
     }
 }

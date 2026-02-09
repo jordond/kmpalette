@@ -2,19 +2,23 @@
 sdk-target = "36"
 sdk-compile = "36"
 sdk-min = "21"
-group = "dev.jordond.kmpalette"
+group = "com.kmpalette"
 agp = "9.0.0"
 kotlin = "2.3.10"
 ktor = "3.4.0"
 compose-multiplatform = "1.10.0"
 androidx-annotation = "1.9.1"
+androidx-activityCompose = "1.12.3"
 androidx-startup = "1.2.0"
 androidx-collection = "1.5.0"
+androidx-lifecycle = "2.10.0-alpha08"
+androidx-nav3 = "1.1.0-alpha02"
 androidx-test-junit = "1.3.0"
 androidx-test-runner = "1.7.0"
 androidx-test-rules = "1.7.0"
 androidx-test-espresso = "3.7.0"
 material3 = "1.9.0"
+material3-adaptive = "1.3.0-alpha02"
 robolectric = "4.16.1"
 junit = "4.13.2"
 binaryCompatibility = "0.18.1"
@@ -25,6 +29,10 @@ poko = "0.21.1"
 filekit = "0.12.0"
 kotlin-coroutines = "1.10.2"
 androidx-core-ktx = "1.17.0"
+coil = "3.3.0"
+materialKolor = "4.1.1"
+kermit = "2.0.8"
+kotlinx-serialization = "1.7.3"
 spotless = "8.2.1"
 ktlint = "1.5.0"
 
@@ -48,19 +56,42 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 ktor-client = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 filekit = { module = "io.github.vinceglb:filekit-core", version.ref = "filekit" }
 
+# App
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
+compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
+compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose-multiplatform" }
+compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "compose-multiplatform" }
+androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+compose-nav3 = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "androidx-nav3" }
+coil = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
+material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "material3-adaptive" }
+filekit-dialogs = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekit" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
-spotless = {id = "com.diffplug.spotless", version.ref = "spotless"}
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 [bundles]
 test-android = ["junit", "androidx-test-junit", "androidx-test-runner", "androidx-test-rules", "androidx-test-espresso", "robolectric"]

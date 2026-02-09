@@ -4,6 +4,7 @@ public final class com/kmpalette/palette/graphics/Palette {
 	public static final field DEFAULT_RESIZE_BITMAP_AREA I
 	public static final field MIN_CONTRAST_BODY_TEXT F
 	public static final field MIN_CONTRAST_TITLE_TEXT F
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getColorForTarget (Lcom/kmpalette/palette/graphics/Target;I)I
 	public final fun getDarkMutedColor (I)I
 	public final fun getDarkMutedSwatch ()Lcom/kmpalette/palette/graphics/Palette$Swatch;
@@ -21,6 +22,8 @@ public final class com/kmpalette/palette/graphics/Palette {
 	public final fun getSwatches ()Ljava/util/List;
 	public final fun getVibrantColor (I)I
 	public final fun getVibrantSwatch ()Lcom/kmpalette/palette/graphics/Palette$Swatch;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/kmpalette/palette/graphics/Palette$Builder {
