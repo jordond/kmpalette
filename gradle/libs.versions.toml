@@ -2,7 +2,7 @@
 sdk-target = "36"
 sdk-compile = "36"
 sdk-min = "21"
-group = "com.kmpalette"
+group = "com.materialkolor.palette"
 agp = "9.0.1"
 kotlin = "2.3.10"
 ktor = "3.4.0"

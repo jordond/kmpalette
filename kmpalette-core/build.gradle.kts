@@ -12,6 +12,10 @@ plugins {
     alias(libs.plugins.publish)
 }
 
+mavenPublishing {
+    coordinates(artifactId = "core")
+}
+
 kotlin {
     explicitApi()
     jvmToolchain(jdkVersion = 11)

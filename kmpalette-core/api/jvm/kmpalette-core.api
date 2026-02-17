@@ -22,7 +22,8 @@ public final class com/kmpalette/DominantColorStateKt {
 }
 
 public final class com/kmpalette/PaletteKt {
-	public static final fun from (Lcom/kmpalette/palette/graphics/Palette$Companion;Landroidx/compose/ui/graphics/ImageBitmap;)Lcom/kmpalette/palette/graphics/Palette$Builder;
+	public static final fun from (Lcom/kmpalette/palette/graphics/Palette$Companion;Landroidx/compose/ui/graphics/ImageBitmap;ZLkotlin/jvm/functions/Function1;)Lcom/kmpalette/palette/graphics/Palette$Builder;
+	public static synthetic fun from$default (Lcom/kmpalette/palette/graphics/Palette$Companion;Landroidx/compose/ui/graphics/ImageBitmap;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/kmpalette/palette/graphics/Palette$Builder;
 	public static final fun generatePalette (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun generatePalette$default (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public static final fun rememberGeneratePalette (Landroidx/compose/ui/graphics/ImageBitmap;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteResult;
@@ -170,6 +171,13 @@ public final class com/kmpalette/extensions/resource/ResourceDominantColorStateK
 
 public final class com/kmpalette/extensions/resource/ResourcePaletteStateKt {
 	public static final fun rememberResourcePaletteState (ILkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/kmpalette/PaletteState;
+}
+
+public final class com/kmpalette/loader/ByteArrayLoader : com/kmpalette/loader/ImageBitmapLoader {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/kmpalette/loader/ByteArrayLoader;
+	public synthetic fun load (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun load ([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/kmpalette/loader/PainterLoader : com/kmpalette/loader/ImageBitmapLoader {

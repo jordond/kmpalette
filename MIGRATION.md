@@ -1,20 +1,44 @@
 # Migration Guide
 
-This guide helps you migrate from kmpalette 3.x to 4.0.
+This guide helps you migrate from `kmpalette` 3.x to 4.0.
 
 ## Overview of Breaking Changes
 
 Version 4.0 includes a significant rewrite of the SDK with the following major changes:
 
-1. **Removed `extensions-bytearray` module** - Use `extensions-base64` instead
-2. **Replaced Okio with FileKit** in `extensions-file`
-3. **Simplified API** – New dedicated composable functions for each loader type
+1. **Changed Maven coordinates** - Group changed from `com.kmpalette` to
+   `com.materialkolor.palette`, and `kmpalette-core` artifact renamed to `core`
+2. **Removed `extensions-bytearray` module**
+3. **Replaced Okio with FileKit** in `extensions-file`
+4. **Simplified API** – New dedicated composable functions for each loader type
 
 ## Quick Migration Checklist
 
-- [ ] Remove `extensions-bytearray` dependency
+- [ ] Update Maven coordinates (group and artifact IDs)
+- [ ] Remove `extensions-bytearray` dependency and any usage
+    - The API now supports direct loading via `ByteArray`.
 - [ ] Update `extensions-file` usage (Okio → FileKit)
 - [ ] Update import statements
+
+---
+
+## Maven Coordinate Changes
+
+The Maven group has changed from `com.kmpalette` to `com.materialkolor.palette`. The core module
+artifact has also been renamed from `kmpalette-core` to `core`.
+
+Update all dependency declarations in your `libs.versions.toml` or `build.gradle.kts`:
+
+| Module               | Old Coordinate                     | New Coordinate                                 |
+|----------------------|------------------------------------|------------------------------------------------|
+| Core                 | `com.kmpalette:kmpalette-core`     | `com.materialkolor.palette:core`               |
+| Base64 extension     | `com.kmpalette:extensions-base64`  | `com.materialkolor.palette:extensions-base64`  |
+| Network extension    | `com.kmpalette:extensions-network` | `com.materialkolor.palette:extensions-network` |
+| File extension       | `com.kmpalette:extensions-file`    | `com.materialkolor.palette:extensions-file`    |
+| Palette (no Compose) | `com.kmpalette:androidx-palette`   | `com.materialkolor.palette:androidx-palette`   |
+
+**Note:** Kotlin package names (imports) have **not** changed. Only the Maven coordinates are
+different.
 
 ---
 
@@ -22,7 +46,8 @@ Version 4.0 includes a significant rewrite of the SDK with the following major c
 
 ### Removed: `extensions-bytearray`
 
-The `extensions-bytearray` module has been removed entirely.
+The `extensions-bytearray` module has been removed. ByteArray support is now built into the `core`
+module.
 
 **Before (3.x):**
 
@@ -40,36 +65,20 @@ LaunchedEffect(byteArray) {
 
 **After (4.0):**
 
-Option 1 – Use Base64 encoding:
+No additional dependency needed — `ByteArrayLoader` is now included in `core`.
 
 ```kotlin
-// build.gradle.kts
-implementation("com.kmpalette:extensions-base64:4.x.x")
-
-// Usage
-import kotlin . io . encoding . Base64
-        import kotlin . io . encoding . ExperimentalEncodingApi
-
-        @OptIn(ExperimentalEncodingApi::class)
-        val base64String = Base64.encode(byteArray)
-val paletteState = rememberBase64PaletteState()
-LaunchedEffect(base64String) {
-    paletteState.generate(base64String)
-}
-```
-
-Option 2 – Create a custom loader:
-
-```kotlin
-// Custom ByteArray loader
-object ByteArrayLoader : ImageBitmapLoader<ByteArray> {
-    override suspend fun load(input: ByteArray): ImageBitmap {
-        return input.decodeToImageBitmap()
-    }
-}
-
-// Usage
+// Use the built-in ByteArrayLoader with the generic composable
 val paletteState = rememberPaletteState(loader = ByteArrayLoader)
+LaunchedEffect(byteArray) {
+    paletteState.generate(byteArray)
+}
+
+// Or for dominant color
+val dominantColorState = rememberDominantColorState(loader = ByteArrayLoader)
+LaunchedEffect(byteArray) {
+    dominantColorState.updateFrom(byteArray)
+}
 ```
 
 ---
@@ -93,8 +102,8 @@ implementation("com.squareup.okio:okio:x.x.x")
 
 ```kotlin
 // build.gradle.kts
-implementation("com.kmpalette:extensions-file:4.x.x")
-// FileKit is included transitively - no additional dependency needed
+implementation("com.materialkolor.palette:extensions-file:4.x.x")
+implementation("io.github.vinceglb:filekit-core:<version>")
 ```
 
 #### API Changes
@@ -328,11 +337,12 @@ kmpalette-extensions-file = { module = "com.kmpalette:extensions-file", version.
 kmpalette = "4.0.0"
 
 [libraries]
-kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpalette" }
-kmpalette-extensions-base64 = { module = "com.kmpalette:extensions-base64", version.ref = "kmpalette" }
+kmpalette-core = { module = "com.materialkolor.palette:core", version.ref = "kmpalette" }
+kmpalette-extensions-base64 = { module = "com.materialkolor.palette:extensions-base64", version.ref = "kmpalette" }
 # REMOVED: kmpalette-extensions-bytearray
-kmpalette-extensions-network = { module = "com.kmpalette:extensions-network", version.ref = "kmpalette" }
-kmpalette-extensions-file = { module = "com.kmpalette:extensions-file", version.ref = "kmpalette" }
+kmpalette-extensions-network = { module = "com.materialkolor.palette:extensions-network", version.ref = "kmpalette" }
+kmpalette-extensions-file = { module = "com.materialkolor.palette:extensions-file", version.ref = "kmpalette" }
+androidx-palette = { module = "com.materialkolor.palette:androidx-palette", version.ref = "kmpalette" }
 ```
 
 ---
@@ -341,10 +351,11 @@ kmpalette-extensions-file = { module = "com.kmpalette:extensions-file", version.
 
 | Artifact             | Android | Desktop | iOS | macOS | Browser (JS/WASM) |
 |----------------------|:-------:|:-------:|:---:|:-----:|:-----------------:|
-| `kmpalette-core`     |    ✅    |    ✅    |  ✅  |   ✅   |         ✅         |
+| `core`               |    ✅    |    ✅    |  ✅  |   ✅   |         ✅         |
 | `extensions-base64`  |    ✅    |    ✅    |  ✅  |   ✅   |         ✅         |
 | `extensions-network` |    ✅    |    ✅    |  ✅  |   ✅   |         ✅         |
 | `extensions-file`    |    ✅    |    ✅    |  ✅  |   ✅   |         ✅         |
+| `androidx-palette`   |    ✅    |    ✅    |  ✅  |   ✅   |         ✅         |
 
 **Note:** `extensions-bytearray` has been removed from all platforms.
 

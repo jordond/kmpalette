@@ -23,12 +23,25 @@ import kotlin.coroutines.CoroutineContext
  * @param[bitmap] The [ImageBitmap] to extract colors from.
  * @return A [Palette.Builder] configured for the given bitmap.
  */
-public fun Palette.Companion.from(bitmap: ImageBitmap): Palette.Builder {
-    val scaled = bitmap.extractScaledPixels(Palette.DEFAULT_RESIZE_BITMAP_AREA)
-    return Palette
-        .from(scaled.pixels, scaled.width, scaled.height)
-        .scaling(false)
-        .setRegionCoordinateSpace(bitmap.width, bitmap.height)
+public fun Palette.Companion.from(
+    bitmap: ImageBitmap,
+    scale: Boolean = true,
+    block: Palette.Builder.() -> Unit = {},
+): Palette.Builder {
+    val builder = if (scale) {
+        val scaled = bitmap.extractScaledPixels(Palette.DEFAULT_RESIZE_BITMAP_AREA)
+        Palette
+            .from(scaled.pixels, scaled.width, scaled.height)
+            .scaling(false)
+            .setRegionCoordinateSpace(bitmap.width, bitmap.height)
+    } else {
+        val pixels = IntArray(bitmap.width * bitmap.height).apply { bitmap.readPixels(this) }
+        Palette
+            .from(pixels, bitmap.width, bitmap.height)
+            .scaling(false)
+    }
+
+    return builder.apply(block)
 }
 
 /**

@@ -1,7 +1,7 @@
 <img width="500px" src="art/logo.png" alt="logo"/>
 <br />
 
-![Maven Central](https://img.shields.io/maven-central/v/com.kmpalette/kmpalette-core)
+![Maven Central](https://img.shields.io/maven-central/v/com.materialkolor.palette/core)
 [![Kotlin](https://img.shields.io/badge/kotlin-v2.3.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Build](https://github.com/jordond/kmpalette/actions/workflows/ci.yml/badge.svg)](https://github.com/jordond/kmpalette/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/jordond/kmPalette)](https://opensource.org/license/mit/)
@@ -31,6 +31,7 @@ library.
 - [Dynamic Material Themes](#dynamic-material-themes)
 - [Setup](#setup)
     - [Version Catalog](#version-catalog)
+- [Standalone Palette (No Compose)](#standalone-palette-no-compose)
 - [Usage](#usage)
     - [Dominant Color](#dominant-color)
     - [Generate a color Palette](#generate-a-color-palette)
@@ -47,7 +48,8 @@ This library is written for Compose Multiplatform and can be used on the followi
 
 | Artifact             | Android | Desktop | iOS | macOS | JS | WASM |
 |----------------------|:-------:|:-------:|:---:|:-----:|:--:|:----:|
-| `kmpalette-core`     |    ✅    |    ✅    |  ✅  |   ✅   | ✅  |  ✅   |
+| `androidx-palette`   |    ✅    |    ✅    |  ✅  |   ✅   | ✅  |  ✅   |
+| `core`               |    ✅    |    ✅    |  ✅  |   ✅   | ✅  |  ✅   |
 | `extensions-base64`  |    ✅    |    ✅    |  ✅  |   ✅   | ✅  |  ✅   |
 | `extensions-network` |    ✅    |    ✅    |  ✅  |   ✅   | ✅  |  ✅   |
 | `extensions-file`    |    ✅    |    ✅    |  ✅  |   ✅   | ✅  |  ✅   |
@@ -79,11 +81,13 @@ In `libs.versions.toml`:
 kmpalette = "4.0.0"
 
 [libraries]
-kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpalette" }
+kmpalette-core = { module = "com.materialkolor.palette:core", version.ref = "kmpalette" }
+# Optional - standalone palette generation without Compose
+kmpalette-androidx-palette = { module = "com.materialkolor.palette:androidx-palette", version.ref = "kmpalette" }
 # Optional source libraries
-kmpalette-extensions-base64 = { module = "com.kmpalette:extensions-base64", version.ref = "kmpalette" }
-kmpalette-extensions-network = { module = "com.kmpalette:extensions-network", version.ref = "kmpalette" }
-kmpalette-extensions-file = { module = "com.kmpalette:extensions-file", version.ref = "kmpalette" }
+kmpalette-extensions-base64 = { module = "com.materialkolor.palette:extensions-base64", version.ref = "kmpalette" }
+kmpalette-extensions-network = { module = "com.materialkolor.palette:extensions-network", version.ref = "kmpalette" }
+kmpalette-extensions-file = { module = "com.materialkolor.palette:extensions-file", version.ref = "kmpalette" }
 ```
 
 To add to a multiplatform project, add the dependency to the common source-set:
@@ -93,8 +97,11 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                // Core library
+                // Core library (includes Compose utilities)
                 implementation(libs.kmpalette.core)
+
+                // Or use just the palette generation without Compose
+                // implementation(libs.kmpalette.androidx.palette)
 
                 // Optional extensions based on your image source
                 implementation(libs.kmpalette.extensions.base64)
@@ -105,6 +112,36 @@ kotlin {
     }
 }
 ```
+
+## Standalone Palette (No Compose)
+
+The `androidx-palette` module is a full Kotlin Multiplatform port of
+the [`androidx.palette`](https://developer.android.com/jetpack/androidx/releases/palette) library. It
+has **no dependency on Compose** and can be used in any Kotlin Multiplatform project.
+
+If you don't need the Compose utilities provided by `core`, you can depend on `androidx-palette`
+directly to generate color palettes from raw pixel data:
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation(libs.kmpalette.androidx.palette)
+            }
+        }
+    }
+}
+```
+
+```kotlin
+val palette = Palette.from(bitmap).generate()
+val vibrant = palette.vibrantSwatch
+val dominant = palette.dominantSwatch
+```
+
+The `core` module includes `androidx-palette` as a transitive dependency, so you don't need to add
+both. Use `androidx-palette` on its own when you want palette generation without pulling in Compose.
 
 ## Usage
 
