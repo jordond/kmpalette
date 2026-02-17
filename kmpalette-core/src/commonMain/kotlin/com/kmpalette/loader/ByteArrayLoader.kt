@@ -9,4 +9,3 @@ import androidx.compose.ui.graphics.decodeToImageBitmap
 public object ByteArrayLoader : ImageBitmapLoader<ByteArray> {
     override suspend fun load(input: ByteArray): ImageBitmap = input.decodeToImageBitmap()
 }
-
