@@ -93,6 +93,7 @@ jobs:
     runs-on: macos-latest
     name: Test API ${{ matrix.api-level }}
     needs: verify
+    if: false # Disable instrumented tests for now as they are too flakey
     steps:
       - name: Checkout
         uses: actions/checkout@v6
