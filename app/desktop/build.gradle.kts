@@ -13,7 +13,7 @@ dependencies {
     // Force the correct Skiko runtime version to match Compose 1.10.0's Skiko API
     // Fixes: UnsatisfiedLinkError: 'int org.jetbrains.skiko.MetalApiKt.getAdapterMaxTextureSize(long)'
     //noinspection UseTomlInstead
-    runtimeOnly("org.jetbrains.skiko:skiko-awt-runtime-macos-arm64:0.9.41")
+    runtimeOnly("org.jetbrains.skiko:skiko-awt-runtime-macos-arm64:0.9.47")
 }
 
 compose.desktop {
