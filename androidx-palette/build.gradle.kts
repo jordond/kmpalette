@@ -14,7 +14,7 @@ kotlin {
     jvmToolchain(jdkVersion = 11)
     applyDefaultHierarchyTemplate()
 
-    androidLibrary {
+    android {
         namespace = "${libs.versions.group.get()}.palette"
         compileSdk =
             libs.versions.sdk.compile
@@ -36,7 +36,7 @@ kotlin {
 
     jvm()
 
-    js(IR) {
+    js {
         browser()
         binaries.library()
     }
@@ -47,7 +47,6 @@ kotlin {
         binaries.library()
     }
 
-    macosX64()
     macosArm64()
 
     listOf(
@@ -69,8 +68,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.test)
         }
 
-        @Suppress("unused")
-        val skikoMain by creating {
+        create("skikoMain") {
             dependsOn(commonMain.get())
             nativeMain.get().dependsOn(this)
             jvmMain.get().dependsOn(this)
