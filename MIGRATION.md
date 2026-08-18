@@ -10,14 +10,17 @@ Version 4.0 is a significant rewrite of the library:
    `com.materialkolor.palette`, and the `kmpalette-core` artifact was renamed to `core`
 2. **`androidx-palette` no longer depends on Compose.** `Palette.Builder` now takes raw
    `IntArray` pixel data instead of an `ImageBitmap`
-3. **New `kmpalette-loader` module** holding the `ImageBitmapLoader` interface
+3. **Renamed `kmpalette-bitmap-loader` to `kmpalette-loader`**
 4. **Removed `extensions-bytearray` module.** `ByteArrayLoader` moved into `core`
-5. **Replaced Okio with FileKit** in `extensions-file`
-6. **New `PaletteResult` type** for tracking generation state
-7. **Simplified API** with dedicated composable functions for each loader type
-8. **Removed the `macosX64` target.** Apple Silicon only
-9. **Dropped the Material 3 dependency.** `defaultColor` / `defaultOnColor` are now always required
-10. **One `DEFAULT_CACHE_SIZE` constant** replaces `DominantColorState.DEFAULT_CACHE_SIZE` and
+5. **Removed `extensions-resources` module.** Folded into `core`, package renamed
+6. **Removed `extensions-libres` module.** No replacement
+7. **Replaced Okio with FileKit** in `extensions-file`
+8. **`PaletteResult.Error.cause` is now an `Exception`,** was a `Throwable`
+9. **Simplified API** with dedicated composable functions for each loader type
+10. **Painter composables moved** to `com.kmpalette.extensions.painter`
+11. **Removed the `macosX64` and `iosX64` targets.** Apple Silicon only
+12. **Dropped the Material 3 dependency.** `defaultColor` / `defaultOnColor` are now always required
+13. **One `DEFAULT_CACHE_SIZE` constant** replaces `DominantColorState.DEFAULT_CACHE_SIZE` and
     `PaletteState.DEFAULT_CACHE_SIZE`
 
 ## Quick Migration Checklist
@@ -28,9 +31,13 @@ Version 4.0 is a significant rewrite of the library:
 - [ ] Replace `Rect`-based `setRegion` calls with the `Int` overload
 - [ ] Remove `extensions-bytearray` dependency and any usage
     - `ByteArrayLoader` is now in `core`.
+- [ ] Remove `extensions-resources` dependency; the composables are in `core` now
+- [ ] Replace `extensions-libres` usage; there is no Libres loader in 4.0
+- [ ] Rename `kmpalette-bitmap-loader` to `kmpalette-loader` if you declared it
 - [ ] Update `extensions-file` usage (Okio → FileKit)
 - [ ] Pass `defaultColor` / `defaultOnColor` to the dedicated dominant-color composables
-- [ ] Drop `macosX64` from your own targets if you were building against it
+- [ ] Drop `macosX64` and `iosX64` from your own targets if you were building against them
+- [ ] Change `PaletteResult.Error` handling from `Throwable` to `Exception`
 - [ ] Pass `defaultColor` / `defaultOnColor` to `rememberDominantColorState`
 - [ ] Replace `DominantColorState.DEFAULT_CACHE_SIZE` / `PaletteState.DEFAULT_CACHE_SIZE` with
       `DEFAULT_CACHE_SIZE`
@@ -53,7 +60,10 @@ Update all dependency declarations in your `libs.versions.toml` or `build.gradle
 | Network extension    | `com.kmpalette:extensions-network` | `com.materialkolor.palette:extensions-network`  |
 | File extension       | `com.kmpalette:extensions-file`    | `com.materialkolor.palette:extensions-file`     |
 | Palette (no Compose) | `com.kmpalette:androidx-palette`   | `com.materialkolor.palette:androidx-palette`    |
-| Loader interface     | N/A (new)                          | `com.materialkolor.palette:kmpalette-loader`    |
+| Loader interface     | `com.kmpalette:kmpalette-bitmap-loader` | `com.materialkolor.palette:kmpalette-loader` |
+| Resources extension  | `com.kmpalette:extensions-resources` | Removed, now part of `core`                   |
+| Libres extension     | `com.kmpalette:extensions-libres`  | Removed, no replacement                         |
+| ByteArray extension  | `com.kmpalette:extensions-bytearray` | Removed, now part of `core`                   |
 
 **Note:** Kotlin package names (imports) have **not** changed. Only the Maven coordinates are
 different.
@@ -122,11 +132,16 @@ Palette.from(scaledPixels, scaledWidth, scaledHeight)
 
 ---
 
-### New: `kmpalette-loader`
+### Renamed: `kmpalette-bitmap-loader` to `kmpalette-loader`
 
-The `ImageBitmapLoader<T>` interface now lives in its own artifact,
-`com.materialkolor.palette:kmpalette-loader`. The package (`com.kmpalette.loader`) is unchanged, so
-existing imports keep working.
+The artifact holding `ImageBitmapLoader<T>` was renamed from `kmpalette-bitmap-loader` to
+`kmpalette-loader`. The package (`com.kmpalette.loader`) and the interface are unchanged, so only
+the dependency coordinate needs updating.
+
+```diff
+- implementation("com.kmpalette:kmpalette-bitmap-loader:3.x.x")
++ implementation("com.materialkolor.palette:kmpalette-loader:4.x.x")
+```
 
 `core` and every `extensions-*` artifact expose it with `api`, so you only need to declare it
 explicitly if you're writing a loader in a module that doesn't otherwise depend on `core`.
@@ -169,6 +184,44 @@ LaunchedEffect(byteArray) {
     dominantColorState.updateFrom(byteArray)
 }
 ```
+
+---
+
+### Removed: `extensions-resources`
+
+The module is gone. Its composables now ship in `core`, and they work on `DrawableResource` instead
+of the experimental `Resource` type.
+
+```diff
+- implementation("com.kmpalette:extensions-resources:3.x.x")
+```
+
+The package lost its trailing `s`, and the dominant-color function was renamed from
+`rememberResourcesDominantColorState` to `rememberResourceDominantColorState`:
+
+```diff
+- import com.kmpalette.extensions.resources.rememberResourcesDominantColorState
+- import com.kmpalette.extensions.resources.rememberResourcePaletteState
++ import com.kmpalette.extensions.resource.rememberResourceDominantColorState
++ import com.kmpalette.extensions.resource.rememberResourcePaletteState
+```
+
+`ResourceLoader` stays in `com.kmpalette.loader`, but now lives in `core` and takes a
+`ResourceEnvironment`. Use `rememberResourceLoader()` to get one.
+
+---
+
+### Removed: `extensions-libres`
+
+The [Libres](https://github.com/Skeptick/libres) loader has been removed with no replacement.
+
+```diff
+- implementation("com.kmpalette:extensions-libres:3.x.x")
+```
+
+`LibresLoader`, `rememberLibresDominantColorState` and `rememberLibresPaletteState` are all gone. If
+you use Libres, resolve the image to an `ImageBitmap` or `ByteArray` yourself and pass it to
+`rememberPaletteState` or `ByteArrayLoader`.
 
 ---
 
@@ -291,9 +344,17 @@ the two cached different amounts, and `rememberDominantColorState()` disabled it
 
 ---
 
-## New: `PaletteResult`
+## Changed: `PaletteResult`
 
-Palette generation now reports through a sealed `PaletteResult` type:
+`PaletteResult` already existed in 3.x with the same shape. The only breaking change is that
+`Error.cause` is now an `Exception` rather than a `Throwable`:
+
+```diff
+- public data class Error(val cause: Throwable) : PaletteResult
++ public data class Error(val cause: Exception) : PaletteResult
+```
+
+For reference, the full type:
 
 ```kotlin
 public sealed interface PaletteResult {
@@ -318,14 +379,10 @@ when (val state = paletteState.state) {
 }
 ```
 
-Note that `PaletteState` exposes the palette via the `palette` property. Swatches are **not**
-accessible directly on the state object:
+`PaletteState` exposes the palette via the `palette` property. Swatches are reached through it, not
+directly on the state object:
 
 ```kotlin
-// 3.x style, no longer valid
-val vibrant = paletteState.vibrantSwatch
-
-// 4.0
 val vibrant = paletteState.palette?.vibrantSwatch
 ```
 
@@ -367,28 +424,30 @@ LaunchedEffect(bitmap) {
 
 #### Painter
 
-**Before (3.x):**
+`rememberPainterDominantColorState` and `rememberPainterPaletteState` already existed in 3.x. They
+have **moved package**, from `com.kmpalette` to `com.kmpalette.extensions.painter`, so they sit
+alongside the resource and drawable composables. Update the import:
+
+```diff
+- import com.kmpalette.rememberPainterDominantColorState
+- import com.kmpalette.rememberPainterPaletteState
++ import com.kmpalette.extensions.painter.rememberPainterDominantColorState
++ import com.kmpalette.extensions.painter.rememberPainterPaletteState
+```
+
+`rememberPainterPaletteState()` is otherwise unchanged:
 
 ```kotlin
-val loader = rememberPainterLoader()
-val paletteState = rememberPaletteState(loader = loader)
+val paletteState = rememberPainterPaletteState()
 LaunchedEffect(painter) {
     paletteState.generate(painter)
 }
 ```
 
-**After (4.0):**
+`rememberPainterDominantColorState` additionally requires the default colors, which used to fall
+back to the Material color scheme:
 
 ```kotlin
-// New dedicated function
-val paletteState = rememberPainterPaletteState()
-LaunchedEffect(painter) {
-    paletteState.generate(painter)
-}
-
-// Or for dominant color
-import com.kmpalette.extensions.painter.rememberPainterDominantColorState
-
 val dominantColorState = rememberPainterDominantColorState(
     defaultColor = Color.Black,
     defaultOnColor = Color.White,
@@ -398,27 +457,36 @@ LaunchedEffect(painter) {
 }
 ```
 
-Both painter composables live in `com.kmpalette.extensions.painter`, alongside the resource and
-drawable ones. Earlier 4.0 betas also exposed them from `com.kmpalette`; those duplicates have been
-removed.
+The 3.x approach of building the loader yourself still works:
+
+```kotlin
+val paletteState = rememberPaletteState(loader = rememberPainterLoader())
+```
+
+**Note:** the 3.x `rememberPainterPaletteState` rebuilt its `PainterLoader` on every recomposition,
+which reset the state object each pass. The version in `extensions.painter` does not.
 
 #### DrawableResource (Compose Multiplatform Resources)
+
+In 3.x these lived in the separate `extensions-resources` artifact and worked on the experimental
+`Resource` type. See [Removed: `extensions-resources`](#removed-extensions-resources) below.
 
 **Before (3.x):**
 
 ```kotlin
-// Required manual conversion
-val image = imageResource(Res.drawable.my_image)
-val paletteState = rememberPaletteState()
-LaunchedEffect(image) {
-    paletteState.generate(image)
+// implementation("com.kmpalette:extensions-resources:3.x.x")
+import com.kmpalette.extensions.resources.rememberResourcePaletteState
+
+val paletteState = rememberResourcePaletteState()
+LaunchedEffect(resource) {
+    paletteState.generate(resource) // Resource
 }
 ```
 
 **After (4.0):**
 
 ```kotlin
-// New dedicated function - works directly with DrawableResource
+// no extra dependency, and it takes a DrawableResource
 val paletteState = rememberResourcePaletteState()
 LaunchedEffect(Res.drawable.my_image) {
     paletteState.generate(Res.drawable.my_image)
@@ -540,10 +608,38 @@ val result = url.rememberGeneratePalette()
 import com.kmpalette.loader.FilePathLoader
 import com.kmpalette.loader.PathLoader
 import com.kmpalette.extensions.bytearray.*
+import com.kmpalette.extensions.libres.*
+import com.kmpalette.loader.LibresLoader
+```
+
+### Moved and Renamed Imports
+
+```diff
+- import com.kmpalette.rememberPainterDominantColorState
+- import com.kmpalette.rememberPainterPaletteState
++ import com.kmpalette.extensions.painter.rememberPainterDominantColorState
++ import com.kmpalette.extensions.painter.rememberPainterPaletteState
+
+- import com.kmpalette.extensions.resources.rememberResourcesDominantColorState
+- import com.kmpalette.extensions.resources.rememberResourcePaletteState
++ import com.kmpalette.extensions.resource.rememberResourceDominantColorState
++ import com.kmpalette.extensions.resource.rememberResourcePaletteState
 ```
 
 `com.kmpalette.loader.ByteArrayLoader` still exists. It moved from `extensions-bytearray` into
 `core`, keeping the same package.
+
+### Removed Constants
+
+`DominantColorState.DEFAULT_CACHE_SIZE` and `PaletteState.DEFAULT_CACHE_SIZE` are gone, along with
+both companion objects. Use the top-level constant instead:
+
+```diff
+- cacheSize = DominantColorState.DEFAULT_CACHE_SIZE
+- cacheSize = PaletteState.DEFAULT_CACHE_SIZE
++ import com.kmpalette.DEFAULT_CACHE_SIZE
++ cacheSize = DEFAULT_CACHE_SIZE
+```
 
 ---
 
@@ -559,8 +655,11 @@ kmpalette = "3.1.0"
 kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpalette" }
 kmpalette-extensions-base64 = { module = "com.kmpalette:extensions-base64", version.ref = "kmpalette" }
 kmpalette-extensions-bytearray = { module = "com.kmpalette:extensions-bytearray", version.ref = "kmpalette" }
+kmpalette-extensions-resources = { module = "com.kmpalette:extensions-resources", version.ref = "kmpalette" }
+kmpalette-extensions-libres = { module = "com.kmpalette:extensions-libres", version.ref = "kmpalette" }
 kmpalette-extensions-network = { module = "com.kmpalette:extensions-network", version.ref = "kmpalette" }
 kmpalette-extensions-file = { module = "com.kmpalette:extensions-file", version.ref = "kmpalette" }
+kmpalette-bitmap-loader = { module = "com.kmpalette:kmpalette-bitmap-loader", version.ref = "kmpalette" }
 ```
 
 **After (4.0):**
@@ -572,11 +671,14 @@ kmpalette = "4.0.0"
 [libraries]
 kmpalette-core = { module = "com.materialkolor.palette:core", version.ref = "kmpalette" }
 kmpalette-extensions-base64 = { module = "com.materialkolor.palette:extensions-base64", version.ref = "kmpalette" }
-# REMOVED: kmpalette-extensions-bytearray
+# REMOVED: kmpalette-extensions-bytearray (ByteArrayLoader is in core)
+# REMOVED: kmpalette-extensions-resources (now part of core)
+# REMOVED: kmpalette-extensions-libres (no replacement)
 kmpalette-extensions-network = { module = "com.materialkolor.palette:extensions-network", version.ref = "kmpalette" }
 kmpalette-extensions-file = { module = "com.materialkolor.palette:extensions-file", version.ref = "kmpalette" }
 androidx-palette = { module = "com.materialkolor.palette:androidx-palette", version.ref = "kmpalette" }
-# Only needed if you implement ImageBitmapLoader without depending on core
+# Renamed from kmpalette-bitmap-loader. Only needed if you implement
+# ImageBitmapLoader without depending on core
 kmpalette-loader = { module = "com.materialkolor.palette:kmpalette-loader", version.ref = "kmpalette" }
 ```
 
@@ -593,22 +695,23 @@ kmpalette-loader = { module = "com.materialkolor.palette:kmpalette-loader", vers
 | `androidx-palette`   |    ✅    |    ✅    |  ✅  |   ✅   |         ✅         |
 | `kmpalette-loader`   |    ✅    |    ✅    |  ✅  |   ✅   |         ✅         |
 
-**Note:** `extensions-bytearray` has been removed from all platforms.
+**Note:** `extensions-bytearray`, `extensions-resources` and `extensions-libres` have been removed
+from all platforms. `kmpalette-bitmap-loader` was renamed to `kmpalette-loader`.
 
-### Removed: `macosX64`
+### Removed: `macosX64` and `iosX64`
 
-The `macosX64` (Intel macOS) target has been **removed from every artifact**. Kotlin/Native has
-deprecated it, so 4.0 publishes Apple Silicon only.
+Both Intel targets have been **removed from every artifact**. 4.0 publishes Apple Silicon only.
 
-| Target                 | 3.x | 4.0 |
-|------------------------|:---:|:---:|
-| `macosArm64`           |  ✅  |  ✅  |
-| `macosX64`             |  ✅  |  ❌  |
-| `iosArm64`             |  ✅  |  ✅  |
-| `iosSimulatorArm64`    |  ✅  |  ✅  |
+| Target              | 3.x | 4.0 |
+|---------------------|:---:|:---:|
+| `macosArm64`        |  ✅  |  ✅  |
+| `macosX64`          |  ✅  |  ❌  |
+| `iosArm64`          |  ✅  |  ✅  |
+| `iosSimulatorArm64` |  ✅  |  ✅  |
+| `iosX64`            |  ✅  |  ❌  |
 
-If your project declares `macosX64`, remove it. There is no 4.0 artifact to resolve against. macOS
-support is otherwise unchanged on Apple Silicon.
+`iosX64` is the Intel iOS simulator, so this only affects Intel Macs. If your project declares
+either target, remove it; there is no 4.0 artifact to resolve against.
 
 ---
 

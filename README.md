@@ -628,10 +628,13 @@ Key changes in 4.0:
 
 - Maven group is now `com.materialkolor.palette`, and `kmpalette-core` is now `core`
 - `androidx-palette` no longer depends on Compose; `Palette.Builder` takes `IntArray` pixels
-- New `kmpalette-loader` module holding `ImageBitmapLoader`
-- `extensions-bytearray` module has been removed; `ByteArrayLoader` lives in `core`
+- `kmpalette-bitmap-loader` was renamed to `kmpalette-loader`
+- `extensions-bytearray` and `extensions-resources` have been folded into `core`
+- `extensions-libres` has been removed with no replacement
 - `extensions-file` now uses FileKit instead of Okio
-- New `PaletteResult` type and dedicated composable functions for each loader type
+- Painter composables moved to `com.kmpalette.extensions.painter`
+- `defaultColor` and `defaultOnColor` are required; nothing depends on Material 3
+- The `macosX64` and `iosX64` targets were removed
 
 ## Feature Requests
 
