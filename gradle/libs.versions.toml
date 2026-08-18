@@ -1,6 +1,6 @@
 [versions]
-sdk-target = "36"
-sdk-compile = "36"
+sdk-target = "37"
+sdk-compile = "37"
 sdk-min = "21"
 group = "com.materialkolor.palette"
 agp = "9.3.1"
