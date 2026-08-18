@@ -1,6 +1,7 @@
 package com.kmpalette.extensions.base64
 
 import androidx.compose.runtime.Composable
+import com.kmpalette.DEFAULT_CACHE_SIZE
 import com.kmpalette.PaletteState
 import com.kmpalette.loader.Base64Loader
 import com.kmpalette.palette.graphics.Palette
@@ -20,7 +21,7 @@ import kotlin.coroutines.CoroutineContext
  */
 @Composable
 public fun rememberBase64PaletteState(
-    cacheSize: Int = PaletteState.DEFAULT_CACHE_SIZE,
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
 ): PaletteState<String> =

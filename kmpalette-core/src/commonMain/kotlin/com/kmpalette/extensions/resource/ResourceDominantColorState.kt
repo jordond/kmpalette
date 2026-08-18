@@ -2,6 +2,7 @@ package com.kmpalette.extensions.resource
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.kmpalette.DEFAULT_CACHE_SIZE
 import com.kmpalette.DominantColorState
 import com.kmpalette.loader.rememberResourceLoader
 import com.kmpalette.palette.graphics.Palette
@@ -28,7 +29,7 @@ import kotlin.coroutines.CoroutineContext
 public fun rememberResourceDominantColorState(
     defaultColor: Color,
     defaultOnColor: Color,
-    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},

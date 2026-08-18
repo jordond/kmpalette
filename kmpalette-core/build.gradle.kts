@@ -70,7 +70,6 @@ kotlin {
             api(projects.androidxPalette)
             api(projects.kmpaletteLoader)
             implementation(libs.compose.ui)
-            implementation(libs.compose.material3)
             implementation(libs.compose.resources)
             implementation(libs.compose.runtime)
             implementation(libs.kotlinx.coroutines)

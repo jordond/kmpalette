@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
+import com.kmpalette.DEFAULT_CACHE_SIZE
 import com.kmpalette.PaletteState
 import com.kmpalette.loader.PainterLoader
 import com.kmpalette.loader.rememberPainterLoader
@@ -29,7 +30,7 @@ import kotlin.coroutines.CoroutineContext
  */
 @Composable
 public fun rememberPainterPaletteState(
-    cacheSize: Int = PaletteState.DEFAULT_CACHE_SIZE,
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     density: Density = LocalDensity.current,
     layoutDirection: LayoutDirection = LocalLayoutDirection.current,

@@ -14,11 +14,9 @@ You need to add the following to your `build.gradle.kts` file:
 ```kotlin
 kotlin {
     sourceSets {
-        commonMain {
-            dependencies {
-                implementation(libs.kmpalette.core)
-                implementation(libs.kmpalette.extensions.base64)
-            }
+        commonMain.dependencies {
+            implementation(libs.kmpalette.core)
+            implementation(libs.kmpalette.extensions.base64)
         }
     }
 }
@@ -34,12 +32,17 @@ stripped and ignored.
 
 ### Dominant Color
 
-Use `rememberBase64DominantColorState` to extract the dominant color from a Base64 encoded image:
+Use `rememberBase64DominantColorState` to extract the dominant color from a Base64 encoded image.
+Both `defaultColor` and `defaultOnColor` are required. They are used until generation succeeds, and
+whenever it fails. Nothing here assumes Material 3, so pass whatever your theme uses.
 
 ```kotlin
 @Composable
 fun MyComposable(base64Image: String) {
-    val dominantColorState = rememberBase64DominantColorState()
+    val dominantColorState = rememberBase64DominantColorState(
+        defaultColor = MaterialTheme.colorScheme.primary,
+        defaultOnColor = MaterialTheme.colorScheme.onPrimary,
+    )
     LaunchedEffect(base64Image) {
         dominantColorState.updateFrom(base64Image)
     }
@@ -54,6 +57,8 @@ fun MyComposable(base64Image: String) {
 }
 ```
 
+The state of the last generation is available on `dominantColorState.result` as a `PaletteResult`.
+
 ### Palette Generation
 
 Use `rememberBase64PaletteState` to generate a full color palette from a Base64 encoded image:
@@ -67,7 +72,7 @@ fun MyComposable(base64Image: String) {
         paletteState.generate(base64Image)
     }
 
-    // Access different swatches
+    // Access different swatches through the generated palette
     val vibrant = paletteState.palette?.vibrantSwatch
     val muted = paletteState.palette?.mutedSwatch
 
@@ -78,6 +83,17 @@ fun MyComposable(base64Image: String) {
     ) {
         Text("Hello", color = vibrant?.onColor ?: Color.Black)
     }
+}
+```
+
+To render loading and error states, use `paletteState.state`:
+
+```kotlin
+when (val state = paletteState.state) {
+    null -> Unit // nothing generated yet
+    PaletteResult.Loading -> CircularProgressIndicator()
+    is PaletteResult.Error -> Text("Failed: ${state.cause.message}")
+    is PaletteResult.Success -> PaletteDisplay(state.palette)
 }
 ```
 
@@ -102,11 +118,17 @@ LaunchedEffect(base64Image) {
 }
 ```
 
+For a one-shot generation without a state object:
+
+```kotlin
+val result = rememberGeneratePalette(loader = { Base64Loader.load(base64Image) })
+```
+
 ## API Reference
 
 ### Composables
 
-| Function                             | Description                                                           |
-|--------------------------------------|-----------------------------------------------------------------------|
-| `rememberBase64DominantColorState()` | Returns a `DominantColorState<String>` for extracting dominant colors |
-| `rememberBase64PaletteState()`       | Returns a `PaletteState<String>` for generating full palettes         |
+| Function                                                              | Description                                                          |
+|-----------------------------------------------------------------------|----------------------------------------------------------------------|
+| `rememberBase64DominantColorState(defaultColor, defaultOnColor, ...)` | Returns a `DominantColorState<String>` for extracting dominant colors |
+| `rememberBase64PaletteState(...)`                                     | Returns a `PaletteState<String>` for generating full palettes         |

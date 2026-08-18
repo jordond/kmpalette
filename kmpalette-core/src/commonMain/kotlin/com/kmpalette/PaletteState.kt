@@ -7,15 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
 import com.kmpalette.internal.LruCache
 import com.kmpalette.loader.DefaultImageBitmapLoader
 import com.kmpalette.loader.ImageBitmapLoader
-import com.kmpalette.loader.PainterLoader
 import com.kmpalette.palette.graphics.Palette
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +27,7 @@ import kotlin.coroutines.CoroutineContext
  */
 @Composable
 public fun rememberPaletteState(
-    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
 ): PaletteState<ImageBitmap> =
@@ -59,7 +53,7 @@ public fun rememberPaletteState(
 @Composable
 public fun <T : Any> rememberPaletteState(
     loader: ImageBitmapLoader<T>,
-    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
 ): PaletteState<T> =
@@ -68,33 +62,6 @@ public fun <T : Any> rememberPaletteState(
             override val loader: ImageBitmapLoader<T> = loader
         }
     }
-
-/**
- * Wrapper around [rememberPaletteState] that uses [PainterLoader] to load the image.
- *
- * @see rememberPaletteState
- * @param[density] The [Density] used for drawing the [Painter] as [ImageBitmap].
- * @param[layoutDirection] The [LayoutDirection] used for drawing the [Painter] as [ImageBitmap].
- * @param[cacheSize] The maximum number of [Palette]s to cache. If 0, no caching will be done.
- * @param[coroutineContext] The [CoroutineContext] to use for generating [Palette]s.
- * @param[builder] A lambda that will be applied to the [Palette.Builder] to customize the
- * generation of the [Palette].
- * @return A [PaletteState] that will be remembered across composition.
- */
-@Composable
-public fun rememberPainterPaletteState(
-    density: Density = LocalDensity.current,
-    layoutDirection: LayoutDirection = LocalLayoutDirection.current,
-    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
-    coroutineContext: CoroutineContext = Dispatchers.Default,
-    builder: Palette.Builder.() -> Unit = {},
-): PaletteState<Painter> =
-    rememberPaletteState(
-        loader = PainterLoader(density, layoutDirection),
-        cacheSize = cacheSize,
-        coroutineContext = coroutineContext,
-        builder = builder,
-    )
 
 /**
  * A state object that generates a [Palette] from an [ImageBitmap] using [loader].
@@ -180,9 +147,5 @@ public abstract class PaletteState<T : Any>(
             if (cause is CancellationException) throw cause
             PaletteResult.Error(cause)
         }
-    }
-
-    public companion object {
-        public const val DEFAULT_CACHE_SIZE: Int = 6
     }
 }

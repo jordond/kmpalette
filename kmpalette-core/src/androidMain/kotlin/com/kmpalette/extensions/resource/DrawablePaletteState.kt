@@ -3,6 +3,7 @@ package com.kmpalette.extensions.resource
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.kmpalette.DEFAULT_CACHE_SIZE
 import com.kmpalette.PaletteState
 import com.kmpalette.loader.rememberDrawableLoader
 import com.kmpalette.palette.graphics.Palette
@@ -23,7 +24,7 @@ import kotlin.coroutines.CoroutineContext
  */
 @Composable
 public fun rememberDrawablePaletteState(
-    cacheSize: Int = PaletteState.DEFAULT_CACHE_SIZE,
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     context: Context = LocalContext.current,
     builder: Palette.Builder.() -> Unit = {},
