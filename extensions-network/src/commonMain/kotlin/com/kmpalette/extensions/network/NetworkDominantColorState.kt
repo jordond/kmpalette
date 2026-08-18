@@ -1,10 +1,12 @@
 package com.kmpalette.extensions.network
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import com.kmpalette.DEFAULT_CACHE_SIZE
 import com.kmpalette.DominantColorState
-import com.kmpalette.loader.NetworkLoader
+import com.kmpalette.loader.rememberNetworkLoader
 import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberDominantColorState
 import io.ktor.client.HttpClient
@@ -14,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
 /**
- * Wrapper around [rememberDominantColorState] that uses [NetworkLoader] to load the image.
+ * Wrapper around [rememberDominantColorState] that uses [com.kmpalette.loader.NetworkLoader] to load the image.
  *
  * You must import the Ktor client library to use this loader.
  *
@@ -35,15 +37,15 @@ import kotlin.coroutines.CoroutineContext
 public fun rememberNetworkDominantColorState(
     defaultColor: Color,
     defaultOnColor: Color,
-    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
-    httpClient: HttpClient = HttpClient(),
-    httpRequestBuilder: HttpRequestBuilder = HttpRequestBuilder(),
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
+    httpClient: HttpClient = remember { HttpClient() },
+    httpRequestBuilder: HttpRequestBuilder = remember { HttpRequestBuilder() },
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},
 ): DominantColorState<Url> =
     rememberDominantColorState(
-        loader = NetworkLoader(httpClient, httpRequestBuilder),
+        loader = rememberNetworkLoader(httpClient, httpRequestBuilder),
         defaultColor = defaultColor,
         defaultOnColor = defaultOnColor,
         cacheSize = cacheSize,

@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
+import com.kmpalette.DEFAULT_CACHE_SIZE
 import com.kmpalette.DominantColorState
 import com.kmpalette.loader.rememberPainterLoader
 import com.kmpalette.palette.graphics.Palette
@@ -35,7 +36,7 @@ import kotlin.coroutines.CoroutineContext
 public fun rememberPainterDominantColorState(
     defaultColor: Color,
     defaultOnColor: Color,
-    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     density: Density = LocalDensity.current,
     layoutDirection: LayoutDirection = LocalLayoutDirection.current,

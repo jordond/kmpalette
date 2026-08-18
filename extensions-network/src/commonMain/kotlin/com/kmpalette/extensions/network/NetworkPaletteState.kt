@@ -1,8 +1,10 @@
 package com.kmpalette.extensions.network
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import com.kmpalette.DEFAULT_CACHE_SIZE
 import com.kmpalette.PaletteState
-import com.kmpalette.loader.NetworkLoader
+import com.kmpalette.loader.rememberNetworkLoader
 import com.kmpalette.palette.graphics.Palette
 import com.kmpalette.rememberPaletteState
 import io.ktor.client.HttpClient
@@ -12,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
 /**
- * Wrapper around [rememberPaletteState] that uses [NetworkLoader] to load the image.
+ * Wrapper around [rememberPaletteState] that uses [com.kmpalette.loader.NetworkLoader] to load the image.
  *
  * You must import the Ktor client library to use this loader.
  *
@@ -25,14 +27,14 @@ import kotlin.coroutines.CoroutineContext
  */
 @Composable
 public fun rememberNetworkPaletteState(
-    cacheSize: Int = PaletteState.DEFAULT_CACHE_SIZE,
-    httpClient: HttpClient = HttpClient(),
-    httpRequestBuilder: HttpRequestBuilder = HttpRequestBuilder(),
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
+    httpClient: HttpClient = remember { HttpClient() },
+    httpRequestBuilder: HttpRequestBuilder = remember { HttpRequestBuilder() },
     coroutineContext: CoroutineContext = Dispatchers.Default,
     builder: Palette.Builder.() -> Unit = {},
 ): PaletteState<Url> =
     rememberPaletteState(
-        loader = NetworkLoader(httpClient, httpRequestBuilder),
+        loader = rememberNetworkLoader(httpClient, httpRequestBuilder),
         cacheSize = cacheSize,
         coroutineContext = coroutineContext,
         builder = builder,

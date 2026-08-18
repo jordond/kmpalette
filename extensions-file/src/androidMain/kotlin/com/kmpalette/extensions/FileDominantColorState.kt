@@ -3,6 +3,7 @@ package com.kmpalette.extensions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import com.kmpalette.DEFAULT_CACHE_SIZE
 import com.kmpalette.DominantColorState
 import com.kmpalette.loader.FileLoader
 import com.kmpalette.palette.graphics.Palette
@@ -29,7 +30,7 @@ import kotlin.coroutines.CoroutineContext
 public fun rememberFileDominantColorState(
     defaultColor: Color,
     defaultOnColor: Color,
-    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },
     builder: Palette.Builder.() -> Unit = {},

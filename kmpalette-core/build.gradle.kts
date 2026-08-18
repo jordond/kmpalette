@@ -25,7 +25,7 @@ kotlin {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 
-    androidLibrary {
+    android {
         namespace = "${libs.versions.group.get()}.core"
         compileSdk =
             libs.versions.sdk.compile
@@ -43,7 +43,7 @@ kotlin {
 
     jvm()
 
-    js(IR) {
+    js {
         browser()
         binaries.library()
     }
@@ -54,7 +54,6 @@ kotlin {
         binaries.library()
     }
 
-    macosX64()
     macosArm64()
 
     listOf(
@@ -71,7 +70,6 @@ kotlin {
             api(projects.androidxPalette)
             api(projects.kmpaletteLoader)
             implementation(libs.compose.ui)
-            implementation(libs.compose.material3)
             implementation(libs.compose.resources)
             implementation(libs.compose.runtime)
             implementation(libs.kotlinx.coroutines)
@@ -86,7 +84,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
         }
 
-        val nonWebMain by creating {
+        create("nonWebMain") {
             dependsOn(commonMain.get())
             androidMain.get().dependsOn(this)
             jvmMain.get().dependsOn(this)
@@ -96,7 +94,7 @@ kotlin {
             }
         }
 
-        val skikoMain by creating {
+        create("skikoMain") {
             dependsOn(commonMain.get())
             jvmMain.get().dependsOn(this)
             webMain.get().dependsOn(this)

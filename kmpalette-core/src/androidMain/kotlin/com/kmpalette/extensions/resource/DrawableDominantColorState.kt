@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.kmpalette.DEFAULT_CACHE_SIZE
 import com.kmpalette.DominantColorState
 import com.kmpalette.loader.rememberDrawableLoader
 import com.kmpalette.palette.graphics.Palette
@@ -31,7 +32,7 @@ import kotlin.coroutines.CoroutineContext
 public fun rememberDrawableDominantColorState(
     defaultColor: Color,
     defaultOnColor: Color,
-    cacheSize: Int = DominantColorState.DEFAULT_CACHE_SIZE,
+    cacheSize: Int = DEFAULT_CACHE_SIZE,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     context: Context = LocalContext.current,
     isSwatchValid: (Palette.Swatch) -> Boolean = { true },

@@ -15,16 +15,17 @@ Add the following to your `build.gradle.kts` file:
 ```kotlin
 kotlin {
     sourceSets {
-        commonMain {
-            dependencies {
-                implementation(libs.kmpalette.core)
-                implementation(libs.kmpalette.extensions.file)
-                implementation("io.github.vinceglb:filekit-core:<version>")
-            }
+        commonMain.dependencies {
+            implementation(libs.kmpalette.core)
+            implementation(libs.kmpalette.extensions.file)
+            implementation("io.github.vinceglb:filekit-core:<version>")
         }
     }
 }
 ```
+
+FileKit is an `implementation` dependency of this module, so it is **not** exposed transitively.
+Declare `filekit-core` yourself to construct a `PlatformFile`.
 
 ## Platform Support
 
@@ -32,22 +33,29 @@ kotlin {
 |----------|:---------:|
 | Android  |     ✅     |
 | iOS      |     ✅     |
-| macOS    |     ✅     |
+| macOS    |     ✅¹    |
 | Desktop  |     ✅     |
 | JS       |     ✅     |
 | WASM     |     ✅     |
+
+¹ Apple Silicon only (`macosArm64`). The deprecated `macosX64` target was removed in 4.0.
 
 ## Usage
 
 ### PlatformFile (All Platforms)
 
 Use `rememberPlatformFileDominantColorState` or `rememberPlatformFilePaletteState` to work with
-FileKit's `PlatformFile`:
+FileKit's `PlatformFile`. The dominant-color function requires both `defaultColor` and
+`defaultOnColor`. They are used until generation succeeds, and whenever it fails. Nothing here
+assumes Material 3, so pass whatever your theme uses.
 
 ```kotlin
 @Composable
 fun MyComposable(file: PlatformFile) {
-    val dominantColorState = rememberPlatformFileDominantColorState()
+    val dominantColorState = rememberPlatformFileDominantColorState(
+        defaultColor = MaterialTheme.colorScheme.primary,
+        defaultOnColor = MaterialTheme.colorScheme.onPrimary,
+    )
     LaunchedEffect(file) {
         dominantColorState.updateFrom(file)
     }
@@ -82,6 +90,17 @@ fun MyComposable(file: PlatformFile) {
     ) {
         Text("Hello", color = vibrant?.onColor ?: Color.Black)
     }
+}
+```
+
+Reading a file can fail, so surface errors through `paletteState.state`:
+
+```kotlin
+when (val state = paletteState.state) {
+    null -> Unit // nothing generated yet
+    PaletteResult.Loading -> CircularProgressIndicator()
+    is PaletteResult.Error -> Text("Failed to read file: ${state.cause.message}")
+    is PaletteResult.Success -> PaletteDisplay(state.palette)
 }
 ```
 
@@ -122,7 +141,7 @@ fun MyComposable(file: File) {
         paletteState.generate(file)
     }
 
-    // Use the palette...
+    val vibrant = paletteState.palette?.vibrantSwatch
 }
 ```
 
@@ -148,17 +167,17 @@ LaunchedEffect(file) {
 
 ### Composables (All Platforms)
 
-| Function                                   | Description                                  |
-|--------------------------------------------|----------------------------------------------|
-| `rememberPlatformFileDominantColorState()` | Returns a `DominantColorState<PlatformFile>` |
-| `rememberPlatformFilePaletteState()`       | Returns a `PaletteState<PlatformFile>`       |
+| Function                                                                    | Description                                  |
+|-----------------------------------------------------------------------------|----------------------------------------------|
+| `rememberPlatformFileDominantColorState(defaultColor, defaultOnColor, ...)` | Returns a `DominantColorState<PlatformFile>` |
+| `rememberPlatformFilePaletteState(...)`                                     | Returns a `PaletteState<PlatformFile>`       |
 
 ### Composables (Android Only)
 
-| Function                           | Description                          |
-|------------------------------------|--------------------------------------|
-| `rememberFileDominantColorState()` | Returns a `DominantColorState<File>` |
-| `rememberFilePaletteState()`       | Returns a `PaletteState<File>`       |
+| Function                                                            | Description                          |
+|---------------------------------------------------------------------|--------------------------------------|
+| `rememberFileDominantColorState(defaultColor, defaultOnColor, ...)` | Returns a `DominantColorState<File>` |
+| `rememberFilePaletteState(...)`                                     | Returns a `PaletteState<File>`       |
 
 ## Migration from v3.x
 
