@@ -1,24 +1,28 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "labels": [
     "dependencies"
   ],
   "packageRules": [
     {
-      "groupName": "Kotlin",
-      "matchPackagePrefixes": [
-        "androidx.compose.compiler",
-        "com.google.devtools.ksp",
-        "org.jetbrains.kotlin",
-        "org.jetbrains.kotlinx:binary-compatibility-validator"
+      "groupName": "Kotlin & Compose",
+      "matchPackageNames": [
+        "org.jetbrains.kotlin{/,}**",
+        "org.jetbrains.compose{/,}**",
+        "org.jetbrains.kotlinx:binary-compatibility-validator{/,}**",
+        "com.google.devtools.ksp{/,}**",
+        "com.android.tools.build:gradle{/,}**",
+        "com.android{/,}**"
       ]
     },
     {
       "description": "Ignore demo app-only dependencies",
-      "matchManagers": ["gradle"],
+      "matchManagers": [
+        "gradle"
+      ],
       "matchPackageNames": [
         "androidx.activity:activity-compose",
         "co.touchlab:kermit",
@@ -35,6 +39,68 @@
         "org.jetbrains.kotlinx:kotlinx-serialization-json"
       ],
       "enabled": false
+    },
+    {
+      "description": "Keep the README documentation in step with the published release",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "groupName": "README documentation versions",
+      "semanticCommitType": "docs"
+    }
+  ],
+  "customManagers": [
+    {
+      "description": "Published kmpalette coordinates shown in the README install snippets",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^README\\.md$/",
+        "/^MIGRATION\\.md$/"
+      ],
+      "matchStrings": [
+        "com\\.materialkolor\\.palette:(?<depName>[\\w-]+):(?<currentValue>[^\"'\\s]+)"
+      ],
+      "datasourceTemplate": "maven",
+      "packageNameTemplate": "com.materialkolor.palette:{{{depName}}}",
+      "versioningTemplate": "maven"
+    },
+    {
+      "description": "The `kmpalette` version-catalog entry in the README setup section",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^README\\.md$/"
+      ],
+      "matchStrings": [
+        "kmpalette = \"(?<currentValue>[^\"]+)\""
+      ],
+      "depNameTemplate": "com.materialkolor.palette:core",
+      "datasourceTemplate": "maven",
+      "versioningTemplate": "maven"
+    },
+    {
+      "description": "Kotlin and Compose Multiplatform README badges",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^README\\.md$/"
+      ],
+      "matchStrings": [
+        "badge/kotlin-v(?<currentValue>[^-]+)-blue"
+      ],
+      "depNameTemplate": "org.jetbrains.kotlin:kotlin-stdlib",
+      "datasourceTemplate": "maven",
+      "versioningTemplate": "maven"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^README\\.md$/"
+      ],
+      "matchStrings": [
+        "Compose%20Multiplatform-v(?<currentValue>[^-]+)-blue"
+      ],
+      "depNameTemplate": "org.jetbrains.compose:compose-gradle-plugin",
+      "datasourceTemplate": "maven",
+      "versioningTemplate": "maven"
     }
   ]
 }

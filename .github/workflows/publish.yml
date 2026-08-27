@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: 17
-          distribution: adopt
+          distribution: temurin
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
@@ -40,16 +40,6 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
 
-      - name: Update README for ${{ env.RELEASE_VERSION }}
-        run: ./.github/version.sh "${RELEASE_VERSION}"
-
-      - name: Commit changes to README to ${{ env.branch }}
-        uses: EndBug/add-and-commit@v9
-        with:
-          add: "./README.md"
-          message: "Update README.md with version ${{env.RELEASE_VERSION}}"
-          new_branch: main
-
   documentation:
     name: "Generate Documentation"
     runs-on: ubuntu-latest
@@ -57,18 +47,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name }}
 
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
           java-version: 17
-          distribution: adopt
+          distribution: temurin
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
 
       - name: Generate documentation
-        run: ./gradlew dokkaHtmlMultiModule
+        run: ./gradlew dokkaGenerate
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4

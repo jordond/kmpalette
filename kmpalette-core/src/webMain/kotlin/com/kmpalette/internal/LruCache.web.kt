@@ -33,8 +33,9 @@ internal actual open class LruCache<K : Any, V : Any> actual constructor(
             mapValue = map[key]
             if (mapValue != null) {
                 hitCount++
+            } else {
+                missCount++
             }
-            missCount++
             return mapValue
         }
     }
@@ -60,7 +61,7 @@ internal actual open class LruCache<K : Any, V : Any> actual constructor(
         while (true) {
             lateinit var key: K
             synchronized(syncObject) {
-                check(!(cacheSize < 0 || map.isEmpty() && cacheSize != 0)) {
+                check(!(cacheSize < 0 || (map.isEmpty() && cacheSize != 0))) {
                     this::class.simpleName + ".sizeOf() is reporting inconsistent results!"
                 }
                 if (cacheSize <= maxSize || map.isEmpty()) return

@@ -61,11 +61,6 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
         }
 
-        commonTest.dependencies {
-            implementation(kotlin("test"))
-            implementation(libs.compose.ui.test)
-        }
-
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.compose.ui.tooling)

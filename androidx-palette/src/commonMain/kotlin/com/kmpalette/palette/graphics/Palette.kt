@@ -205,7 +205,7 @@ public class Palette internal constructor(
         public val hsl: FloatArray =
             FloatArray(3).apply { ColorUtils.convertRGBToHSL(red, green, blue, this) }
 
-        private val textColors: Pair<Int, Int> by lazy(LazyThreadSafetyMode.NONE) {
+        private val textColors: Pair<Int, Int> by lazy(LazyThreadSafetyMode.PUBLICATION) {
             val lightBodyAlpha = ColorUtils.calculateMinimumAlpha(
                 foreground = ColorUtils.WHITE,
                 background = rgb,
@@ -262,7 +262,11 @@ public class Palette internal constructor(
         ): Int =
             when {
                 lightAlpha != -1 -> ColorUtils.setAlpha(ColorUtils.WHITE, lightAlpha)
-                else -> ColorUtils.setAlpha(ColorUtils.BLACK, darkAlpha)
+                darkAlpha != -1 -> ColorUtils.setAlpha(ColorUtils.BLACK, darkAlpha)
+                // White and black contrast against the same background multiply out to 21, so
+                // both alphas being -1 is unreachable for a valid colour. Fall back to opaque
+                // black rather than throwing out of a property getter. See issue #121.
+                else -> ColorUtils.setAlpha(ColorUtils.BLACK, 255)
             }
     }
 
