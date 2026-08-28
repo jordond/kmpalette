@@ -98,6 +98,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Test API ${{ matrix.api-level }}
     needs: verify
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -129,8 +130,10 @@ jobs:
 
       - name: Create AVD snapshot
         if: steps.avd-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 20
         uses: reactivecircus/android-emulator-runner@v2
         with:
+          emulator-boot-timeout: 900
           api-level: ${{ matrix.api-level }}
           arch: x86_64
           ram-size: 4096M
@@ -140,8 +143,10 @@ jobs:
           script: echo "Generated AVD snapshot."
 
       - name: Run tests for API ${{ matrix.api-level }}
+        timeout-minutes: 30
         uses: reactivecircus/android-emulator-runner@v2
         with:
+          emulator-boot-timeout: 900
           api-level: ${{ matrix.api-level }}
           arch: x86_64
           ram-size: 4096M
