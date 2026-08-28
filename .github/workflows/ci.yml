@@ -94,7 +94,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [ 24, 36 ]
+        api-level: [ 28, 36 ]
     runs-on: ubuntu-latest
     name: Test API ${{ matrix.api-level }}
     needs: verify
