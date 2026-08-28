@@ -235,7 +235,9 @@ both. Use `androidx-palette` on its own when you want palette generation without
 
 ## Usage
 
-To see the generated KDocs, visit [docs.kmpalette.com](https://docs.kmpalette.com/)
+To see the generated KDocs, visit [the API documentation](https://jordond.github.io/kmpalette/).
+
+To try the library in your browser, visit the [live demo](https://palette.materialkolor.com/).
 
 To use this library, you first need an `ImageBitmap`, or one of the input types supported by
 a [loader](#loaders).
