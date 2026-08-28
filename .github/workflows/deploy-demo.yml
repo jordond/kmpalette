@@ -4,6 +4,16 @@ on:
   workflow_dispatch:
   release:
     types: [ released ]
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+    paths:
+      - 'app/**'
+      - 'kmpalette-core/**'
+      - 'kmpalette-loader/**'
+      - 'extensions-*/**'
+      - 'androidx-palette/**'
+      - 'gradle/**'
+      - '.github/workflows/deploy-demo.yml'
   push:
     branches:
       - main
@@ -47,6 +57,7 @@ jobs:
         run: ./gradlew :app:web:composeCompatibilityBrowserDistribution --scan
 
       - name: Publish to Cloudflare Pages
+        id: publish
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -54,4 +65,8 @@ jobs:
           command: >-
             pages deploy app/web/build/dist/composeWebCompatibility/productionExecutable
             --project-name=kmpalette-demo
-            --branch=main
+            --branch=${{ github.head_ref || github.ref_name }}
+
+      - name: Summary
+        run: |
+          echo "Deployed branch \`${{ github.head_ref || github.ref_name }}\` to ${{ steps.publish.outputs.deployment-url }}" >> "$GITHUB_STEP_SUMMARY"
