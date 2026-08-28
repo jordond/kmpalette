@@ -38,6 +38,7 @@ jobs:
   deploy:
     name: "Publish Demo"
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -53,6 +54,17 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
 
+      - name: Resolve deploy branch
+        id: branch
+        env:
+          RAW_BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: |
+          if ! printf '%s' "$RAW_BRANCH" | grep -Eq '^[A-Za-z0-9._/-]+$'; then
+            echo "Refusing to deploy: unsafe branch name" >&2
+            exit 1
+          fi
+          echo "name=$RAW_BRANCH" >> "$GITHUB_OUTPUT"
+
       - name: Build browser distribution
         run: ./gradlew :app:web:composeCompatibilityBrowserDistribution --scan
 
@@ -65,8 +77,11 @@ jobs:
           command: >-
             pages deploy app/web/build/dist/composeWebCompatibility/productionExecutable
             --project-name=kmpalette-demo
-            --branch=${{ github.head_ref || github.ref_name }}
+            --branch=${{ steps.branch.outputs.name }}
 
       - name: Summary
+        env:
+          BRANCH: ${{ steps.branch.outputs.name }}
+          URL: ${{ steps.publish.outputs.deployment-url }}
         run: |
-          echo "Deployed branch \`${{ github.head_ref || github.ref_name }}\` to ${{ steps.publish.outputs.deployment-url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Deployed branch \`$BRANCH\` to $URL" >> "$GITHUB_STEP_SUMMARY"
