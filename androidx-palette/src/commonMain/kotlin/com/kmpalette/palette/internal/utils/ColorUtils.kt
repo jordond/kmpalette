@@ -6,10 +6,6 @@ import androidx.annotation.IntRange
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.native.concurrent.ThreadLocal
-
-@ThreadLocal
-private var tempArray: DoubleArray = DoubleArray(3)
 
 internal object ColorUtils {
     private const val MIN_ALPHA_SEARCH_MAX_ITERATIONS = 10
@@ -88,7 +84,10 @@ internal object ColorUtils {
     fun calculateLuminance(
         @ColorInt color: Int,
     ): Double {
-        val result: DoubleArray = tempArray
+        // Must be a local allocation. A shared buffer here races under any multi-threaded
+        // dispatcher and produces wrong luminance values, which is what made every alpha in
+        // Swatch.textColors come back as -1. See issue #121.
+        val result = DoubleArray(3)
         colorToXYZ(color, result)
         // Luminance is the Y component
         return result[1] / 100

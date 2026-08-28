@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: 17
-          distribution: adopt
+          distribution: temurin
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
@@ -48,8 +48,12 @@ jobs:
       - name: Lint
         run: ./gradlew spotlessCheck --scan
 
+      - name: Documentation
+        run: ./gradlew dokkaGenerate --scan
+
   test:
     strategy:
+      fail-fast: false
       matrix:
         config: [
           { target: "default", os: "ubuntu-latest", tasks: "allTest", continueOnError: false },
@@ -66,7 +70,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: 17
-          distribution: adopt
+          distribution: temurin
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
@@ -88,33 +92,49 @@ jobs:
 
   test-instrumented:
     strategy:
+      fail-fast: false
       matrix:
-        api-level: [ 24, 36 ]
-    runs-on: macos-latest
+        api-level: [ 28, 36 ]
+    runs-on: ubuntu-latest
     name: Test API ${{ matrix.api-level }}
     needs: verify
-    if: false # Disable instrumented tests for now as they are too flakey
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+            | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
       - name: setup-java
         uses: actions/setup-java@v5
         with:
           java-version: 17
-          distribution: adopt
+          distribution: temurin
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
 
       - name: Run tests for API ${{ matrix.api-level }}
+        timeout-minutes: 30
         uses: reactivecircus/android-emulator-runner@v2
         with:
+          emulator-boot-timeout: 900
           api-level: ${{ matrix.api-level }}
           arch: x86_64
+          ram-size: 4096M
           disable-animations: true
           force-avd-creation: false
-          ram-size: 4096M
-          emulator-boot-timeout: 12000
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
+          emulator-options: -no-snapshot-save -no-snapshot-load -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: ./gradlew :androidx-palette:connectedAndroidTest --scan
+
+      - name: Upload test report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: instrumented-test-report-api-${{ matrix.api-level }}
+          path: androidx-palette/build/reports/androidTests/

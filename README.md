@@ -56,7 +56,8 @@ Version 4.0 is a significant rewrite. The highlights:
 - **`androidx-palette` is now a dependency-free Kotlin Multiplatform module.** It no longer depends
   on Compose or Skiko. `Palette.Builder` now takes raw pixel data (`IntArray` + width + height)
   instead of an `ImageBitmap`, and downscaling is a pure-Kotlin nearest-neighbour implementation.
-- **New `kmpalette-loader` module** containing the `ImageBitmapLoader` interface, so extensions can
+- **New `kmpalette-loader` module** (published as `loader`) containing the `ImageBitmapLoader`
+  interface, so extensions can
   depend on the loader contract without pulling in all of `core`.
 - **New Maven coordinates.** The group is now `com.materialkolor.palette` and the core artifact is
   named `core`.
@@ -137,14 +138,14 @@ In `libs.versions.toml`:
 
 ```toml
 [versions]
-kmpalette = "4.0.0-beta02"
+kmpalette = "4.0.0"
 
 [libraries]
 kmpalette-core = { module = "com.materialkolor.palette:core", version.ref = "kmpalette" }
 # Optional - standalone palette generation without Compose
 kmpalette-androidx-palette = { module = "com.materialkolor.palette:androidx-palette", version.ref = "kmpalette" }
 # Optional - only needed if you implement ImageBitmapLoader without depending on core
-kmpalette-loader = { module = "com.materialkolor.palette:kmpalette-loader", version.ref = "kmpalette" }
+kmpalette-loader = { module = "com.materialkolor.palette:loader", version.ref = "kmpalette" }
 # Optional source libraries
 kmpalette-extensions-base64 = { module = "com.materialkolor.palette:extensions-base64", version.ref = "kmpalette" }
 kmpalette-extensions-network = { module = "com.materialkolor.palette:extensions-network", version.ref = "kmpalette" }
@@ -234,7 +235,9 @@ both. Use `androidx-palette` on its own when you want palette generation without
 
 ## Usage
 
-To see the generated KDocs, visit [docs.kmpalette.com](https://docs.kmpalette.com/)
+To see the generated KDocs, visit [the API documentation](https://jordond.github.io/kmpalette/).
+
+To try the library in your browser, visit the [live demo](https://palette.materialkolor.com/).
 
 To use this library, you first need an `ImageBitmap`, or one of the input types supported by
 a [loader](#loaders).
@@ -628,7 +631,7 @@ Key changes in 4.0:
 
 - Maven group is now `com.materialkolor.palette`, and `kmpalette-core` is now `core`
 - `androidx-palette` no longer depends on Compose; `Palette.Builder` takes `IntArray` pixels
-- `kmpalette-bitmap-loader` was renamed to `kmpalette-loader`
+- `kmpalette-bitmap-loader` was renamed to `kmpalette-loader` and is published as `loader`
 - `extensions-bytearray` and `extensions-resources` have been folded into `core`
 - `extensions-libres` has been removed with no replacement
 - `extensions-file` now uses FileKit instead of Okio

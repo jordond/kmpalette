@@ -29,6 +29,8 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
 
+        withHostTest {}
+
         withDeviceTest {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
@@ -66,13 +68,6 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.kotlinx.coroutines.test)
-        }
-
-        create("skikoMain") {
-            dependsOn(commonMain.get())
-            nativeMain.get().dependsOn(this)
-            jvmMain.get().dependsOn(this)
-            webMain.get().dependsOn(this)
         }
 
         getByName("androidDeviceTest").dependencies {

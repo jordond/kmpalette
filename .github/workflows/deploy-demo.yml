@@ -1,0 +1,87 @@
+name: Deploy Demo
+
+on:
+  workflow_dispatch:
+  release:
+    types: [ released ]
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+    paths:
+      - 'app/**'
+      - 'kmpalette-core/**'
+      - 'kmpalette-loader/**'
+      - 'extensions-*/**'
+      - 'androidx-palette/**'
+      - 'gradle/**'
+      - '.github/workflows/deploy-demo.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+      - 'kmpalette-core/**'
+      - 'kmpalette-loader/**'
+      - 'extensions-*/**'
+      - 'androidx-palette/**'
+      - 'gradle/**'
+      - '.github/workflows/deploy-demo.yml'
+
+concurrency:
+  group: deploy-demo-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    name: "Publish Demo"
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Resolve deploy branch
+        id: branch
+        env:
+          RAW_BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: |
+          if ! printf '%s' "$RAW_BRANCH" | grep -Eq '^[A-Za-z0-9._/-]+$'; then
+            echo "Refusing to deploy: unsafe branch name" >&2
+            exit 1
+          fi
+          echo "name=$RAW_BRANCH" >> "$GITHUB_OUTPUT"
+
+      - name: Build browser distribution
+        run: ./gradlew :app:web:composeCompatibilityBrowserDistribution --scan
+
+      - name: Publish to Cloudflare Pages
+        id: publish
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy app/web/build/dist/composeWebCompatibility/productionExecutable
+            --project-name=kmpalette-demo
+            --branch=${{ steps.branch.outputs.name }}
+
+      - name: Summary
+        env:
+          BRANCH: ${{ steps.branch.outputs.name }}
+          URL: ${{ steps.publish.outputs.deployment-url }}
+        run: |
+          echo "Deployed branch \`$BRANCH\` to $URL" >> "$GITHUB_STEP_SUMMARY"
