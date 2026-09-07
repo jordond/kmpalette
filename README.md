@@ -2,7 +2,7 @@
 <br />
 
 ![Maven Central](https://img.shields.io/maven-central/v/com.materialkolor.palette/core)
-[![Kotlin](https://img.shields.io/badge/kotlin-v2.4.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-v2.4.20-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Build](https://github.com/jordond/kmpalette/actions/workflows/ci.yml/badge.svg)](https://github.com/jordond/kmpalette/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/jordond/kmPalette)](https://opensource.org/license/mit/)
 
